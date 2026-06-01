@@ -99,6 +99,20 @@ Route::middleware('auth')->group(function () {
     Route::post('/admin/inventario/salidas/{salida}/anular', [\App\Http\Controllers\Admin\SalidaController::class, 'annul'])->name('admin.salidas.annul');
     Route::delete('/admin/inventario/salidas/{salida}', [\App\Http\Controllers\Admin\SalidaController::class, 'destroy'])->name('admin.salidas.destroy');
 
+    // Ajustes de Inventario
+    Route::get('/admin/inventario/ajustes', [\App\Http\Controllers\Admin\AjusteInventarioController::class, 'index'])->name('admin.ajustes.index');
+    Route::get('/admin/inventario/ajustes/crear', [\App\Http\Controllers\Admin\AjusteInventarioController::class, 'create'])->name('admin.ajustes.create');
+    Route::post('/admin/inventario/ajustes', [\App\Http\Controllers\Admin\AjusteInventarioController::class, 'store'])->name('admin.ajustes.store');
+    Route::get('/admin/inventario/ajustes/{ajuste}', [\App\Http\Controllers\Admin\AjusteInventarioController::class, 'show'])->name('admin.ajustes.show');
+    Route::post('/admin/inventario/ajustes/{ajuste}/aprobar', [\App\Http\Controllers\Admin\AjusteInventarioController::class, 'approve'])->name('admin.ajustes.approve');
+    Route::post('/admin/inventario/ajustes/{ajuste}/anular', [\App\Http\Controllers\Admin\AjusteInventarioController::class, 'annul'])->name('admin.ajustes.annul');
+    Route::delete('/admin/inventario/ajustes/{ajuste}', [\App\Http\Controllers\Admin\AjusteInventarioController::class, 'destroy'])->name('admin.ajustes.destroy');
+    Route::post('/admin/inventario/ajustes/motivos', [\App\Http\Controllers\Admin\AjusteInventarioController::class, 'storeMotivo'])->name('admin.ajustes.motivos.store');
+
+    // Reportes - Registro de actividad (solo Super Admin)
+    Route::get('/admin/reportes/registros', [\App\Http\Controllers\Admin\ActivityLogController::class, 'index'])->name('admin.reportes.registros');
+    Route::get('/admin/reportes/registros/{log}', [\App\Http\Controllers\Admin\ActivityLogController::class, 'show'])->name('admin.reportes.registros.show');
+
     // Gestión de roles
     Route::get('/admin/roles', [RoleController::class, 'index'])->name('admin.roles.index');
     Route::post('/admin/roles', [RoleController::class, 'store'])->name('admin.roles.store');

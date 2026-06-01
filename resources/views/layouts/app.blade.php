@@ -174,10 +174,31 @@
                     <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 12l9-9 9 9M5 10v10h14V10"/></svg>
                     Inicio
                 </a>
-                <a href="#">
-                    <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 17v-2a4 4 0 014-4h6m-3-3l3 3-3 3"/></svg>
-                    Reportes
-                </a>
+                @php $isSuperAdmin = optional(auth()->user()->role)->name === 'Super Admin'; @endphp
+                <div class="nav-group">
+                    <button class="nav-group-btn {{ request()->routeIs('admin.reportes.*') ? 'active' : '' }}"
+                            onclick="toggleGroup('groupReportes')" id="btnGroupReportes">
+                        <span style="display:flex;align-items:center;gap:12px;">
+                            <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="20" height="20"><path stroke-linecap="round" stroke-linejoin="round" d="M9 17v-2a4 4 0 014-4h6m-3-3l3 3-3 3"/></svg>
+                            Reportes
+                        </span>
+                        <svg class="chevron" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" width="14" height="14">
+                            <path stroke-linecap="round" d="M9 5l7 7-7 7"/>
+                        </svg>
+                    </button>
+                    <div class="nav-sub" id="groupReportes">
+                        @if($isSuperAdmin)
+                            <a href="{{ route('admin.reportes.registros') }}" class="{{ request()->routeIs('admin.reportes.registros*') ? 'active' : '' }}">
+                                <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="16" height="16">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2M12 11h4M12 15h4M8 11h.01M8 15h.01"/>
+                                </svg>
+                                Registros
+                            </a>
+                        @else
+                            <span style="display:block; padding:10px 14px; color:#94a3b8; font-size:.82rem; font-style:italic;">Sin reportes disponibles</span>
+                        @endif
+                    </div>
+                </div>
 
                 <div class="nav-group">
                     <button class="nav-group-btn {{ request()->routeIs('admin.medicamentos.*') || request()->routeIs('admin.laboratorios.*') || request()->routeIs('admin.proveedores.*') || request()->routeIs('admin.formas_farmaceuticas.*') || request()->routeIs('admin.vias_administracion.*') || request()->routeIs('admin.unidades_medida.*') ? 'active' : '' }}"
@@ -241,7 +262,7 @@
                 </div>
 
                 <div class="nav-group">
-                    <button class="nav-group-btn {{ request()->routeIs('admin.inventarios.*') || request()->routeIs('admin.entradas.*') || request()->routeIs('admin.salidas.*') ? 'active' : '' }}"
+                    <button class="nav-group-btn {{ request()->routeIs('admin.inventarios.*') || request()->routeIs('admin.entradas.*') || request()->routeIs('admin.salidas.*') || request()->routeIs('admin.ajustes.*') ? 'active' : '' }}"
                             onclick="toggleGroup('groupInventario')" id="btnGroupInventario">
                         <span style="display:flex;align-items:center;gap:12px;">
                             <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="20" height="20">
@@ -271,6 +292,13 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
                             </svg>
                             Inventario por Lotes
+                        </a>
+                        <a href="{{ route('admin.ajustes.index') }}" class="{{ request()->routeIs('admin.ajustes.*') ? 'active' : '' }}">
+                            <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="16" height="16">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M10.325 4.317a1 1 0 011.35-.936l1.715.572a8 8 0 003.49.27l1.81-.226a1 1 0 011.084 1.345l-.69 1.69a8 8 0 000 3.876l.69 1.69a1 1 0 01-1.084 1.346l-1.81-.226a8 8 0 00-3.49.27l-1.715.572a1 1 0 01-1.35-.936V4.317z"/>
+                                <circle cx="12" cy="12" r="3" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                            Ajustes
                         </a>
                     </div>
                 </div>
