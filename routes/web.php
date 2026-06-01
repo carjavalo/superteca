@@ -109,6 +109,19 @@ Route::middleware('auth')->group(function () {
     Route::delete('/admin/inventario/ajustes/{ajuste}', [\App\Http\Controllers\Admin\AjusteInventarioController::class, 'destroy'])->name('admin.ajustes.destroy');
     Route::post('/admin/inventario/ajustes/motivos', [\App\Http\Controllers\Admin\AjusteInventarioController::class, 'storeMotivo'])->name('admin.ajustes.motivos.store');
 
+    // Traslados de Inventario
+    Route::get('/admin/inventario/traslados', [\App\Http\Controllers\Admin\TrasladoController::class, 'index'])->name('admin.traslados.index');
+    Route::get('/admin/inventario/traslados/crear', [\App\Http\Controllers\Admin\TrasladoController::class, 'create'])->name('admin.traslados.create');
+    Route::post('/admin/inventario/traslados', [\App\Http\Controllers\Admin\TrasladoController::class, 'store'])->name('admin.traslados.store');
+    Route::get('/admin/inventario/traslados/{traslado}', [\App\Http\Controllers\Admin\TrasladoController::class, 'show'])->name('admin.traslados.show');
+    Route::patch('/admin/inventario/traslados/{traslado}/aprobar', [\App\Http\Controllers\Admin\TrasladoController::class, 'aprobar'])->name('admin.traslados.aprobar');
+    Route::patch('/admin/inventario/traslados/{traslado}/despachar', [\App\Http\Controllers\Admin\TrasladoController::class, 'despachar'])->name('admin.traslados.despachar');
+    Route::patch('/admin/inventario/traslados/{traslado}/recibir', [\App\Http\Controllers\Admin\TrasladoController::class, 'recibir'])->name('admin.traslados.recibir');
+    Route::patch('/admin/inventario/traslados/{traslado}/rechazar', [\App\Http\Controllers\Admin\TrasladoController::class, 'rechazar'])->name('admin.traslados.rechazar');
+    Route::delete('/admin/inventario/traslados/{traslado}/anular', [\App\Http\Controllers\Admin\TrasladoController::class, 'anular'])->name('admin.traslados.anular');
+    Route::delete('/admin/inventario/traslados/{traslado}', [\App\Http\Controllers\Admin\TrasladoController::class, 'destroy'])->name('admin.traslados.destroy');
+    Route::get('/admin/inventario/traslados/lotes-disponibles', [\App\Http\Controllers\Admin\TrasladoController::class, 'lotesDisponibles'])->name('admin.traslados.lotes');
+
     // Reportes - Registro de actividad (solo Super Admin)
     Route::get('/admin/reportes/registros', [\App\Http\Controllers\Admin\ActivityLogController::class, 'index'])->name('admin.reportes.registros');
     Route::get('/admin/reportes/registros/{log}', [\App\Http\Controllers\Admin\ActivityLogController::class, 'show'])->name('admin.reportes.registros.show');

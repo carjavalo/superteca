@@ -300,6 +300,12 @@
                             </svg>
                             Ajustes
                         </a>
+                        <a href="{{ route('admin.traslados.index') }}" class="{{ request()->routeIs('admin.traslados.*') ? 'active' : '' }}">
+                            <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="16" height="16">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M8 7h12m0 0l-4-4m4 4l-4 4m-4 6H4m0 0l4 4m-4-4l4-4"/>
+                            </svg>
+                            Traslados
+                        </a>
                     </div>
                 </div>
 
