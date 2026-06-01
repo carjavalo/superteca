@@ -376,7 +376,7 @@
             @endisset
 
             <main class="content-area">
-                {{ $slot }}
+                @yield('content')
             </main>
         </div>
 
