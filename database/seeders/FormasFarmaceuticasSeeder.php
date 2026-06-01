@@ -1,0 +1,150 @@
+<?php
+
+namespace Database\Seeders;
+
+use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
+
+class FormasFarmaceuticasSeeder extends Seeder
+{
+    public function run(): void
+    {
+        $now = Carbon::now();
+
+        DB::table('formas_farmaceuticas')->insert([
+            [
+                'codigo' => 'FF-001', 'nombre' => 'Vial', 'nombre_corto' => 'Vial',
+                'descripcion' => 'Envase de vidrio sellado con tapón elastomérico, para medicamentos inyectables monodosis o multidosis.',
+                'tipo' => 'ESTERIL',
+                'requiere_reconstitucion' => 1, 'requiere_dilucion' => 1, 'esteril' => 1,
+                'multidosis' => 1, 'reutilizable' => 0, 'requiere_cadena_frio' => 1,
+                'temperatura_min' => 2.00, 'temperatura_max' => 8.00, 'tiempo_estabilidad_horas' => 24,
+                'permite_fraccionamiento' => 1, 'riesgo_contaminacion' => 'MEDIO',
+                'color_identificacion' => '#3b82f6', 'icono' => '💉',
+                'observaciones' => 'Validar integridad del tapón antes de reconstituir. Manejo en cabina de flujo laminar.',
+                'estado' => 1, 'created_at' => $now, 'updated_at' => $now,
+            ],
+            [
+                'codigo' => 'FF-002', 'nombre' => 'Ampolla', 'nombre_corto' => 'Amp.',
+                'descripcion' => 'Envase de vidrio sellado por fusión, monodosis, para soluciones inyectables estériles.',
+                'tipo' => 'ESTERIL',
+                'requiere_reconstitucion' => 0, 'requiere_dilucion' => 1, 'esteril' => 1,
+                'multidosis' => 0, 'reutilizable' => 0, 'requiere_cadena_frio' => 0,
+                'temperatura_min' => 15.00, 'temperatura_max' => 25.00, 'tiempo_estabilidad_horas' => 1,
+                'permite_fraccionamiento' => 0, 'riesgo_contaminacion' => 'ALTO',
+                'color_identificacion' => '#ef4444', 'icono' => '🧪',
+                'observaciones' => 'Uso inmediato tras apertura. Riesgo de partículas de vidrio: usar filtro.',
+                'estado' => 1, 'created_at' => $now, 'updated_at' => $now,
+            ],
+            [
+                'codigo' => 'FF-003', 'nombre' => 'Bolsa de Infusión', 'nombre_corto' => 'Bolsa',
+                'descripcion' => 'Bolsa flexible de PVC o poliolefinas para infusión endovenosa de grandes volúmenes.',
+                'tipo' => 'LIQUIDO',
+                'requiere_reconstitucion' => 0, 'requiere_dilucion' => 0, 'esteril' => 1,
+                'multidosis' => 0, 'reutilizable' => 0, 'requiere_cadena_frio' => 0,
+                'temperatura_min' => 15.00, 'temperatura_max' => 25.00, 'tiempo_estabilidad_horas' => 24,
+                'permite_fraccionamiento' => 0, 'riesgo_contaminacion' => 'MEDIO',
+                'color_identificacion' => '#06b6d4', 'icono' => '🩸',
+                'observaciones' => 'Verificar compatibilidad con PVC (algunos fármacos lo absorben).',
+                'estado' => 1, 'created_at' => $now, 'updated_at' => $now,
+            ],
+            [
+                'codigo' => 'FF-004', 'nombre' => 'Tableta', 'nombre_corto' => 'Tab.',
+                'descripcion' => 'Forma farmacéutica sólida obtenida por compresión, de uso oral.',
+                'tipo' => 'SOLIDO',
+                'requiere_reconstitucion' => 0, 'requiere_dilucion' => 0, 'esteril' => 0,
+                'multidosis' => 0, 'reutilizable' => 0, 'requiere_cadena_frio' => 0,
+                'temperatura_min' => 15.00, 'temperatura_max' => 30.00, 'tiempo_estabilidad_horas' => null,
+                'permite_fraccionamiento' => 1, 'riesgo_contaminacion' => 'BAJO',
+                'color_identificacion' => '#10b981', 'icono' => '💊',
+                'observaciones' => 'Solo fraccionar si tiene ranura. No partir cubiertas entéricas.',
+                'estado' => 1, 'created_at' => $now, 'updated_at' => $now,
+            ],
+            [
+                'codigo' => 'FF-005', 'nombre' => 'Cápsula', 'nombre_corto' => 'Cáp.',
+                'descripcion' => 'Forma sólida de gelatina dura o blanda que contiene polvo, granulado o líquido.',
+                'tipo' => 'SOLIDO',
+                'requiere_reconstitucion' => 0, 'requiere_dilucion' => 0, 'esteril' => 0,
+                'multidosis' => 0, 'reutilizable' => 0, 'requiere_cadena_frio' => 0,
+                'temperatura_min' => 15.00, 'temperatura_max' => 30.00, 'tiempo_estabilidad_horas' => null,
+                'permite_fraccionamiento' => 0, 'riesgo_contaminacion' => 'BAJO',
+                'color_identificacion' => '#22c55e', 'icono' => '💊',
+                'observaciones' => 'No abrir cápsulas con cubierta entérica.',
+                'estado' => 1, 'created_at' => $now, 'updated_at' => $now,
+            ],
+            [
+                'codigo' => 'FF-006', 'nombre' => 'Suspensión Oral', 'nombre_corto' => 'Susp.',
+                'descripcion' => 'Sistema disperso heterogéneo, líquido, para administración oral. Requiere agitación previa.',
+                'tipo' => 'LIQUIDO',
+                'requiere_reconstitucion' => 1, 'requiere_dilucion' => 0, 'esteril' => 0,
+                'multidosis' => 1, 'reutilizable' => 0, 'requiere_cadena_frio' => 1,
+                'temperatura_min' => 2.00, 'temperatura_max' => 8.00, 'tiempo_estabilidad_horas' => 336,
+                'permite_fraccionamiento' => 1, 'riesgo_contaminacion' => 'MEDIO',
+                'color_identificacion' => '#f59e0b', 'icono' => '🍼',
+                'observaciones' => 'Refrigerar tras reconstitución. Estabilidad de 14 días.',
+                'estado' => 1, 'created_at' => $now, 'updated_at' => $now,
+            ],
+            [
+                'codigo' => 'FF-007', 'nombre' => 'Crema', 'nombre_corto' => 'Crema',
+                'descripcion' => 'Forma semisólida tipo emulsión para aplicación tópica.',
+                'tipo' => 'SEMISOLIDO',
+                'requiere_reconstitucion' => 0, 'requiere_dilucion' => 0, 'esteril' => 0,
+                'multidosis' => 1, 'reutilizable' => 0, 'requiere_cadena_frio' => 0,
+                'temperatura_min' => 15.00, 'temperatura_max' => 25.00, 'tiempo_estabilidad_horas' => null,
+                'permite_fraccionamiento' => 0, 'riesgo_contaminacion' => 'BAJO',
+                'color_identificacion' => '#a78bfa', 'icono' => '🧴',
+                'observaciones' => 'Uso externo. Conservar tapado.',
+                'estado' => 1, 'created_at' => $now, 'updated_at' => $now,
+            ],
+            [
+                'codigo' => 'FF-008', 'nombre' => 'Polvo Liofilizado', 'nombre_corto' => 'Liof.',
+                'descripcion' => 'Polvo estéril obtenido por liofilización, requiere reconstitución previa al uso.',
+                'tipo' => 'ESTERIL',
+                'requiere_reconstitucion' => 1, 'requiere_dilucion' => 1, 'esteril' => 1,
+                'multidosis' => 0, 'reutilizable' => 0, 'requiere_cadena_frio' => 1,
+                'temperatura_min' => 2.00, 'temperatura_max' => 8.00, 'tiempo_estabilidad_horas' => 6,
+                'permite_fraccionamiento' => 0, 'riesgo_contaminacion' => 'ALTO',
+                'color_identificacion' => '#dc2626', 'icono' => '❄',
+                'observaciones' => 'Estabilidad muy corta post-reconstitución. Verificar diluyente.',
+                'estado' => 1, 'created_at' => $now, 'updated_at' => $now,
+            ],
+            [
+                'codigo' => 'FF-009', 'nombre' => 'Jeringa Prellenada', 'nombre_corto' => 'Jer.',
+                'descripcion' => 'Dispositivo de administración preenvasado con dosis exacta lista para usar.',
+                'tipo' => 'ESTERIL',
+                'requiere_reconstitucion' => 0, 'requiere_dilucion' => 0, 'esteril' => 1,
+                'multidosis' => 0, 'reutilizable' => 0, 'requiere_cadena_frio' => 1,
+                'temperatura_min' => 2.00, 'temperatura_max' => 8.00, 'tiempo_estabilidad_horas' => null,
+                'permite_fraccionamiento' => 0, 'riesgo_contaminacion' => 'BAJO',
+                'color_identificacion' => '#0ea5e9', 'icono' => '💉',
+                'observaciones' => 'Listo para usar. Atemperar antes de administrar.',
+                'estado' => 1, 'created_at' => $now, 'updated_at' => $now,
+            ],
+            [
+                'codigo' => 'FF-010', 'nombre' => 'Solución Oral', 'nombre_corto' => 'Sol.',
+                'descripcion' => 'Forma líquida homogénea para administración oral.',
+                'tipo' => 'LIQUIDO',
+                'requiere_reconstitucion' => 0, 'requiere_dilucion' => 0, 'esteril' => 0,
+                'multidosis' => 1, 'reutilizable' => 0, 'requiere_cadena_frio' => 0,
+                'temperatura_min' => 15.00, 'temperatura_max' => 25.00, 'tiempo_estabilidad_horas' => null,
+                'permite_fraccionamiento' => 1, 'riesgo_contaminacion' => 'BAJO',
+                'color_identificacion' => '#84cc16', 'icono' => '🥄',
+                'observaciones' => 'Medir con jeringa o vaso dosificador.',
+                'estado' => 1, 'created_at' => $now, 'updated_at' => $now,
+            ],
+            [
+                'codigo' => 'FF-011', 'nombre' => 'Frasco Gotero', 'nombre_corto' => 'Frasco',
+                'descripcion' => 'Envase con dispensador gotero para soluciones oftálmicas u óticas.',
+                'tipo' => 'ESTERIL',
+                'requiere_reconstitucion' => 0, 'requiere_dilucion' => 0, 'esteril' => 1,
+                'multidosis' => 1, 'reutilizable' => 0, 'requiere_cadena_frio' => 0,
+                'temperatura_min' => 15.00, 'temperatura_max' => 25.00, 'tiempo_estabilidad_horas' => 672,
+                'permite_fraccionamiento' => 0, 'riesgo_contaminacion' => 'MEDIO',
+                'color_identificacion' => '#14b8a6', 'icono' => '🫗',
+                'observaciones' => 'Desechar a los 28 días tras apertura.',
+                'estado' => 1, 'created_at' => $now, 'updated_at' => $now,
+            ],
+        ]);
+    }
+}
