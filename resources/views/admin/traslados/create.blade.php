@@ -1,8 +1,4 @@
-@extends('layouts.app')
-
-@section('title', 'Nuevo Traslado')
-
-@section('content')
+<x-app-layout>
 <style>
     :root { --inst:#2e3a75; --inst-dark:#1f2a5c; }
     .page-header { background:linear-gradient(135deg, var(--inst), #1a6ba3); color:#fff; padding:1.2rem 1.6rem; border-radius:12px; margin-bottom:1.4rem; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:.8rem; }
@@ -245,4 +241,4 @@ document.getElementById('form-traslado').addEventListener('submit', function(e) 
     }
 });
 </script>
-@endsection
+</x-app-layout>

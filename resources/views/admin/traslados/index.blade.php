@@ -1,8 +1,4 @@
-@extends('layouts.app')
-
-@section('title', 'Traslados de Inventario')
-
-@section('content')
+<x-app-layout>
 <style>
     :root { --inst:#2e3a75; --inst-dark:#1f2a5c; --accent:#00b4d8; }
 
@@ -233,4 +229,4 @@ function setView(v) {
 const saved = localStorage.getItem('traslados_view') || 'kanban';
 setView(saved);
 </script>
-@endsection
+</x-app-layout>

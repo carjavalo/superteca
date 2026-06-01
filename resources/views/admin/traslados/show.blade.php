@@ -1,8 +1,4 @@
-@extends('layouts.app')
-
-@section('title', 'Traslado ' . $traslado->codigo)
-
-@section('content')
+<x-app-layout>
 <style>
     :root { --inst:#2e3a75; --inst-dark:#1f2a5c; }
 
@@ -310,4 +306,4 @@
     </div>
 </div>
 
-@endsection
+</x-app-layout>
