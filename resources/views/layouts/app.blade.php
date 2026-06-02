@@ -317,7 +317,7 @@
 
                 {{-- Producción --}}
                 <div class="nav-group">
-                    <button class="nav-group-btn {{ request()->routeIs('admin.preparaciones.*') || request()->routeIs('admin.formulas.*') ? 'active' : '' }}"
+                    <button class="nav-group-btn {{ request()->routeIs('admin.preparaciones.*') || request()->routeIs('admin.formulas.*') || request()->routeIs('admin.mezclas.*') ? 'active' : '' }}"
                             onclick="toggleGroup('groupProduccion')" id="btnGroupProduccion">
                         <span style="display:flex;align-items:center;gap:12px;">
                             <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="20" height="20">
@@ -341,6 +341,12 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2M12 11h4M12 15h4M8 11h.01M8 15h.01"/>
                             </svg>
                             Fórmulas
+                        </a>
+                        <a href="{{ route('admin.mezclas.index') }}" class="{{ request()->routeIs('admin.mezclas.*') ? 'active' : '' }}">
+                            <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="16" height="16">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 17H5a2 2 0 01-2-2V5a2 2 0 012-2h10a2 2 0 012 2v2M9 7h6m4 6h-6a2 2 0 00-2 2v4a2 2 0 002 2h6a2 2 0 002-2v-4a2 2 0 00-2-2zM12 17h.01"/>
+                            </svg>
+                            Mezclas
                         </a>
                     </div>
                 </div>

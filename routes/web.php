@@ -145,6 +145,20 @@ Route::middleware('auth')->group(function () {
     Route::get   ('/admin/produccion/formulas/{formula}/simulador', [\App\Http\Controllers\Admin\FormulaController::class, 'simulador'])->name('admin.formulas.simulador');
     Route::delete('/admin/produccion/formulas/{formula}',        [\App\Http\Controllers\Admin\FormulaController::class, 'destroy'])->name('admin.formulas.destroy');
 
+    // Producción - Mezclas (Proceso de Fabricación)
+    Route::get   ('/admin/produccion/mezclas',                            [\App\Http\Controllers\Admin\MezclaController::class, 'index'])->name('admin.mezclas.index');
+    Route::get   ('/admin/produccion/mezclas/crear',                      [\App\Http\Controllers\Admin\MezclaController::class, 'create'])->name('admin.mezclas.create');
+    Route::post  ('/admin/produccion/mezclas',                            [\App\Http\Controllers\Admin\MezclaController::class, 'store'])->name('admin.mezclas.store');
+    Route::get   ('/admin/produccion/mezclas/{mezcla}',                   [\App\Http\Controllers\Admin\MezclaController::class, 'show'])->name('admin.mezclas.show');
+    Route::patch ('/admin/produccion/mezclas/{mezcla}/iniciar',           [\App\Http\Controllers\Admin\MezclaController::class, 'iniciar'])->name('admin.mezclas.iniciar');
+    Route::post  ('/admin/produccion/mezclas/{mezcla}/consumo',           [\App\Http\Controllers\Admin\MezclaController::class, 'registrarConsumo'])->name('admin.mezclas.consumo');
+    Route::delete('/admin/produccion/mezclas/{mezcla}/consumo/{consumo}', [\App\Http\Controllers\Admin\MezclaController::class, 'eliminarConsumo'])->name('admin.mezclas.consumo.eliminar');
+    Route::patch ('/admin/produccion/mezclas/{mezcla}/enviar-control',    [\App\Http\Controllers\Admin\MezclaController::class, 'enviarControl'])->name('admin.mezclas.enviarControl');
+    Route::post  ('/admin/produccion/mezclas/{mezcla}/control',           [\App\Http\Controllers\Admin\MezclaController::class, 'registrarControl'])->name('admin.mezclas.control');
+    Route::patch ('/admin/produccion/mezclas/{mezcla}/liberar',           [\App\Http\Controllers\Admin\MezclaController::class, 'liberar'])->name('admin.mezclas.liberar');
+    Route::patch ('/admin/produccion/mezclas/{mezcla}/cancelar',          [\App\Http\Controllers\Admin\MezclaController::class, 'cancelar'])->name('admin.mezclas.cancelar');
+    Route::delete('/admin/produccion/mezclas/{mezcla}',                   [\App\Http\Controllers\Admin\MezclaController::class, 'destroy'])->name('admin.mezclas.destroy');
+
     // Producción - Preparaciones (Central de Mezclas)
     Route::get   ('/admin/produccion/preparaciones',                           [\App\Http\Controllers\Admin\PreparacionController::class, 'index'])->name('admin.preparaciones.index');
     Route::get   ('/admin/produccion/preparaciones/crear',                     [\App\Http\Controllers\Admin\PreparacionController::class, 'create'])->name('admin.preparaciones.create');
