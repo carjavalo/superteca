@@ -10,6 +10,16 @@ Route::get('/', function () {
     return redirect()->route('login');
 });
 
+// Ruta temporal para ejecutar migraciones en cPanel
+Route::get('/run-migrations-cpanel', function () {
+    try {
+        \Illuminate\Support\Facades\Artisan::call('migrate', ['--force' => true]);
+        return '<pre>Migraciones ejecutadas exitosamente:' . PHP_EOL . \Illuminate\Support\Facades\Artisan::output() . '</pre>';
+    } catch (\Exception $e) {
+        return '<pre>Error al migrar: ' . $e->getMessage() . '</pre>';
+    }
+});
+
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth'])->name('dashboard');
