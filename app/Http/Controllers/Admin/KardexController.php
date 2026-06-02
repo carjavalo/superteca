@@ -28,13 +28,13 @@ class KardexController extends Controller
         if ($request->filled('search')) {
             $s = $request->search;
             $q->where(function ($w) use ($s) {
-                $w->where('lote_codigo', 'like', "%$s%")
-                  ->orWhere('observacion', 'like', "%$s%")
-                  ->orWhereHas('medicamento', fn($m) => $m->where('nombre', 'like', "%$s%"));
+                $w->where('observacion', 'like', "%$s%")
+                  ->orWhereHas('lote', fn($l) => $l->where('lote', 'like', "%$s%")
+                      ->orWhereHas('medicamento', fn($m) => $m->where('nombre', 'like', "%$s%")));
             });
         }
         if ($request->filled('tipo'))           $q->where('tipo_movimiento', $request->tipo);
-        if ($request->filled('medicamento_id')) $q->where('medicamento_id', $request->medicamento_id);
+        if ($request->filled('medicamento_id')) $q->whereHas('lote', fn($l) => $l->where('medicamento_id', $request->medicamento_id));
         if ($request->filled('lote_id'))        $q->where('inventario_lote_id', $request->lote_id);
         if ($request->filled('usuario_id'))     $q->where('usuario_id', $request->usuario_id);
         if ($request->filled('desde'))          $q->whereDate('fecha_movimiento', '>=', $request->desde);
@@ -109,24 +109,27 @@ class KardexController extends Controller
             ->orderBy('fecha')
             ->get();
 
-        // Top medicamentos consumidos (salidas)
-        $topConsumo = MovimientoInventario::selectRaw('medicamento_id, SUM(ABS(cantidad)) as total')
-            ->where('cantidad', '<', 0)
-            ->whereBetween('fecha_movimiento', [$desde, $hasta])
-            ->groupBy('medicamento_id')
+        // Top medicamentos consumidos — JOIN a través de inventario_lotes (compatible con y sin migración)
+        $topConsumo = DB::table('movimientos_inventario as m')
+            ->join('inventario_lotes as il', 'il.id', '=', 'm.inventario_lote_id')
+            ->leftJoin('medicamentos as med', 'med.id', '=', 'il.medicamento_id')
+            ->selectRaw('il.medicamento_id, med.nombre as medicamento_nombre, SUM(ABS(m.cantidad)) as total')
+            ->where('m.cantidad', '<', 0)
+            ->whereBetween('m.fecha_movimiento', [$desde, $hasta])
+            ->groupBy('il.medicamento_id', 'med.nombre')
             ->orderByDesc('total')
             ->limit(10)
-            ->with('medicamento:id,nombre')
             ->get();
 
-        // Ajustes por usuario
-        $ajustesUsuario = MovimientoInventario::selectRaw('usuario_id, COUNT(*) as cnt')
-            ->whereIn('tipo_movimiento', ['AJUSTE','AJUSTE_POSITIVO','AJUSTE_NEGATIVO'])
-            ->whereBetween('fecha_movimiento', [$desde, $hasta])
-            ->groupBy('usuario_id')
+        // Ajustes por usuario — JOIN para obtener nombre sin depender de columnas opcionales
+        $ajustesUsuario = DB::table('movimientos_inventario as m')
+            ->leftJoin('users as u', 'u.id', '=', 'm.usuario_id')
+            ->selectRaw('m.usuario_id, u.name, u.apellido1, COUNT(*) as cnt')
+            ->whereIn('m.tipo_movimiento', ['AJUSTE','AJUSTE_POSITIVO','AJUSTE_NEGATIVO'])
+            ->whereBetween('m.fecha_movimiento', [$desde, $hasta])
+            ->groupBy('m.usuario_id', 'u.name', 'u.apellido1')
             ->orderByDesc('cnt')
             ->limit(8)
-            ->with('usuario:id,name,apellido1')
             ->get();
 
         // Distribución por tipo

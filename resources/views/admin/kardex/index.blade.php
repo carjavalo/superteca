@@ -130,9 +130,9 @@
                 <td>
                     <span class="pill" style="background:{{ $m->tipo_color }}">{{ $m->tipo_label }}</span>
                 </td>
-                <td>{{ $m->medicamento->nombre ?? '—' }}</td>
+                <td>{{ $m->medicamento->nombre ?? $m->lote->medicamento->nombre ?? '—' }}</td>
                 <td><code class="lote">{{ $m->lote_codigo ?? $m->lote->lote ?? '—' }}</code></td>
-                <td>{{ $m->fecha_vencimiento?->format('d/m/Y') ?? '—' }}</td>
+                <td>{{ optional($m->fecha_vencimiento ?? $m->lote->fecha_vencimiento)->format('d/m/Y') ?? '—' }}</td>
                 <td class="num ent">{{ $m->cantidad_entrada > 0 ? '+'.number_format($m->cantidad_entrada,2) : '' }}</td>
                 <td class="num sal">{{ $m->cantidad_salida > 0 ? '-'.number_format($m->cantidad_salida,2) : '' }}</td>
                 <td class="num saldo">{{ number_format((float)$m->stock_nuevo, 2) }}</td>

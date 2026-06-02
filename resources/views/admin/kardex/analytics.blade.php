@@ -117,7 +117,7 @@
             @php $maxC = max(1, $topConsumo->max('total')); @endphp
             @foreach($topConsumo as $t)
                 <div class="bar-row">
-                    <div class="nm" title="{{ $t->medicamento->nombre ?? '—' }}">{{ $t->medicamento->nombre ?? 'Sin nombre' }}</div>
+                    <div class="nm" title="{{ $t->medicamento_nombre ?? '—' }}">{{ $t->medicamento_nombre ?? 'Sin nombre' }}</div>
                     <div class="bar"><span style="width:{{ ($t->total/$maxC)*100 }}%; background:linear-gradient(to right,#ef4444,#f97316)"></span></div>
                     <div class="val">{{ number_format($t->total, 0) }}</div>
                 </div>
@@ -152,7 +152,7 @@
                 <tbody>
                 @foreach($ajustesUsuario as $u)
                     <tr>
-                        <td>{{ $u->usuario ? ($u->usuario->name.' '.$u->usuario->apellido1) : 'Sistema' }}</td>
+                        <td>{{ $u->name ? trim($u->name.' '.$u->apellido1) : 'Sistema' }}</td>
                         <td style="text-align:right; font-weight:700">{{ $u->cnt }}</td>
                     </tr>
                 @endforeach
