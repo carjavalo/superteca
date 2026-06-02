@@ -315,6 +315,30 @@
                     </div>
                 </div>
 
+                {{-- Producción --}}
+                <div class="nav-group">
+                    <button class="nav-group-btn"
+                            onclick="toggleGroup('groupProduccion')" id="btnGroupProduccion">
+                        <span style="display:flex;align-items:center;gap:12px;">
+                            <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="20" height="20">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+                            </svg>
+                            Producción
+                        </span>
+                        <svg class="chevron" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" width="14" height="14">
+                            <path stroke-linecap="round" d="M9 5l7 7-7 7"/>
+                        </svg>
+                    </button>
+                    <div class="nav-sub" id="groupProduccion">
+                        {{-- <a href="#" class=""> --}}
+                        {{--     <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="16" height="16"> --}}
+                        {{--         <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/> --}}
+                        {{--     </svg> --}}
+                        {{--     Opción de Producción --}}
+                        {{-- </a> --}}
+                    </div>
+                </div>
+
                 {{-- Configuración con submenú --}}
                 <div class="nav-group">
                     <button class="nav-group-btn {{ request()->routeIs('admin.*') ? 'active' : '' }}"
