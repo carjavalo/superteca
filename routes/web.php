@@ -159,6 +159,20 @@ Route::middleware('auth')->group(function () {
     Route::patch ('/admin/produccion/mezclas/{mezcla}/cancelar',          [\App\Http\Controllers\Admin\MezclaController::class, 'cancelar'])->name('admin.mezclas.cancelar');
     Route::delete('/admin/produccion/mezclas/{mezcla}',                   [\App\Http\Controllers\Admin\MezclaController::class, 'destroy'])->name('admin.mezclas.destroy');
 
+    // Producción - Reempaques (Conversión de presentaciones)
+    Route::get   ('/admin/produccion/reempaques',                                  [\App\Http\Controllers\Admin\ReempaqueController::class, 'index'])->name('admin.reempaques.index');
+    Route::get   ('/admin/produccion/reempaques/crear',                            [\App\Http\Controllers\Admin\ReempaqueController::class, 'create'])->name('admin.reempaques.create');
+    Route::post  ('/admin/produccion/reempaques',                                  [\App\Http\Controllers\Admin\ReempaqueController::class, 'store'])->name('admin.reempaques.store');
+    Route::get   ('/admin/produccion/reempaques/{reempaque}',                      [\App\Http\Controllers\Admin\ReempaqueController::class, 'show'])->name('admin.reempaques.show');
+    Route::patch ('/admin/produccion/reempaques/{reempaque}/iniciar',              [\App\Http\Controllers\Admin\ReempaqueController::class, 'iniciar'])->name('admin.reempaques.iniciar');
+    Route::post  ('/admin/produccion/reempaques/{reempaque}/consumo',              [\App\Http\Controllers\Admin\ReempaqueController::class, 'registrarConsumo'])->name('admin.reempaques.consumo');
+    Route::delete('/admin/produccion/reempaques/{reempaque}/consumo/{consumo}',    [\App\Http\Controllers\Admin\ReempaqueController::class, 'eliminarConsumo'])->name('admin.reempaques.consumo.eliminar');
+    Route::patch ('/admin/produccion/reempaques/{reempaque}/enviar-control',       [\App\Http\Controllers\Admin\ReempaqueController::class, 'enviarControl'])->name('admin.reempaques.enviarControl');
+    Route::post  ('/admin/produccion/reempaques/{reempaque}/control',              [\App\Http\Controllers\Admin\ReempaqueController::class, 'registrarControl'])->name('admin.reempaques.control');
+    Route::patch ('/admin/produccion/reempaques/{reempaque}/liberar',              [\App\Http\Controllers\Admin\ReempaqueController::class, 'liberar'])->name('admin.reempaques.liberar');
+    Route::patch ('/admin/produccion/reempaques/{reempaque}/anular',               [\App\Http\Controllers\Admin\ReempaqueController::class, 'anular'])->name('admin.reempaques.anular');
+    Route::delete('/admin/produccion/reempaques/{reempaque}',                      [\App\Http\Controllers\Admin\ReempaqueController::class, 'destroy'])->name('admin.reempaques.destroy');
+
     // Producción - Preparaciones (Central de Mezclas)
     Route::get   ('/admin/produccion/preparaciones',                           [\App\Http\Controllers\Admin\PreparacionController::class, 'index'])->name('admin.preparaciones.index');
     Route::get   ('/admin/produccion/preparaciones/crear',                     [\App\Http\Controllers\Admin\PreparacionController::class, 'create'])->name('admin.preparaciones.create');

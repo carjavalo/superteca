@@ -317,7 +317,7 @@
 
                 {{-- Producción --}}
                 <div class="nav-group">
-                    <button class="nav-group-btn {{ request()->routeIs('admin.preparaciones.*') || request()->routeIs('admin.formulas.*') || request()->routeIs('admin.mezclas.*') ? 'active' : '' }}"
+                    <button class="nav-group-btn {{ request()->routeIs('admin.preparaciones.*') || request()->routeIs('admin.formulas.*') || request()->routeIs('admin.mezclas.*') || request()->routeIs('admin.reempaques.*') ? 'active' : '' }}"
                             onclick="toggleGroup('groupProduccion')" id="btnGroupProduccion">
                         <span style="display:flex;align-items:center;gap:12px;">
                             <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="20" height="20">
@@ -347,6 +347,12 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M9 17H5a2 2 0 01-2-2V5a2 2 0 012-2h10a2 2 0 012 2v2M9 7h6m4 6h-6a2 2 0 00-2 2v4a2 2 0 002 2h6a2 2 0 002-2v-4a2 2 0 00-2-2zM12 17h.01"/>
                             </svg>
                             Mezclas
+                        </a>
+                        <a href="{{ route('admin.reempaques.index') }}" class="{{ request()->routeIs('admin.reempaques.*') ? 'active' : '' }}">
+                            <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="16" height="16">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/>
+                            </svg>
+                            Reempaque
                         </a>
                     </div>
                 </div>
