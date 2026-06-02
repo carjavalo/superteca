@@ -218,6 +218,15 @@ Route::middleware('auth')->group(function () {
     Route::patch ('/admin/dispensacion/pacientes/{paciente}/prescripciones/{prescripcion}/estado', [\App\Http\Controllers\Admin\PacienteClinicoController::class, 'cambiarEstadoPrescripcion'])->name('admin.dispensacion.pacientes.prescripciones.estado');
     Route::delete('/admin/dispensacion/pacientes/{paciente}/prescripciones/{prescripcion}',[\App\Http\Controllers\Admin\PacienteClinicoController::class, 'destroyPrescripcion'])->name('admin.dispensacion.pacientes.prescripciones.destroy');
 
+    // Dispensación - Validación farmacéutica
+    Route::get   ('/admin/dispensacion/validaciones',                 [\App\Http\Controllers\Admin\ValidacionController::class, 'index'])->name('admin.dispensacion.validaciones.index');
+    Route::get   ('/admin/dispensacion/validaciones/crear',           [\App\Http\Controllers\Admin\ValidacionController::class, 'create'])->name('admin.dispensacion.validaciones.create');
+    Route::post  ('/admin/dispensacion/validaciones',                 [\App\Http\Controllers\Admin\ValidacionController::class, 'store'])->name('admin.dispensacion.validaciones.store');
+    Route::get   ('/admin/dispensacion/validaciones/{validacion}',    [\App\Http\Controllers\Admin\ValidacionController::class, 'show'])->name('admin.dispensacion.validaciones.show');
+    Route::post  ('/admin/dispensacion/validaciones/{validacion}/aprobar', [\App\Http\Controllers\Admin\ValidacionController::class, 'aprobar'])->name('admin.dispensacion.validaciones.aprobar');
+    Route::patch ('/admin/dispensacion/validaciones/{validacion}/alertas/{alerta}', [\App\Http\Controllers\Admin\ValidacionController::class, 'resolverAlerta'])->name('admin.dispensacion.validaciones.alertas.toggle');
+    Route::delete('/admin/dispensacion/validaciones/{validacion}',    [\App\Http\Controllers\Admin\ValidacionController::class, 'destroy'])->name('admin.dispensacion.validaciones.destroy');
+
     // Gestión de roles
     Route::get('/admin/roles', [RoleController::class, 'index'])->name('admin.roles.index');
     Route::post('/admin/roles', [RoleController::class, 'store'])->name('admin.roles.store');
