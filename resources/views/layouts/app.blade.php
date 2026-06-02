@@ -358,12 +358,28 @@
                 </div>
 
                 {{-- Dispensación --}}
-                <a href="#" class="{{ request()->routeIs('admin.dispensacion.*') ? 'active' : '' }}">
-                    <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="20" height="20">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
-                    </svg>
-                    Dispensación
-                </a>
+                <div class="nav-group">
+                    <button class="nav-group-btn {{ request()->routeIs('admin.dispensacion.*') ? 'active' : '' }}"
+                            onclick="toggleGroup('groupDispensacion')" id="btnGroupDispensacion">
+                        <span style="display:flex;align-items:center;gap:12px;">
+                            <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="20" height="20">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
+                            </svg>
+                            Dispensación
+                        </span>
+                        <svg class="chevron" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" width="14" height="14">
+                            <path stroke-linecap="round" d="M9 5l7 7-7 7"/>
+                        </svg>
+                    </button>
+                    <div class="nav-sub" id="groupDispensacion">
+                        <a href="{{ route('admin.dispensacion.entregas.index') }}" class="{{ request()->routeIs('admin.dispensacion.entregas.*') ? 'active' : '' }}">
+                            <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="16" height="16">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/>
+                            </svg>
+                            Entregas
+                        </a>
+                    </div>
+                </div>
 
                 {{-- Configuración con submenú --}}
                 <div class="nav-group">

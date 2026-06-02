@@ -192,6 +192,17 @@ Route::middleware('auth')->group(function () {
     Route::get('/admin/reportes/registros', [\App\Http\Controllers\Admin\ActivityLogController::class, 'index'])->name('admin.reportes.registros');
     Route::get('/admin/reportes/registros/{log}', [\App\Http\Controllers\Admin\ActivityLogController::class, 'show'])->name('admin.reportes.registros.show');
 
+    // Dispensación - Entregas
+    Route::get   ('/admin/dispensacion/entregas',                   [\App\Http\Controllers\Admin\DispensacionEntregaController::class, 'index'])->name('admin.dispensacion.entregas.index');
+    Route::get   ('/admin/dispensacion/entregas/crear',             [\App\Http\Controllers\Admin\DispensacionEntregaController::class, 'create'])->name('admin.dispensacion.entregas.create');
+    Route::post  ('/admin/dispensacion/entregas',                   [\App\Http\Controllers\Admin\DispensacionEntregaController::class, 'store'])->name('admin.dispensacion.entregas.store');
+    Route::get   ('/admin/dispensacion/entregas/{entrega}',         [\App\Http\Controllers\Admin\DispensacionEntregaController::class, 'show'])->name('admin.dispensacion.entregas.show');
+    Route::patch ('/admin/dispensacion/entregas/{entrega}/entregar',[\App\Http\Controllers\Admin\DispensacionEntregaController::class, 'entregar'])->name('admin.dispensacion.entregas.entregar');
+    Route::post  ('/admin/dispensacion/entregas/{entrega}/recibir', [\App\Http\Controllers\Admin\DispensacionEntregaController::class, 'recibir'])->name('admin.dispensacion.entregas.recibir');
+    Route::post  ('/admin/dispensacion/entregas/{entrega}/devolver',[\App\Http\Controllers\Admin\DispensacionEntregaController::class, 'devolver'])->name('admin.dispensacion.entregas.devolver');
+    Route::patch ('/admin/dispensacion/entregas/{entrega}/anular',  [\App\Http\Controllers\Admin\DispensacionEntregaController::class, 'anular'])->name('admin.dispensacion.entregas.anular');
+    Route::delete('/admin/dispensacion/entregas/{entrega}',         [\App\Http\Controllers\Admin\DispensacionEntregaController::class, 'destroy'])->name('admin.dispensacion.entregas.destroy');
+
     // Gestión de roles
     Route::get('/admin/roles', [RoleController::class, 'index'])->name('admin.roles.index');
     Route::post('/admin/roles', [RoleController::class, 'store'])->name('admin.roles.store');

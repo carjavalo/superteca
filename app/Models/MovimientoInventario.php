@@ -44,6 +44,9 @@ class MovimientoInventario extends Model
         'DEVOLUCION'        => ['label' => 'Devolución',        'color' => '#14b8a6'],
         'VENCIMIENTO'       => ['label' => 'Vencimiento',       'color' => '#64748b'],
         'PRODUCCION'        => ['label' => 'Producción',        'color' => '#a855f7'],
+        'REEMPAQUE_ENTRADA' => ['label' => 'Reempaque entrada', 'color' => '#10b981'],
+        'REEMPAQUE_SALIDA'  => ['label' => 'Reempaque salida',  'color' => '#f97316'],
+        'DISPENSACION'      => ['label' => 'Dispensación',      'color' => '#0ea5e9'],
     ];
 
     public function getCantidadEntradaAttribute(): float
