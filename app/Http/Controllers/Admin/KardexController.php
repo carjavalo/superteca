@@ -152,7 +152,10 @@ class KardexController extends Controller
             'movimientos'   => MovimientoInventario::whereBetween('fecha_movimiento',[$desde,$hasta])->count(),
             'entradas'      => (float) MovimientoInventario::where('cantidad','>',0)->whereBetween('fecha_movimiento',[$desde,$hasta])->sum('cantidad'),
             'salidas'       => (float) abs(MovimientoInventario::where('cantidad','<',0)->whereBetween('fecha_movimiento',[$desde,$hasta])->sum('cantidad')),
-            'valor_movido'  => (float) MovimientoInventario::whereBetween('fecha_movimiento',[$desde,$hasta])->sum('costo_total'),
+            'valor_movido'  => (float) DB::table('movimientos_inventario as m')
+                                        ->join('inventario_lotes as il', 'il.id', '=', 'm.inventario_lote_id')
+                                        ->whereBetween('m.fecha_movimiento', [$desde, $hasta])
+                                        ->sum(DB::raw('ABS(m.cantidad) * il.costo_unitario')),
         ];
 
         return view('admin.kardex.analytics', compact('desde','hasta','porDia','topConsumo','ajustesUsuario','distTipos','vencimientos','kpis'));
