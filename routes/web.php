@@ -137,6 +137,21 @@ Route::middleware('auth')->group(function () {
     Route::get('/admin/inventario/kardex/lote/{lote_id?}', [\App\Http\Controllers\Admin\KardexController::class, 'porLote'])->name('admin.kardex.lote');
     Route::get('/admin/inventario/kardex/analytics', [\App\Http\Controllers\Admin\KardexController::class, 'analytics'])->name('admin.kardex.analytics');
 
+    // Producción - Preparaciones (Central de Mezclas)
+    Route::get   ('/admin/produccion/preparaciones',                           [\App\Http\Controllers\Admin\PreparacionController::class, 'index'])->name('admin.preparaciones.index');
+    Route::get   ('/admin/produccion/preparaciones/crear',                     [\App\Http\Controllers\Admin\PreparacionController::class, 'create'])->name('admin.preparaciones.create');
+    Route::post  ('/admin/produccion/preparaciones',                           [\App\Http\Controllers\Admin\PreparacionController::class, 'store'])->name('admin.preparaciones.store');
+    Route::get   ('/admin/produccion/preparaciones/{preparacion}',             [\App\Http\Controllers\Admin\PreparacionController::class, 'show'])->name('admin.preparaciones.show');
+    Route::patch ('/admin/produccion/preparaciones/{preparacion}/iniciar',     [\App\Http\Controllers\Admin\PreparacionController::class, 'iniciar'])->name('admin.preparaciones.iniciar');
+    Route::post  ('/admin/produccion/preparaciones/{preparacion}/consumo',     [\App\Http\Controllers\Admin\PreparacionController::class, 'registrarConsumo'])->name('admin.preparaciones.consumo');
+    Route::delete('/admin/produccion/preparaciones/{preparacion}/consumo/{consumo}', [\App\Http\Controllers\Admin\PreparacionController::class, 'eliminarConsumo'])->name('admin.preparaciones.consumo.eliminar');
+    Route::patch ('/admin/produccion/preparaciones/{preparacion}/enviar-control', [\App\Http\Controllers\Admin\PreparacionController::class, 'enviarControl'])->name('admin.preparaciones.enviarControl');
+    Route::post  ('/admin/produccion/preparaciones/{preparacion}/control',     [\App\Http\Controllers\Admin\PreparacionController::class, 'registrarControl'])->name('admin.preparaciones.control');
+    Route::patch ('/admin/produccion/preparaciones/{preparacion}/liberar',     [\App\Http\Controllers\Admin\PreparacionController::class, 'liberar'])->name('admin.preparaciones.liberar');
+    Route::post  ('/admin/produccion/preparaciones/{preparacion}/entregar',    [\App\Http\Controllers\Admin\PreparacionController::class, 'entregar'])->name('admin.preparaciones.entregar');
+    Route::patch ('/admin/produccion/preparaciones/{preparacion}/anular',      [\App\Http\Controllers\Admin\PreparacionController::class, 'anular'])->name('admin.preparaciones.anular');
+    Route::delete('/admin/produccion/preparaciones/{preparacion}',             [\App\Http\Controllers\Admin\PreparacionController::class, 'destroy'])->name('admin.preparaciones.destroy');
+
     // Reportes - Registro de actividad (solo Super Admin)
     Route::get('/admin/reportes/registros', [\App\Http\Controllers\Admin\ActivityLogController::class, 'index'])->name('admin.reportes.registros');
     Route::get('/admin/reportes/registros/{log}', [\App\Http\Controllers\Admin\ActivityLogController::class, 'show'])->name('admin.reportes.registros.show');
