@@ -137,6 +137,14 @@ Route::middleware('auth')->group(function () {
     Route::get('/admin/inventario/kardex/lote/{lote_id?}', [\App\Http\Controllers\Admin\KardexController::class, 'porLote'])->name('admin.kardex.lote');
     Route::get('/admin/inventario/kardex/analytics', [\App\Http\Controllers\Admin\KardexController::class, 'analytics'])->name('admin.kardex.analytics');
 
+    // Producción - Fórmulas (Recetas Maestras)
+    Route::get   ('/admin/produccion/formulas',                  [\App\Http\Controllers\Admin\FormulaController::class, 'index'])->name('admin.formulas.index');
+    Route::get   ('/admin/produccion/formulas/crear',            [\App\Http\Controllers\Admin\FormulaController::class, 'create'])->name('admin.formulas.create');
+    Route::post  ('/admin/produccion/formulas',                  [\App\Http\Controllers\Admin\FormulaController::class, 'store'])->name('admin.formulas.store');
+    Route::get   ('/admin/produccion/formulas/{formula}',        [\App\Http\Controllers\Admin\FormulaController::class, 'show'])->name('admin.formulas.show');
+    Route::get   ('/admin/produccion/formulas/{formula}/simulador', [\App\Http\Controllers\Admin\FormulaController::class, 'simulador'])->name('admin.formulas.simulador');
+    Route::delete('/admin/produccion/formulas/{formula}',        [\App\Http\Controllers\Admin\FormulaController::class, 'destroy'])->name('admin.formulas.destroy');
+
     // Producción - Preparaciones (Central de Mezclas)
     Route::get   ('/admin/produccion/preparaciones',                           [\App\Http\Controllers\Admin\PreparacionController::class, 'index'])->name('admin.preparaciones.index');
     Route::get   ('/admin/produccion/preparaciones/crear',                     [\App\Http\Controllers\Admin\PreparacionController::class, 'create'])->name('admin.preparaciones.create');
