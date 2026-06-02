@@ -306,6 +306,12 @@
                             </svg>
                             Traslados
                         </a>
+                        <a href="{{ route('admin.kardex.index') }}" class="{{ request()->routeIs('admin.kardex.*') ? 'active' : '' }}">
+                            <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="16" height="16">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 17v-2a4 4 0 014-4h6m-3-3l3 3-3 3M3 4h12a2 2 0 012 2v3M3 4v16h10"/>
+                            </svg>
+                            Kardex
+                        </a>
                     </div>
                 </div>
 

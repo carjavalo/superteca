@@ -122,6 +122,11 @@ Route::middleware('auth')->group(function () {
     Route::delete('/admin/inventario/traslados/{traslado}', [\App\Http\Controllers\Admin\TrasladoController::class, 'destroy'])->name('admin.traslados.destroy');
     Route::get('/admin/inventario/traslados/lotes-disponibles', [\App\Http\Controllers\Admin\TrasladoController::class, 'lotesDisponibles'])->name('admin.traslados.lotes');
 
+    // Kardex - Historial de movimientos
+    Route::get('/admin/inventario/kardex',           [\App\Http\Controllers\Admin\KardexController::class, 'index'])->name('admin.kardex.index');
+    Route::get('/admin/inventario/kardex/lote/{lote_id?}', [\App\Http\Controllers\Admin\KardexController::class, 'porLote'])->name('admin.kardex.lote');
+    Route::get('/admin/inventario/kardex/analytics', [\App\Http\Controllers\Admin\KardexController::class, 'analytics'])->name('admin.kardex.analytics');
+
     // Reportes - Registro de actividad (solo Super Admin)
     Route::get('/admin/reportes/registros', [\App\Http\Controllers\Admin\ActivityLogController::class, 'index'])->name('admin.reportes.registros');
     Route::get('/admin/reportes/registros/{log}', [\App\Http\Controllers\Admin\ActivityLogController::class, 'show'])->name('admin.reportes.registros.show');
