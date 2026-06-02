@@ -203,6 +203,21 @@ Route::middleware('auth')->group(function () {
     Route::patch ('/admin/dispensacion/entregas/{entrega}/anular',  [\App\Http\Controllers\Admin\DispensacionEntregaController::class, 'anular'])->name('admin.dispensacion.entregas.anular');
     Route::delete('/admin/dispensacion/entregas/{entrega}',         [\App\Http\Controllers\Admin\DispensacionEntregaController::class, 'destroy'])->name('admin.dispensacion.entregas.destroy');
 
+    // Dispensación - Pacientes (ficha clínica farmacéutica)
+    Route::get   ('/admin/dispensacion/pacientes',                              [\App\Http\Controllers\Admin\PacienteClinicoController::class, 'index'])->name('admin.dispensacion.pacientes.index');
+    Route::get   ('/admin/dispensacion/pacientes/crear',                        [\App\Http\Controllers\Admin\PacienteClinicoController::class, 'create'])->name('admin.dispensacion.pacientes.create');
+    Route::post  ('/admin/dispensacion/pacientes',                              [\App\Http\Controllers\Admin\PacienteClinicoController::class, 'store'])->name('admin.dispensacion.pacientes.store');
+    Route::get   ('/admin/dispensacion/pacientes/{paciente}',                   [\App\Http\Controllers\Admin\PacienteClinicoController::class, 'show'])->name('admin.dispensacion.pacientes.show');
+    Route::put   ('/admin/dispensacion/pacientes/{paciente}',                   [\App\Http\Controllers\Admin\PacienteClinicoController::class, 'update'])->name('admin.dispensacion.pacientes.update');
+    Route::delete('/admin/dispensacion/pacientes/{paciente}',                   [\App\Http\Controllers\Admin\PacienteClinicoController::class, 'destroy'])->name('admin.dispensacion.pacientes.destroy');
+    Route::post  ('/admin/dispensacion/pacientes/{paciente}/alergias',          [\App\Http\Controllers\Admin\PacienteClinicoController::class, 'storeAlergia'])->name('admin.dispensacion.pacientes.alergias.store');
+    Route::delete('/admin/dispensacion/pacientes/{paciente}/alergias/{alergia}',[\App\Http\Controllers\Admin\PacienteClinicoController::class, 'destroyAlergia'])->name('admin.dispensacion.pacientes.alergias.destroy');
+    Route::post  ('/admin/dispensacion/pacientes/{paciente}/diagnosticos',      [\App\Http\Controllers\Admin\PacienteClinicoController::class, 'storeDiagnostico'])->name('admin.dispensacion.pacientes.diagnosticos.store');
+    Route::delete('/admin/dispensacion/pacientes/{paciente}/diagnosticos/{diagnostico}',[\App\Http\Controllers\Admin\PacienteClinicoController::class, 'destroyDiagnostico'])->name('admin.dispensacion.pacientes.diagnosticos.destroy');
+    Route::post  ('/admin/dispensacion/pacientes/{paciente}/prescripciones',    [\App\Http\Controllers\Admin\PacienteClinicoController::class, 'storePrescripcion'])->name('admin.dispensacion.pacientes.prescripciones.store');
+    Route::patch ('/admin/dispensacion/pacientes/{paciente}/prescripciones/{prescripcion}/estado', [\App\Http\Controllers\Admin\PacienteClinicoController::class, 'cambiarEstadoPrescripcion'])->name('admin.dispensacion.pacientes.prescripciones.estado');
+    Route::delete('/admin/dispensacion/pacientes/{paciente}/prescripciones/{prescripcion}',[\App\Http\Controllers\Admin\PacienteClinicoController::class, 'destroyPrescripcion'])->name('admin.dispensacion.pacientes.prescripciones.destroy');
+
     // Gestión de roles
     Route::get('/admin/roles', [RoleController::class, 'index'])->name('admin.roles.index');
     Route::post('/admin/roles', [RoleController::class, 'store'])->name('admin.roles.store');

@@ -13,6 +13,7 @@ use App\Models\InventarioLote;
 use App\Models\Medicamento;
 use App\Models\MovimientoInventario;
 use App\Models\Paciente;
+use App\Models\PacienteDispensacion;
 use App\Models\ServicioHospitalario;
 use App\Models\UnidadMedida;
 use Illuminate\Http\Request;
@@ -215,6 +216,22 @@ class DispensacionEntregaController extends Controller
                     if (Schema::hasColumn('movimientos_inventario','costo_unitario'))    $mov['costo_unitario']    = $eLote->costo_unitario;
                     if (Schema::hasColumn('movimientos_inventario','costo_total'))       $mov['costo_total']       = (float) $eLote->costo_unitario * (float) $eLote->cantidad_entregada;
                     MovimientoInventario::create($mov);
+
+                    // Trazabilidad clínica: vincular lote con paciente
+                    if ($entrega->paciente_id) {
+                        PacienteDispensacion::create([
+                            'paciente_id'        => $entrega->paciente_id,
+                            'entrega_id'         => $entrega->id,
+                            'entrega_detalle_id' => $d->id,
+                            'medicamento_id'     => $lote->medicamento_id,
+                            'inventario_lote_id' => $lote->id,
+                            'lote'               => $lote->lote,
+                            'fecha_vencimiento'  => $lote->fecha_vencimiento,
+                            'cantidad'           => $eLote->cantidad_entregada,
+                            'fecha_entrega'      => now(),
+                            'costo_total'        => (float) $eLote->costo_unitario * (float) $eLote->cantidad_entregada,
+                        ]);
+                    }
                 }
             }
 

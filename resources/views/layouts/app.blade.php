@@ -378,6 +378,12 @@
                             </svg>
                             Entregas
                         </a>
+                        <a href="{{ route('admin.dispensacion.pacientes.index') }}" class="{{ request()->routeIs('admin.dispensacion.pacientes.*') ? 'active' : '' }}">
+                            <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="16" height="16">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M16 14a4 4 0 10-8 0m8 0a4 4 0 11-8 0m8 0v.5A4.5 4.5 0 0120 19v2H4v-2a4.5 4.5 0 014-4.5V14m4-6a3 3 0 100-6 3 3 0 000 6z"/>
+                            </svg>
+                            Pacientes
+                        </a>
                     </div>
                 </div>
 
