@@ -414,6 +414,12 @@
                             </svg>
                             Cadena de Frío
                         </a>
+                        <a href="{{ route('admin.calidad.controles.index') }}" class="{{ request()->routeIs('admin.calidad.controles.*') ? 'active' : '' }}">
+                            <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="16" height="16">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4M21 12c0 4.97-4.03 9-9 9s-9-4.03-9-9 4.03-9 9-9 9 4.03 9 9z"/>
+                            </svg>
+                            Controles
+                        </a>
                     </div>
                 </div>
 

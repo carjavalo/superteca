@@ -260,6 +260,38 @@ Route::middleware('auth')->group(function () {
         Route::post('/lotes/{lote}/salida',             [$c, 'lotesSalida'])->name('lotes.salida');
     });
 
+    // ===================== CALIDAD - CONTROLES =====================
+    Route::prefix('admin/calidad/controles')->name('admin.calidad.controles.')->group(function () {
+        $c = \App\Http\Controllers\Admin\ControlCalidadController::class;
+
+        Route::get('/',                  [$c, 'index'])->name('index');
+        Route::get('/bandeja',           [$c, 'bandeja'])->name('bandeja');
+        Route::get('/crear',             [$c, 'create'])->name('create');
+        Route::post('/',                 [$c, 'store'])->name('store');
+
+        // Parámetros (catálogo) - antes de /{control}
+        Route::get('/parametros/listar',       [$c, 'parametrosIndex'])->name('parametros.index');
+        Route::post('/parametros',             [$c, 'parametrosStore'])->name('parametros.store');
+        Route::put('/parametros/{parametro}',  [$c, 'parametrosUpdate'])->name('parametros.update');
+        Route::delete('/parametros/{parametro}', [$c, 'parametrosDestroy'])->name('parametros.destroy');
+
+        // Trazabilidad por lote
+        Route::get('/trazabilidad/{lote}',     [$c, 'trazabilidad'])->name('trazabilidad');
+
+        // Acciones correctivas
+        Route::patch('/acciones/{accion}',     [$c, 'accionUpdate'])->name('acciones.update');
+
+        // Evidencias
+        Route::delete('/evidencias/{evidencia}', [$c, 'evidenciaDestroy'])->name('evidencias.destroy');
+
+        // Detalle del control - rutas con {control} al final
+        Route::get('/{control}',         [$c, 'show'])->name('show');
+        Route::patch('/{control}/resultado', [$c, 'actualizarResultado'])->name('resultado');
+        Route::delete('/{control}',      [$c, 'destroy'])->name('destroy');
+        Route::post('/{control}/acciones',     [$c, 'accionStore'])->name('acciones.store');
+        Route::post('/{control}/evidencias',   [$c, 'evidenciaStore'])->name('evidencias.store');
+    });
+
     // Gestión de roles
     Route::get('/admin/roles', [RoleController::class, 'index'])->name('admin.roles.index');
     Route::post('/admin/roles', [RoleController::class, 'store'])->name('admin.roles.store');
