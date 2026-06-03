@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Manual del Usuario - Superteca</title>
+<style>
+body{ font-family:'Segoe UI', Arial, sans-serif; color:#1f2937; line-height:1.5; }
+h1{ color:#5b21b6; font-size:30pt; border-bottom:4px solid #7c3aed; padding-bottom:8px; }
+h2{ color:#5b21b6; font-size:20pt; border-bottom:2px solid #c4b5fd; padding-bottom:4px; margin-top:28px; }
+h3{ color:#6d28d9; font-size:15pt; margin-top:20px; }
+h4{ color:#7c3aed; font-size:12.5pt; margin-top:14px; }
+p{ font-size:11pt; }
+ul,ol{ font-size:11pt; }
+table{ border-collapse:collapse; width:100%; margin:10px 0; font-size:10.5pt; }
+th{ background:#7c3aed; color:#fff; text-align:left; padding:6px 8px; border:1px solid #6d28d9; }
+td{ border:1px solid #d1d5db; padding:6px 8px; vertical-align:top; }
+tr:nth-child(even) td{ background:#f5f3ff; }
+.tip{ background:#ede9fe; border-left:5px solid #7c3aed; padding:10px 14px; margin:12px 0; font-size:10.5pt; }
+.aviso{ background:#fef3c7; border-left:5px solid #f59e0b; padding:10px 14px; margin:12px 0; font-size:10.5pt; }
+.ejemplo{ background:#ecfdf5; border-left:5px solid #16a34a; padding:10px 14px; margin:12px 0; font-size:10.5pt; }
+.paso{ background:#f8fafc; border:1px solid #e2e8f0; border-radius:6px; padding:8px 12px; margin:6px 0; font-size:10.5pt; }
+.badge{ display:inline-block; background:#7c3aed; color:#fff; border-radius:10px; padding:1px 10px; font-size:9pt; }
+.portada{ text-align:center; margin-top:120px; }
+.portada h1{ font-size:42pt; border:0; }
+.portada p{ font-size:14pt; color:#6b7280; }
+.indice li{ margin:4px 0; }
+hr{ border:0; border-top:1px solid #e5e7eb; margin:24px 0; }
+code{ background:#f3f4f6; padding:1px 5px; border-radius:4px; color:#6d28d9; font-size:10pt; }
+</style>
+</head>
+<body>
+
+<!-- ====================== PORTADA ====================== -->
+<div class="portada">
+  <h1>MANUAL DEL USUARIO</h1>
+  <p style="font-size:22pt; color:#7c3aed;"><b>SUPERTECA</b></p>
+  <p>Sistema de Gestión de la Central de Mezclas Hospitalaria</p>
+  <p>&nbsp;</p>
+  <p>&nbsp;</p>
+  <p>Guía sencilla, paso a paso y con ejemplos</p>
+  <p>para todas las pantallas del sistema</p>
+  <p>&nbsp;</p>
+  <p>&nbsp;</p>
+  <p>Versión del manual: 1.0 &nbsp;|&nbsp; Junio de 2026</p>
+</div>
+
+<br clear="all" style="page-break-before:always">
+
+<!-- ====================== INDICE ====================== -->
+<h1>Contenido</h1>
+<ol class="indice">
+  <li>Bienvenida: ¿Qué es Superteca?</li>
+  <li>Cómo ingresar y moverse por el sistema</li>
+  <li>Módulo Maestros (los catálogos)</li>
+  <li>Módulo Inventario</li>
+  <li>Módulo Producción</li>
+  <li>Módulo Dispensación</li>
+  <li>Módulo Calidad</li>
+  <li>Módulo Reportes</li>
+  <li>Usuarios y Roles</li>
+  <li>Preguntas frecuentes</li>
+</ol>
+
+<br clear="all" style="page-break-before:always">
+
+<!-- ====================== 1. BIENVENIDA ====================== -->
+<h1>1. Bienvenida: ¿Qué es Superteca?</h1>
+<p>Superteca es el programa que ayuda al hospital a controlar, de principio a fin, todo lo que tiene que ver con los medicamentos de la Central de Mezclas. Imagine un gran cuaderno digital donde queda anotado:</p>
+<ul>
+  <li><b>Qué medicamentos entran</b> (las compras que llegan del proveedor).</li>
+  <li><b>Dónde están guardados</b> (en qué nevera o estante, en qué lote).</li>
+  <li><b>Cómo se preparan</b> (las mezclas que se hacen para los pacientes).</li>
+  <li><b>A quién se entregan</b> (qué paciente recibió qué medicamento).</li>
+  <li><b>Qué problemas ocurrieron</b> (un daño de nevera, un error, una devolución).</li>
+</ul>
+<p>La gran ventaja es que <b>todo queda conectado</b>. Si mañana necesita saber a qué pacientes les llegó un lote en particular, el sistema se lo dice en segundos.</p>
+
+<div class="tip"><b>En palabras simples:</b> Superteca es la memoria ordenada de la farmacia. Nada se pierde, todo queda registrado y todo se puede consultar.</div>
+
+<h3>Los grandes "cajones" del sistema</h3>
+<p>El menú de la izquierda está organizado en grupos. Piense en ellos como los cajones de un archivador:</p>
+<table>
+<tr><th>Cajón (Módulo)</th><th>¿Para qué sirve?</th></tr>
+<tr><td><b>Maestros</b></td><td>Las listas base: medicamentos, laboratorios, proveedores, presentaciones. Es la información que casi no cambia.</td></tr>
+<tr><td><b>Inventario</b></td><td>Las existencias: lo que entra, lo que sale, los ajustes y los traslados entre bodegas.</td></tr>
+<tr><td><b>Producción</b></td><td>La preparación de medicamentos: fórmulas, mezclas, reempaques y preparaciones.</td></tr>
+<tr><td><b>Dispensación</b></td><td>La entrega al paciente: entregas, fichas de pacientes y validación del farmacéutico.</td></tr>
+<tr><td><b>Calidad</b></td><td>El control de la temperatura (cadena de frío), los controles de calidad y los incidentes.</td></tr>
+<tr><td><b>Reportes</b></td><td>Las consultas y estadísticas: consumos, trazabilidad y registro de actividad.</td></tr>
+</table>
+
+<br clear="all" style="page-break-before:always">
+
+<!-- ====================== 2. INGRESO ====================== -->
+<h1>2. Cómo ingresar y moverse por el sistema</h1>
+
+<h3>2.1 Iniciar sesión</h3>
+<div class="paso"><b>Paso 1.</b> Abra el navegador (Chrome) y escriba la dirección del sistema.</div>
+<div class="paso"><b>Paso 2.</b> Escriba su <b>correo</b> y su <b>contraseña</b>.</div>
+<div class="paso"><b>Paso 3.</b> Haga clic en el botón <b>Ingresar</b>.</div>
+<div class="ejemplo"><b>Ejemplo:</b> Correo: <code>maria.lopez@hospital.gov.co</code> &nbsp; Contraseña: <code>••••••••</code> → clic en Ingresar → aparece el Tablero principal.</div>
+
+<h3>2.2 El Tablero (pantalla de inicio)</h3>
+<p>Apenas entra, ve el <b>Tablero</b> o "Dashboard": un resumen con los datos más importantes del día. Desde aquí puede empezar a navegar usando el menú de la izquierda.</p>
+
+<h3>2.3 Cómo usar el menú</h3>
+<ul>
+  <li>El menú está a la <b>izquierda</b> de la pantalla.</li>
+  <li>Cada grupo (Maestros, Inventario, etc.) se <b>abre y cierra</b> al hacer clic en su nombre.</li>
+  <li>Dentro de cada grupo aparecen las pantallas disponibles.</li>
+  <li>La opción en la que está actualmente se resalta con color.</li>
+</ul>
+
+<h3>2.4 Botones que verá en casi todas las pantallas</h3>
+<table>
+<tr><th>Botón</th><th>¿Qué hace?</th></tr>
+<tr><td><b>+ Crear / Nuevo</b></td><td>Abre un formulario para registrar algo nuevo.</td></tr>
+<tr><td><b>Ver / Detalle (ojo)</b></td><td>Muestra toda la información de un registro.</td></tr>
+<tr><td><b>Editar (lápiz)</b></td><td>Permite corregir datos.</td></tr>
+<tr><td><b>Eliminar / Anular (papelera)</b></td><td>Borra o cancela un registro.</td></tr>
+<tr><td><b>Buscar (lupa)</b></td><td>Filtra la lista para encontrar algo rápido.</td></tr>
+<tr><td><b>Guardar</b></td><td>Confirma y graba la información escrita.</td></tr>
+</table>
+
+<div class="aviso"><b>Importante:</b> Cierre siempre su sesión cuando termine, usando su nombre arriba a la derecha → <b>Cerrar sesión</b>. Así nadie usa el sistema con su usuario.</div>
+
+<br clear="all" style="page-break-before:always">
+
+<!-- ====================== 3. MAESTROS ====================== -->
+<h1>3. Módulo Maestros (los catálogos)</h1>
+<p>Aquí se guardan las <b>listas base</b> que el resto del sistema usa. Por ejemplo, antes de registrar una entrada de medicamentos, ese medicamento ya debe existir en el catálogo. Piense en Maestros como el "diccionario" del sistema.</p>
+
+<h3>3.1 Medicamentos</h3>
+<p><b>¿Para qué sirve?</b> Es la lista de todos los medicamentos que maneja la central.</p>
+<h4>Lo que ve en pantalla</h4>
+<ul>
+  <li>Una tabla con el código, el nombre, la presentación y el laboratorio de cada medicamento.</li>
+  <li>Un buscador arriba para encontrar uno rápido.</li>
+  <li>El botón <b>+ Nuevo medicamento</b>.</li>
+</ul>
+<h4>Cómo registrar un medicamento</h4>
+<div class="paso"><b>Paso 1.</b> Clic en <b>+ Nuevo medicamento</b>.</div>
+<div class="paso"><b>Paso 2.</b> Escriba el nombre (ej. "Vancomicina 500 mg"), elija la forma farmacéutica, la presentación y el laboratorio.</div>
+<div class="paso"><b>Paso 3.</b> Clic en <b>Guardar</b>.</div>
+<div class="ejemplo"><b>Ejemplo:</b> Nombre: Meropenem 1 g — Forma: Polvo para inyección — Presentación: Vial — Laboratorio: Pfizer.</div>
+
+<h3>3.2 Laboratorios</h3>
+<p><b>¿Para qué sirve?</b> Guarda las empresas que fabrican los medicamentos (Pfizer, Baxter, etc.).</p>
+<ul>
+  <li>Tabla con el nombre del laboratorio y sus datos de contacto.</li>
+  <li>Botones para crear, editar y eliminar.</li>
+</ul>
+<div class="ejemplo"><b>Ejemplo:</b> Crear "Laboratorios Baxter" con su NIT y teléfono.</div>
+
+<h3>3.3 Proveedores</h3>
+<p><b>¿Para qué sirve?</b> Son las empresas a las que el hospital <b>les compra</b>. Cada entrada de inventario se asocia a un proveedor.</p>
+<ul>
+  <li>Lista de proveedores con su identificación y contacto.</li>
+  <li>Al hacer clic en <b>Ver</b>, muestra el detalle del proveedor.</li>
+</ul>
+
+<h3>3.4 Presentaciones</h3>
+<p><b>¿Para qué sirve?</b> Define la forma en que viene el medicamento: vial, ampolla, frasco, tableta, etc.</p>
+
+<h3>3.5 Formas Farmacéuticas</h3>
+<p><b>¿Para qué sirve?</b> Indica el estado físico del medicamento: líquido, polvo, crema, tableta.</p>
+
+<h3>3.6 Unidades de Medida</h3>
+<p><b>¿Para qué sirve?</b> Las medidas con las que se cuenta: miligramos (mg), mililitros (ml), unidades, etc.</p>
+
+<h3>3.7 Vías de Administración</h3>
+<p><b>¿Para qué sirve?</b> Cómo se le da el medicamento al paciente: intravenosa, oral, intramuscular, etc.</p>
+
+<div class="tip"><b>Consejo:</b> Llene primero los Maestros. Si más adelante el sistema "no encuentra" un medicamento o un proveedor, casi siempre es porque falta crearlo aquí.</div>
+
+<br clear="all" style="page-break-before:always">
+
+<!-- ====================== 4. INVENTARIO ====================== -->
+<h1>4. Módulo Inventario</h1>
+<p>Este módulo controla <b>cuánto hay, qué entra y qué sale</b>. Todo medicamento se maneja por <b>lotes</b> (un grupo de unidades del mismo medicamento con la misma fecha de vencimiento).</p>
+
+<h3>4.1 Lotes (existencias actuales)</h3>
+<p><b>¿Para qué sirve?</b> Muestra todo lo que hay disponible en este momento.</p>
+<h4>Lo que ve en pantalla</h4>
+<ul>
+  <li>Una tabla con cada lote: medicamento, número de lote, fecha de vencimiento y cantidad disponible.</li>
+  <li>Avisos de colores cuando un lote está por vencer o tiene poca cantidad.</li>
+</ul>
+<div class="ejemplo"><b>Ejemplo:</b> Lote VAN-2026 de Vancomicina, vence 2026-08, quedan 45 unidades.</div>
+
+<h3>4.2 Entradas</h3>
+<p><b>¿Para qué sirve?</b> Registra los medicamentos que <b>llegan</b> del proveedor. Es como recibir un pedido y anotarlo.</p>
+<h4>Cómo registrar una entrada</h4>
+<div class="paso"><b>Paso 1.</b> Entre a <b>Inventario → Entradas</b> y haga clic en <b>+ Crear entrada</b>.</div>
+<div class="paso"><b>Paso 2.</b> Elija el <b>proveedor</b> y escriba el número de factura.</div>
+<div class="paso"><b>Paso 3.</b> Agregue cada medicamento: indique el lote, la fecha de vencimiento, la cantidad y el costo.</div>
+<div class="paso"><b>Paso 4.</b> Clic en <b>Guardar</b>. La entrada queda en estado "borrador".</div>
+<div class="paso"><b>Paso 5.</b> Revise que todo esté bien y haga clic en <b>Confirmar</b>. Solo al confirmar, la cantidad se suma al inventario.</div>
+<div class="aviso"><b>Ojo:</b> Si una entrada quedó mal, puede <b>Anular</b>la. El sistema descuenta lo que había sumado para que las cuentas no queden infladas.</div>
+
+<h3>4.3 Salidas</h3>
+<p><b>¿Para qué sirve?</b> Registra los medicamentos que <b>salen</b> del inventario por razones distintas a la entrega al paciente (por ejemplo, una baja por daño).</p>
+<div class="paso"><b>Paso a paso:</b> Crear salida → elegir los lotes y cantidades → Guardar → Confirmar.</div>
+
+<h3>4.4 Ajustes</h3>
+<p><b>¿Para qué sirve?</b> Sirve para <b>corregir diferencias</b> entre lo que dice el sistema y lo que hay físicamente en el estante (por ejemplo, después de un conteo).</p>
+<ul>
+  <li>Puede ajustar <b>hacia arriba</b> (había más de lo registrado) o <b>hacia abajo</b> (faltaban unidades).</li>
+  <li>Cada ajuste necesita un <b>motivo</b> y debe ser <b>aprobado</b>.</li>
+</ul>
+<div class="ejemplo"><b>Ejemplo:</b> El sistema dice 50 ampollas pero al contar hay 48 → se hace un ajuste de –2 con el motivo "Diferencia de conteo".</div>
+
+<h3>4.5 Traslados</h3>
+<p><b>¿Para qué sirve?</b> Mover medicamentos de una bodega o servicio a otro. El traslado tiene varios pasos para que ambas partes confirmen.</p>
+<table>
+<tr><th>Estado</th><th>Significa</th></tr>
+<tr><td>Creado</td><td>Se solicitó el traslado.</td></tr>
+<tr><td>Aprobado</td><td>Un responsable lo autorizó.</td></tr>
+<tr><td>Despachado</td><td>Salió de la bodega de origen.</td></tr>
+<tr><td>Recibido</td><td>Llegó y se confirmó en el destino.</td></tr>
+</table>
+
+<h3>4.6 Kardex (historial de movimientos)</h3>
+<p><b>¿Para qué sirve?</b> Es el <b>libro de cuentas</b> de cada lote. Muestra, en orden de fecha, cada entrada y salida, con el saldo después de cada movimiento.</p>
+<ul>
+  <li><b>Kardex general:</b> todos los movimientos.</li>
+  <li><b>Kardex por lote:</b> la historia de un lote específico.</li>
+  <li><b>Analítica:</b> gráficos con el comportamiento de los movimientos.</li>
+</ul>
+<div class="tip"><b>Consejo:</b> Si alguien pregunta "¿por qué este lote tiene esta cantidad?", el Kardex se lo explica movimiento por movimiento.</div>
+
+<br clear="all" style="page-break-before:always">
+
+<!-- ====================== 5. PRODUCCION ====================== -->
+<h1>5. Módulo Producción</h1>
+<p>Aquí se <b>preparan</b> los medicamentos. La central no solo entrega cajas: muchas veces hay que mezclar, dosificar o reempacar. Este módulo controla ese trabajo.</p>
+
+<h3>5.1 Fórmulas (recetas maestras)</h3>
+<p><b>¿Para qué sirve?</b> Una fórmula es la <b>receta</b> que dice qué ingredientes y cuánto se necesita para preparar algo. Se crea una vez y se usa muchas veces.</p>
+<ul>
+  <li>Lista de fórmulas registradas.</li>
+  <li>Botón <b>+ Crear fórmula</b> para definir los ingredientes.</li>
+  <li><b>Simulador:</b> permite calcular cuánto se necesita si quiere preparar más o menos cantidad, sin afectar el inventario.</li>
+</ul>
+<div class="ejemplo"><b>Ejemplo:</b> Fórmula "Solución X" = 2 ampollas de A + 1 frasco de B + 100 ml de suero.</div>
+
+<h3>5.2 Mezclas</h3>
+<p><b>¿Para qué sirve?</b> Es el proceso real de <b>fabricar</b> una preparación a partir de una fórmula, consumiendo los lotes del inventario.</p>
+<h4>El recorrido de una mezcla (estados)</h4>
+<table>
+<tr><th>Paso</th><th>Qué ocurre</th></tr>
+<tr><td>Crear</td><td>Se programa la mezcla y se elige la fórmula.</td></tr>
+<tr><td>Iniciar</td><td>Comienza la preparación.</td></tr>
+<tr><td>Registrar consumo</td><td>Se anotan los lotes y cantidades que se usaron (se descuentan del inventario).</td></tr>
+<tr><td>Enviar a control</td><td>Pasa a revisión de calidad.</td></tr>
+<tr><td>Liberar</td><td>Calidad aprueba y queda lista para entregar.</td></tr>
+</table>
+<div class="aviso"><b>Seguridad:</b> Si un lote tiene un incidente y está bloqueado, el sistema <b>no</b> permite usarlo en una mezcla.</div>
+
+<h3>5.3 Reempaques</h3>
+<p><b>¿Para qué sirve?</b> Cambiar la presentación de un medicamento. Por ejemplo, pasar de un frasco grande a dosis individuales más pequeñas.</p>
+<p>Sigue un recorrido parecido al de las mezclas: Crear → Iniciar → Registrar consumo → Enviar a control → Liberar.</p>
+
+<h3>5.4 Preparaciones (Central de Mezclas)</h3>
+<p><b>¿Para qué sirve?</b> Es la preparación dirigida a un <b>paciente específico</b>. Es el corazón de la central de mezclas.</p>
+<table>
+<tr><th>Paso</th><th>Qué ocurre</th></tr>
+<tr><td>Crear</td><td>Se programa la preparación para un paciente.</td></tr>
+<tr><td>Iniciar</td><td>Empieza el trabajo.</td></tr>
+<tr><td>Registrar consumo</td><td>Se descuentan los lotes usados.</td></tr>
+<tr><td>Enviar a control / Liberar</td><td>Calidad revisa y aprueba.</td></tr>
+<tr><td>Entregar</td><td>Se envía al servicio o paciente.</td></tr>
+</table>
+<div class="ejemplo"><b>Ejemplo:</b> Preparación P-2026-15 para el paciente Juan Pérez (UCI): se usan 1 vial de Vancomicina del lote VAN-2026 + 100 ml de suero.</div>
+
+<br clear="all" style="page-break-before:always">
+
+<!-- ====================== 6. DISPENSACION ====================== -->
+<h1>6. Módulo Dispensación</h1>
+<p>Este módulo controla la <b>entrega final</b> del medicamento y la información clínica del paciente.</p>
+
+<h3>6.1 Entregas</h3>
+<p><b>¿Para qué sirve?</b> Registra qué medicamentos y de qué lotes se entregaron, a qué paciente o servicio.</p>
+<h4>El recorrido de una entrega</h4>
+<table>
+<tr><th>Acción</th><th>Significa</th></tr>
+<tr><td>Crear</td><td>Se arma la entrega con los medicamentos y lotes.</td></tr>
+<tr><td>Entregar</td><td>Se confirma la salida hacia el servicio.</td></tr>
+<tr><td>Recibir</td><td>El servicio confirma que recibió.</td></tr>
+<tr><td>Devolver</td><td>Si sobró o hubo error, se registra la devolución.</td></tr>
+<tr><td>Anular</td><td>Cancela la entrega.</td></tr>
+</table>
+<div class="tip"><b>Importante:</b> Como se registra el <b>lote</b> entregado a cada paciente, después se puede saber exactamente quién recibió un lote determinado. Esto es clave para la trazabilidad.</div>
+
+<h3>6.2 Pacientes (ficha clínica farmacéutica)</h3>
+<p><b>¿Para qué sirve?</b> Es la <b>historia</b> de cada paciente dentro de la farmacia. Guarda sus datos, alergias, diagnósticos y prescripciones.</p>
+<h4>Qué puede hacer en la ficha del paciente</h4>
+<ul>
+  <li><b>Registrar alergias:</b> para que el sistema avise si un medicamento puede hacerle daño.</li>
+  <li><b>Registrar diagnósticos:</b> las enfermedades del paciente.</li>
+  <li><b>Registrar prescripciones:</b> los medicamentos ordenados por el médico, con su estado (activa, suspendida, etc.).</li>
+</ul>
+<div class="ejemplo"><b>Ejemplo:</b> En la ficha de Juan Pérez se anota "Alergia a la penicilina". Cuando se le quiera entregar un derivado, el sistema avisa.</div>
+
+<h3>6.3 Validación farmacéutica</h3>
+<p><b>¿Para qué sirve?</b> Es la <b>revisión profesional</b> que hace el químico farmacéutico antes de entregar, para confirmar que la orden es correcta y segura.</p>
+<ul>
+  <li>El sistema muestra <b>alertas</b> (por ejemplo, alergias o dosis altas).</li>
+  <li>El farmacéutico revisa cada alerta y la marca como resuelta.</li>
+  <li>Al final, <b>Aprueba</b> la validación para que pueda continuar.</li>
+</ul>
+
+<br clear="all" style="page-break-before:always">
+
+<!-- ====================== 7. CALIDAD ====================== -->
+<h1>7. Módulo Calidad</h1>
+<p>Este módulo cuida que todo se haga bien y de forma segura. Tiene tres partes: Cadena de Frío, Controles e Incidentes.</p>
+
+<h3>7.1 Cadena de Frío</h3>
+<p><b>¿Para qué sirve?</b> Vigila que las neveras y congeladores mantengan la <b>temperatura correcta</b>. Muchos medicamentos se dañan si se calientan.</p>
+<h4>Pantallas de Cadena de Frío</h4>
+<table>
+<tr><th>Pantalla</th><th>Para qué sirve</th></tr>
+<tr><td><b>Panel principal</b></td><td>Resumen del estado de todos los equipos.</td></tr>
+<tr><td><b>Equipos</b></td><td>Lista de neveras y congeladores, con su rango de temperatura permitido.</td></tr>
+<tr><td><b>Sensores</b></td><td>Los dispositivos que miden la temperatura de cada equipo.</td></tr>
+<tr><td><b>Monitoreo</b></td><td>Registro de las temperaturas leídas a lo largo del día.</td></tr>
+<tr><td><b>Alertas</b></td><td>Avisos cuando la temperatura se sale del rango. Se pueden cerrar cuando se resuelven.</td></tr>
+<tr><td><b>Lotes en equipos</b></td><td>Qué lotes están guardados en cada nevera.</td></tr>
+</table>
+<div class="ejemplo"><b>Ejemplo:</b> La Nevera 2 debe estar entre 2°C y 8°C. Si sube a 12°C, se genera una alerta automática.</div>
+
+<h3>7.2 Controles de Calidad</h3>
+<p><b>¿Para qué sirve?</b> Registra las <b>revisiones</b> que se hacen a los productos para confirmar que cumplen los requisitos.</p>
+<h4>Pantallas de Controles</h4>
+<table>
+<tr><th>Pantalla</th><th>Para qué sirve</th></tr>
+<tr><td><b>Panel</b></td><td>Resumen de los controles realizados.</td></tr>
+<tr><td><b>Bandeja</b></td><td>Lo que está pendiente de revisar.</td></tr>
+<tr><td><b>Crear control</b></td><td>Registrar una nueva revisión.</td></tr>
+<tr><td><b>Parámetros</b></td><td>La lista de cosas que se revisan (color, pH, etiqueta, etc.).</td></tr>
+<tr><td><b>Trazabilidad por lote</b></td><td>Ver todos los controles hechos a un lote.</td></tr>
+<tr><td><b>Acciones y evidencias</b></td><td>Registrar correcciones y adjuntar fotos o documentos.</td></tr>
+</table>
+
+<h3>7.3 Incidentes</h3>
+<p><b>¿Para qué sirve?</b> Registra <b>cualquier problema</b> que afecte la calidad, la seguridad del paciente o el inventario, y permite hacerle seguimiento hasta resolverlo.</p>
+<h4>¿Qué se considera un incidente?</h4>
+<ul>
+  <li>Un lote vencido encontrado en el estante.</li>
+  <li>Una nevera que falló y subió de temperatura.</li>
+  <li>Un error en una preparación o en una entrega.</li>
+  <li>Un hallazgo de auditoría.</li>
+</ul>
+<h4>Pantallas de Incidentes</h4>
+<table>
+<tr><th>Pantalla</th><th>Para qué sirve</th></tr>
+<tr><td><b>Panel / Bandeja</b></td><td>Ver los incidentes y en qué estado están (Abierto, En investigación, Acción correctiva, Cerrado).</td></tr>
+<tr><td><b>Crear incidente</b></td><td>Registrar un problema: tipo, gravedad y descripción.</td></tr>
+<tr><td><b>Detalle del incidente</b></td><td>Documentar la causa, el impacto y la conclusión.</td></tr>
+<tr><td><b>Acciones (CAPA)</b></td><td>Anotar las correcciones y medidas para que no vuelva a pasar.</td></tr>
+<tr><td><b>Evidencias y seguimiento</b></td><td>Adjuntar documentos y dejar comentarios del avance.</td></tr>
+<tr><td><b>Bloquear lote</b></td><td>Congelar un lote afectado para que NO se pueda usar ni entregar.</td></tr>
+</table>
+<div class="aviso"><b>Función clave:</b> Cuando un incidente bloquea un lote, ese lote queda <b>congelado</b> automáticamente en todo el sistema. No se podrá usar en mezclas ni entregar a pacientes hasta que se libere.</div>
+<div class="ejemplo"><b>Ejemplo:</b> La Nevera 2 estuvo a 18°C por 6 horas → se crea un incidente → se bloquean los lotes VAN-2026 y MER-2026 → nadie puede usarlos hasta investigar.</div>
+
+<br clear="all" style="page-break-before:always">
+
+<!-- ====================== 8. REPORTES ====================== -->
+<h1>8. Módulo Reportes</h1>
+<p>Aquí <b>no se registra</b> información nueva: se <b>consulta</b> y se analiza la que ya existe. Es el módulo para gerencia, auditoría y toma de decisiones.</p>
+
+<!-- 8.1 REGISTROS -->
+<h3>8.1 Registro de Actividad</h3>
+<p><b>¿Para qué sirve?</b> Es el "quién hizo qué y cuándo" del sistema. Muestra cada acción importante realizada por los usuarios.</p>
+<ul>
+  <li>Lista con la fecha, el usuario y la acción realizada.</li>
+  <li>Al hacer clic en un registro, se ve el detalle completo.</li>
+</ul>
+<div class="ejemplo"><b>Ejemplo:</b> "12/05/2026 09:14 — María López confirmó la entrada E-2026-045".</div>
+<div class="tip">Esta pantalla normalmente solo la ve el administrador del sistema.</div>
+
+<!-- 8.2 CONSUMOS -->
+<h3>8.2 Reporte de Consumos (Insumos)</h3>
+<p><b>¿Para qué sirve?</b> Muestra <b>cuánto se ha gastado</b> de cada medicamento, cuánto cuesta y a dónde fue. Es como el informe del gasto de la farmacia.</p>
+<h4>Lo que ve en pantalla</h4>
+<ul>
+  <li><b>Indicadores (KPIs) arriba:</b> consumo total en dinero, cantidad de medicamentos consumidos, pacientes atendidos, lotes consumidos.</li>
+  <li><b>Gráfico de líneas:</b> el consumo mes a mes, para ver tendencias.</li>
+  <li><b>Barras horizontales:</b> los medicamentos más consumidos (Top 20).</li>
+  <li><b>Dona:</b> el consumo repartido por servicio (UCI, Urgencias, Cirugía...).</li>
+  <li><b>Tablas detalladas:</b> por medicamento, por laboratorio, por proveedor.</li>
+</ul>
+<h4>Filtros disponibles</h4>
+<p>En la parte superior puede filtrar por: fecha inicial y final, medicamento, servicio, laboratorio y proveedor. Así obtiene exactamente el informe que necesita.</p>
+<h4>Exportar</h4>
+<p>Use el botón <b>Exportar</b> para descargar el reporte y abrirlo en Excel.</p>
+<div class="ejemplo"><b>Ejemplo de uso:</b> "Quiero saber cuánto gastó la UCI en Vancomicina en mayo" → elijo el servicio UCI, el medicamento Vancomicina y las fechas de mayo → el sistema muestra la cantidad y el costo.</div>
+
+<!-- 8.3 TRAZABILIDAD -->
+<h3>8.3 Trazabilidad 360°</h3>
+<p><b>¿Para qué sirve?</b> Es el reporte <b>estrella</b>. Permite reconstruir la historia completa de cualquier lote, paciente o preparación en segundos: de dónde vino, cómo se usó y a quién llegó.</p>
+
+<h4>8.3.1 El Tablero de Trazabilidad</h4>
+<p>Al entrar verá el "Centro de Trazabilidad 360°" con:</p>
+<ul>
+  <li><b>Buscador universal:</b> una sola casilla donde puede escribir un número de lote, un documento de paciente o un código de preparación, y el sistema lo lleva a su historia.</li>
+  <li><b>Indicadores (KPIs):</b> lotes activos, pacientes impactados, mezclas, preparaciones, incidentes y alertas de frío.</li>
+  <li><b>Flujo del medicamento:</b> un esquema visual Inventario → Producción → Dispensación → Pacientes.</li>
+  <li><b>Top medicamentos más trazados</b> (barras).</li>
+  <li><b>Línea de tiempo</b> de movimientos de los últimos 30 días.</li>
+  <li><b>Dona de distribución</b> y <b>mapa de calor por servicio</b>.</li>
+  <li><b>Tabla de lotes con mayor impacto</b>, con enlaces a su historia.</li>
+</ul>
+
+<h4>8.3.2 Cómo buscar la historia de un lote</h4>
+<div class="paso"><b>Paso 1.</b> Escriba el número del lote en el buscador (ej. <code>VAN-2026</code>).</div>
+<div class="paso"><b>Paso 2.</b> El sistema abre la <b>Trazabilidad del lote</b>: de qué proveedor vino, cuándo entró, en qué mezclas y preparaciones se usó, a qué pacientes llegó y cuánto queda.</div>
+<div class="ejemplo"><b>Ejemplo:</b> Busco VAN-2026 y veo: Proveedor Baxter, ingresó 10/01/2026, usado en 25 mezclas y 120 preparaciones, llegó a 98 pacientes, quedan 45 unidades.</div>
+
+<h4>8.3.3 Historia de un paciente</h4>
+<p>Si abre la <b>Trazabilidad del paciente</b>, ve qué lotes y preparaciones recibió, con sus fechas. Responde la pregunta: "¿qué medicamentos recibió esta persona?".</p>
+
+<h4>8.3.4 Impacto de un incidente</h4>
+<p>La <b>Trazabilidad del incidente</b> muestra todo lo que un problema afectó: lotes, mezclas, preparaciones, entregas y pacientes. Ideal para medir el alcance de una falla.</p>
+
+<h4>8.3.5 Cadena de frío (equipo)</h4>
+<p>La <b>Trazabilidad del equipo</b> muestra los lotes que estuvieron en una nevera y los pacientes que podrían verse afectados si esa nevera falló.</p>
+
+<h4>8.3.6 Producción (mezcla, preparación, reempaque)</h4>
+<p>Al abrir la trazabilidad de una mezcla, preparación o reempaque, ve los <b>lotes que se consumieron</b>, las cantidades y el costo, con enlaces a la historia de cada lote.</p>
+
+<h4>8.3.7 Recall INVIMA (retiro de producto)</h4>
+<p><b>¿Para qué sirve?</b> Es una herramienta de emergencia. Si una autoridad ordena <b>retirar un lote</b> del mercado, esta pantalla muestra en segundos:</p>
+<ul>
+  <li>Qué pacientes recibieron ese lote.</li>
+  <li>Qué preparaciones y entregas se hicieron con él.</li>
+  <li>Cuánto queda en existencia y dónde está.</li>
+</ul>
+<div class="aviso"><b>Por qué es tan importante:</b> En una emergencia sanitaria, encontrar a los pacientes afectados rápido puede salvar vidas. Lo que antes tomaba días, aquí toma segundos.</div>
+
+<br clear="all" style="page-break-before:always">
+
+<!-- ====================== 9. USUARIOS ====================== -->
+<h1>9. Usuarios y Roles</h1>
+<p>Esta sección normalmente la maneja el <b>administrador</b>. Sirve para controlar quién entra al sistema y qué puede hacer.</p>
+
+<h3>9.1 Usuarios</h3>
+<ul>
+  <li>Lista de las personas que pueden ingresar.</li>
+  <li>Permite <b>crear</b> un usuario nuevo, <b>editar</b> sus datos o <b>eliminarlo</b>.</li>
+  <li>A cada usuario se le asigna un <b>rol</b>.</li>
+</ul>
+
+<h3>9.2 Roles</h3>
+<p>Un rol es un <b>grupo de permisos</b>. En vez de configurar permiso por permiso a cada persona, se crea un rol (por ejemplo, "Auxiliar de farmacia") y se le asignan permisos. Luego ese rol se da a las personas.</p>
+<div class="ejemplo"><b>Ejemplo:</b> El rol "Químico farmacéutico" puede validar y liberar; el rol "Auxiliar" solo puede registrar entradas y salidas.</div>
+
+<h3>9.3 Mi perfil</h3>
+<p>Cada usuario puede, desde su nombre arriba a la derecha, <b>cambiar su contraseña</b> y actualizar sus datos personales.</p>
+
+<br clear="all" style="page-break-before:always">
+
+<!-- ====================== 10. FAQ ====================== -->
+<h1>10. Preguntas frecuentes</h1>
+
+<h4>No encuentro un medicamento al registrar una entrada</h4>
+<p>Primero debe crearlo en <b>Maestros → Medicamentos</b>. Si no existe en el catálogo, no aparecerá en las listas.</p>
+
+<h4>Registré una entrada pero el inventario no subió</h4>
+<p>Probablemente la entrada quedó en "borrador". Debe abrirla y hacer clic en <b>Confirmar</b>. Solo al confirmar se suma al inventario.</p>
+
+<h4>El sistema no me deja usar un lote en una mezcla</h4>
+<p>Ese lote puede estar <b>bloqueado por un incidente</b>. Revise el módulo Calidad → Incidentes. Hasta que no se libere, no se puede usar.</p>
+
+<h4>¿Cómo sé a qué pacientes les llegó un lote?</h4>
+<p>Vaya a <b>Reportes → Trazabilidad</b>, escriba el número del lote en el buscador y revise la sección de pacientes. Para emergencias, use <b>Recall INVIMA</b>.</p>
+
+<h4>Me equivoqué en una cantidad del inventario</h4>
+<p>Use <b>Inventario → Ajustes</b> para corregir la diferencia, indicando el motivo. El ajuste debe ser aprobado.</p>
+
+<h4>¿Quién puede ver el registro de actividad?</h4>
+<p>Generalmente solo el administrador. Allí queda anotado todo lo que hace cada usuario.</p>
+
+<hr>
+<p style="text-align:center; color:#6b7280; font-size:10pt;">Manual del Usuario — Superteca · Central de Mezclas Hospitalaria · Versión 1.0 · Junio de 2026</p>
+
+</body>
+</html>
