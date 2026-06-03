@@ -192,6 +192,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/admin/reportes/registros', [\App\Http\Controllers\Admin\ActivityLogController::class, 'index'])->name('admin.reportes.registros');
     Route::get('/admin/reportes/registros/{log}', [\App\Http\Controllers\Admin\ActivityLogController::class, 'show'])->name('admin.reportes.registros.show');
 
+    // Reportes - Insumos / Consumos (Data Mart de consulta)
+    Route::get('/admin/reportes/insumos',          [\App\Http\Controllers\Admin\ReporteInsumosController::class, 'index'])->name('admin.reportes.insumos');
+    Route::get('/admin/reportes/insumos/exportar', [\App\Http\Controllers\Admin\ReporteInsumosController::class, 'exportar'])->name('admin.reportes.insumos.exportar');
+
     // Dispensación - Entregas
     Route::get   ('/admin/dispensacion/entregas',                   [\App\Http\Controllers\Admin\DispensacionEntregaController::class, 'index'])->name('admin.dispensacion.entregas.index');
     Route::get   ('/admin/dispensacion/entregas/crear',             [\App\Http\Controllers\Admin\DispensacionEntregaController::class, 'create'])->name('admin.dispensacion.entregas.create');

@@ -194,8 +194,19 @@
                                 </svg>
                                 Registros
                             </a>
+                            <a href="{{ route('admin.reportes.insumos') }}" class="{{ request()->routeIs('admin.reportes.insumos*') ? 'active' : '' }}">
+                                <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="16" height="16">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M3 3v18h18M7 14l4-4 4 4 5-7"/>
+                                </svg>
+                                Insumos
+                            </a>
                         @else
-                            <span style="display:block; padding:10px 14px; color:#94a3b8; font-size:.82rem; font-style:italic;">Sin reportes disponibles</span>
+                            <a href="{{ route('admin.reportes.insumos') }}" class="{{ request()->routeIs('admin.reportes.insumos*') ? 'active' : '' }}">
+                                <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="16" height="16">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M3 3v18h18M7 14l4-4 4 4 5-7"/>
+                                </svg>
+                                Insumos
+                            </a>
                         @endif
                     </div>
                 </div>
