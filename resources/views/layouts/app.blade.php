@@ -393,6 +393,30 @@
                     </div>
                 </div>
 
+                {{-- Calidad --}}
+                <div class="nav-group">
+                    <button class="nav-group-btn {{ request()->routeIs('admin.calidad.*') ? 'active' : '' }}"
+                            onclick="toggleGroup('groupCalidad')" id="btnGroupCalidad">
+                        <span style="display:flex;align-items:center;gap:12px;">
+                            <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="20" height="20">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"/>
+                            </svg>
+                            Calidad
+                        </span>
+                        <svg class="chevron" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" width="14" height="14">
+                            <path stroke-linecap="round" d="M9 5l7 7-7 7"/>
+                        </svg>
+                    </button>
+                    <div class="nav-sub" id="groupCalidad">
+                        <a href="{{ route('admin.calidad.cadena-frio.index') }}" class="{{ request()->routeIs('admin.calidad.cadena-frio.*') ? 'active' : '' }}">
+                            <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="16" height="16">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v18m-9-9h18M5.6 5.6l12.8 12.8M18.4 5.6L5.6 18.4"/>
+                            </svg>
+                            Cadena de Frío
+                        </a>
+                    </div>
+                </div>
+
                 {{-- Configuración con submenú --}}
                 <div class="nav-group">
                     <button class="nav-group-btn {{ request()->routeIs('admin.*') ? 'active' : '' }}"

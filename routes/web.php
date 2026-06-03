@@ -227,6 +227,39 @@ Route::middleware('auth')->group(function () {
     Route::patch ('/admin/dispensacion/validaciones/{validacion}/alertas/{alerta}', [\App\Http\Controllers\Admin\ValidacionController::class, 'resolverAlerta'])->name('admin.dispensacion.validaciones.alertas.toggle');
     Route::delete('/admin/dispensacion/validaciones/{validacion}',    [\App\Http\Controllers\Admin\ValidacionController::class, 'destroy'])->name('admin.dispensacion.validaciones.destroy');
 
+    // ===================== CALIDAD - CADENA DE FRÍO =====================
+    Route::prefix('admin/calidad/cadena-frio')->name('admin.calidad.cadena-frio.')->group(function () {
+        $c = \App\Http\Controllers\Admin\CadenaFrioController::class;
+
+        Route::get('/',                    [$c, 'index'])->name('index');
+
+        // Equipos
+        Route::get('/equipos',                          [$c, 'equiposIndex'])->name('equipos.index');
+        Route::post('/equipos',                         [$c, 'equiposStore'])->name('equipos.store');
+        Route::get('/equipos/{equipo}',                 [$c, 'equiposShow'])->name('equipos.show');
+        Route::put('/equipos/{equipo}',                 [$c, 'equiposUpdate'])->name('equipos.update');
+        Route::delete('/equipos/{equipo}',              [$c, 'equiposDestroy'])->name('equipos.destroy');
+
+        // Sensores
+        Route::post('/equipos/{equipo}/sensores',       [$c, 'sensoresStore'])->name('sensores.store');
+        Route::delete('/sensores/{sensor}',             [$c, 'sensoresDestroy'])->name('sensores.destroy');
+
+        // Monitoreo
+        Route::get('/monitoreo',                        [$c, 'monitoreoIndex'])->name('monitoreo.index');
+        Route::post('/monitoreo',                       [$c, 'monitoreoStore'])->name('monitoreo.store');
+
+        // Alertas
+        Route::get('/alertas',                          [$c, 'alertasIndex'])->name('alertas.index');
+        Route::get('/alertas/{alerta}',                 [$c, 'alertasShow'])->name('alertas.show');
+        Route::post('/alertas/{alerta}/cerrar',         [$c, 'alertasCerrar'])->name('alertas.cerrar');
+        Route::patch('/afectaciones/{afectacion}',      [$c, 'afectacionUpdate'])->name('afectaciones.update');
+
+        // Lotes en equipos
+        Route::get('/lotes',                            [$c, 'lotesIndex'])->name('lotes.index');
+        Route::post('/lotes',                           [$c, 'lotesStore'])->name('lotes.store');
+        Route::post('/lotes/{lote}/salida',             [$c, 'lotesSalida'])->name('lotes.salida');
+    });
+
     // Gestión de roles
     Route::get('/admin/roles', [RoleController::class, 'index'])->name('admin.roles.index');
     Route::post('/admin/roles', [RoleController::class, 'store'])->name('admin.roles.store');
