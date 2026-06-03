@@ -292,6 +292,32 @@ Route::middleware('auth')->group(function () {
         Route::post('/{control}/evidencias',   [$c, 'evidenciaStore'])->name('evidencias.store');
     });
 
+    // ===================== CALIDAD - INCIDENTES =====================
+    Route::prefix('admin/calidad/incidentes')->name('admin.calidad.incidentes.')->group(function () {
+        $c = \App\Http\Controllers\Admin\IncidenteController::class;
+
+        Route::get('/',          [$c, 'index'])->name('index');
+        Route::get('/bandeja',   [$c, 'bandeja'])->name('bandeja');
+        Route::get('/crear',     [$c, 'create'])->name('create');
+        Route::post('/',         [$c, 'store'])->name('store');
+
+        // Acciones (kanban CAPA) - antes de {incidente}
+        Route::patch('/acciones/{accion}', [$c, 'accionUpdate'])->name('acciones.update');
+
+        // Evidencias - antes de {incidente}
+        Route::delete('/evidencias/{evidencia}', [$c, 'evidenciaDestroy'])->name('evidencias.destroy');
+
+        // Detalle y operaciones sobre el incidente
+        Route::get('/{incidente}',                    [$c, 'show'])->name('show');
+        Route::patch('/{incidente}/estado',           [$c, 'actualizarEstado'])->name('estado');
+        Route::patch('/{incidente}/detalle',          [$c, 'detalleUpdate'])->name('detalle');
+        Route::post('/{incidente}/acciones',          [$c, 'accionStore'])->name('acciones.store');
+        Route::post('/{incidente}/evidencias',        [$c, 'evidenciaStore'])->name('evidencias.store');
+        Route::post('/{incidente}/seguimiento',       [$c, 'seguimientoStore'])->name('seguimiento');
+        Route::post('/{incidente}/bloquear-lote',     [$c, 'bloquearLote'])->name('bloquearLote');
+        Route::delete('/{incidente}',                 [$c, 'destroy'])->name('destroy');
+    });
+
     // Gestión de roles
     Route::get('/admin/roles', [RoleController::class, 'index'])->name('admin.roles.index');
     Route::post('/admin/roles', [RoleController::class, 'store'])->name('admin.roles.store');
