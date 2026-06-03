@@ -523,6 +523,165 @@
             </main>
         </div>
 
+        {{-- ===================== MODAL DE CONFIRMACIÓN GLOBAL ===================== --}}
+        <div id="appConfirmOverlay" class="app-confirm-overlay" aria-hidden="true">
+            <div class="app-confirm-box" role="dialog" aria-modal="true" aria-labelledby="appConfirmTitle">
+                <div class="app-confirm-icon" id="appConfirmIcon">
+                    <svg viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+                        <line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>
+                    </svg>
+                </div>
+                <h3 class="app-confirm-title" id="appConfirmTitle">Confirmar acción</h3>
+                <p class="app-confirm-message" id="appConfirmMessage"></p>
+                <div class="app-confirm-actions">
+                    <button type="button" class="app-confirm-btn app-confirm-cancel" id="appConfirmCancel">Cancelar</button>
+                    <button type="button" class="app-confirm-btn app-confirm-ok" id="appConfirmOk">Aceptar</button>
+                </div>
+            </div>
+        </div>
+
+        <style>
+            .app-confirm-overlay{
+                position:fixed; inset:0; background:rgba(15,23,42,.55); backdrop-filter:blur(2px);
+                display:none; align-items:center; justify-content:center; z-index:9999;
+                opacity:0; transition:opacity .15s ease;
+            }
+            .app-confirm-overlay.show{ display:flex; opacity:1; }
+            .app-confirm-box{
+                background:#fff; width:100%; max-width:420px; margin:1rem; border-radius:16px;
+                padding:1.6rem 1.6rem 1.3rem; box-shadow:0 20px 50px rgba(0,0,0,.3);
+                text-align:center; transform:translateY(8px) scale(.98); transition:transform .18s ease;
+                font-family:'Figtree', sans-serif;
+            }
+            .app-confirm-overlay.show .app-confirm-box{ transform:translateY(0) scale(1); }
+            .app-confirm-icon{
+                width:58px; height:58px; border-radius:50%; margin:0 auto .9rem;
+                display:flex; align-items:center; justify-content:center;
+                background:#eef0f7; color:var(--institucional);
+            }
+            .app-confirm-box.danger .app-confirm-icon{ background:#fee2e2; color:#dc2626; }
+            .app-confirm-title{ margin:0 0 .4rem; font-size:1.18rem; font-weight:700; color:#0f172a; }
+            .app-confirm-message{ margin:0 0 1.4rem; font-size:.95rem; color:#475569; line-height:1.5; }
+            .app-confirm-actions{ display:flex; gap:.6rem; justify-content:center; }
+            .app-confirm-btn{
+                flex:1; max-width:160px; padding:.65rem 1rem; border-radius:10px; font-size:.92rem;
+                font-weight:600; cursor:pointer; border:0; transition:.15s; font-family:inherit;
+            }
+            .app-confirm-cancel{ background:#eef0f7; color:#334155; }
+            .app-confirm-cancel:hover{ background:#e2e6f1; }
+            .app-confirm-ok{ background:var(--institucional); color:#fff; }
+            .app-confirm-ok:hover{ background:var(--institucional-hover); }
+            .app-confirm-box.danger .app-confirm-ok{ background:#dc2626; }
+            .app-confirm-box.danger .app-confirm-ok:hover{ background:#b91c1c; }
+        </style>
+
+        <script>
+            /* ============ Sistema global de confirmación con estilo del aplicativo ============ */
+            (function () {
+                const overlay = document.getElementById('appConfirmOverlay');
+                const box     = overlay.querySelector('.app-confirm-box');
+                const titleEl = document.getElementById('appConfirmTitle');
+                const msgEl   = document.getElementById('appConfirmMessage');
+                const okBtn   = document.getElementById('appConfirmOk');
+                const cancelBtn = document.getElementById('appConfirmCancel');
+                let resolver = null;
+
+                function close(result) {
+                    overlay.classList.remove('show');
+                    overlay.setAttribute('aria-hidden', 'true');
+                    const r = resolver; resolver = null;
+                    if (r) r(result);
+                }
+
+                function looksDestructive(text) {
+                    return /elimin|anular|cancelar|rechaz|baja|borrar|revertir|destru/i.test(text || '');
+                }
+
+                // API pública: window.appConfirm(mensaje[, {titulo, okText, cancelText}]) -> Promise<bool>
+                window.appConfirm = function (message, opts) {
+                    opts = opts || {};
+                    msgEl.textContent = message || '¿Desea continuar con esta acción?';
+                    const destructive = looksDestructive(message);
+                    box.classList.toggle('danger', destructive);
+                    titleEl.textContent = opts.titulo || (destructive ? 'Confirmar acción' : 'Confirmar');
+                    okBtn.textContent = opts.okText || 'Aceptar';
+                    cancelBtn.textContent = opts.cancelText || 'Cancelar';
+                    overlay.classList.add('show');
+                    overlay.setAttribute('aria-hidden', 'false');
+                    okBtn.focus();
+                    return new Promise(function (resolve) { resolver = resolve; });
+                };
+
+                okBtn.addEventListener('click', function () { close(true); });
+                cancelBtn.addEventListener('click', function () { close(false); });
+                overlay.addEventListener('click', function (e) { if (e.target === overlay) close(false); });
+                document.addEventListener('keydown', function (e) {
+                    if (!overlay.classList.contains('show')) return;
+                    if (e.key === 'Escape') close(false);
+                    if (e.key === 'Enter') { e.preventDefault(); close(true); }
+                });
+
+                // Extrae el mensaje de un atributo inline: ...confirm('mensaje')...
+                function extractMessage(attr) {
+                    const m = attr.match(/confirm\(\s*(['"`])([\s\S]*?)\1\s*\)/);
+                    if (!m) return '¿Desea continuar con esta acción?';
+                    return m[2].replace(/\\(['"`])/g, '$1').replace(/\\n/g, ' ');
+                }
+
+                // Convierte los confirm() inline en atributos data-confirm para interceptarlos
+                function scan(root) {
+                    (root || document).querySelectorAll('form[onsubmit]').forEach(function (f) {
+                        const a = f.getAttribute('onsubmit');
+                        if (a && a.indexOf('confirm(') !== -1) {
+                            f.dataset.confirmMessage = extractMessage(a);
+                            f.removeAttribute('onsubmit');
+                            f.onsubmit = null;
+                        }
+                    });
+                    (root || document).querySelectorAll('[onclick]').forEach(function (el) {
+                        const a = el.getAttribute('onclick');
+                        if (a && a.indexOf('confirm(') !== -1) {
+                            el.dataset.confirmMessage = extractMessage(a);
+                            el.removeAttribute('onclick');
+                            el.onclick = null;
+                        }
+                    });
+                }
+
+                document.addEventListener('DOMContentLoaded', function () { scan(document); });
+
+                // Intercepta el envío de formularios con confirmación
+                document.addEventListener('submit', function (e) {
+                    const form = e.target;
+                    if (!form.matches || !form.matches('form[data-confirm-message]')) return;
+                    if (form.__confirmed) { form.__confirmed = false; return; }
+                    e.preventDefault();
+                    appConfirm(form.dataset.confirmMessage).then(function (ok) {
+                        if (ok) { form.__confirmed = true; form.requestSubmit ? form.requestSubmit() : form.submit(); }
+                    });
+                }, true);
+
+                // Intercepta clics en botones/enlaces con confirmación
+                document.addEventListener('click', function (e) {
+                    const el = e.target.closest && e.target.closest('[data-confirm-message]');
+                    if (!el || el.tagName === 'FORM') return;
+                    e.preventDefault();
+                    e.stopPropagation();
+                    const form = el.closest('form');
+                    appConfirm(el.dataset.confirmMessage).then(function (ok) {
+                        if (!ok) return;
+                        if (form) {
+                            if (form.requestSubmit && el.tagName === 'BUTTON') { form.requestSubmit(el); }
+                            else { form.submit(); }
+                        } else if (el.tagName === 'A' && el.href) {
+                            window.location.href = el.href;
+                        }
+                    });
+                }, true);
+            })();
+        </script>
+
         <script>
             document.addEventListener('click', function (e) {
                 const menu = document.querySelector('.user-menu');

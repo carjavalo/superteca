@@ -459,9 +459,9 @@
         }
 
         function deletePresentacion() {
-            if(confirm('¿Está seguro de eliminar de forma permanente esta presentación?')) {
-                document.getElementById('form-delete').submit();
-            }
+            appConfirm('¿Está seguro de eliminar de forma permanente esta presentación?').then(function (ok) {
+                if (ok) document.getElementById('form-delete').submit();
+            });
         }
     </script>
 </x-app-layout>

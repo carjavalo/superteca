@@ -521,9 +521,9 @@
         }
 
         function deleteLaboratorio() {
-            if(confirm('¿Está seguro de eliminar o dar de baja este laboratorio del catálogo? Esta acción no se puede deshacer.')) {
-                document.getElementById('form-delete').submit();
-            }
+            appConfirm('¿Está seguro de eliminar o dar de baja este laboratorio del catálogo? Esta acción no se puede deshacer.').then(function (ok) {
+                if (ok) document.getElementById('form-delete').submit();
+            });
         }
     </script>
 </x-app-layout>
