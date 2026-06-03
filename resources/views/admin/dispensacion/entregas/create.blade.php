@@ -118,20 +118,34 @@
     </div>
 </form>
 
+@php
+    $lotesData = $lotes->map(function($l) {
+        return [
+            'id'=>$l->id,
+            'medicamento_id'=>$l->medicamento_id,
+            'medicamento'=>$l->medicamento?->nombre,
+            'lote'=>$l->lote,
+            'fv'=>$l->fecha_vencimiento?->format('Y-m-d'),
+            'stock'=>(float)$l->cantidad_actual,
+            'cu'=>(float)($l->costo_unitario ?? 0),
+            'presentacion_id'=>$l->presentacion_id,
+            'unidad_medida_id'=>$l->unidad_medida_id ?? null,
+        ];
+    })->values()->all();
+
+    $medsData = $medicamentos->map(function($m) {
+        return ['id'=>$m->id,'nombre'=>$m->nombre];
+    })->values()->all();
+
+    $unsData = $unidades->map(function($u) {
+        return ['id'=>$u->id,'nombre'=>$u->nombre];
+    })->values()->all();
+@endphp
+
 <script>
-    const lotes = @json($lotes->map(fn($l)=>[
-        'id'=>$l->id,
-        'medicamento_id'=>$l->medicamento_id,
-        'medicamento'=>$l->medicamento?->nombre,
-        'lote'=>$l->lote,
-        'fv'=>$l->fecha_vencimiento?->format('Y-m-d'),
-        'stock'=>(float)$l->cantidad_actual,
-        'cu'=>(float)($l->costo_unitario ?? 0),
-        'presentacion_id'=>$l->presentacion_id,
-        'unidad_medida_id'=>$l->unidad_medida_id ?? null,
-    ]));
-    const medicamentos = @json($medicamentos->map(fn($m)=>['id'=>$m->id,'nombre'=>$m->nombre]));
-    const unidades = @json($unidades->map(fn($u)=>['id'=>$u->id,'nombre'=>$u->nombre]));
+    const lotes = @json($lotesData);
+    const medicamentos = @json($medsData);
+    const unidades = @json($unsData);
 
     let counter = 0;
 
