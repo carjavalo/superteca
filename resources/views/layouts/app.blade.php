@@ -460,7 +460,7 @@
                     <button class="user-menu-button" onclick="document.getElementById('userDropdown').classList.toggle('show')">
                         <span class="user-name">{{ Auth::user()->name }} {{ Auth::user()->apellido1 }}</span>
                         <span class="user-avatar">
-                            @if(Auth::user()->profile_image)
+                            @if(Auth::user()->profile_image && \Illuminate\Support\Facades\Storage::disk('public')->exists(Auth::user()->profile_image))
                                 <img src="{{ asset('storage/'.Auth::user()->profile_image) }}" alt="avatar">
                             @else
                                 {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}

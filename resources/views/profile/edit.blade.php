@@ -22,7 +22,7 @@
                 {{-- Avatar --}}
                 <div style="display:flex; align-items:center; gap:18px; margin-bottom:22px;">
                     <div style="width:88px; height:88px; border-radius:50%; overflow:hidden; background:#2e3a75; color:#fff; display:flex; align-items:center; justify-content:center; font-size:2rem; font-weight:700; border:3px solid #2e3a75; flex-shrink:0;">
-                        @if(Auth::user()->profile_image)
+                        @if(Auth::user()->profile_image && \Illuminate\Support\Facades\Storage::disk('public')->exists(Auth::user()->profile_image))
                             <img src="{{ asset('storage/'.Auth::user()->profile_image) }}" alt="avatar" style="width:100%; height:100%; object-fit:cover;">
                         @else
                             {{ strtoupper(substr(Auth::user()->name,0,1)) }}
