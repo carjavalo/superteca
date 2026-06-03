@@ -198,14 +198,14 @@
                                 <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="16" height="16">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M3 3v18h18M7 14l4-4 4 4 5-7"/>
                                 </svg>
-                                Insumos
+                                Consumos
                             </a>
                         @else
                             <a href="{{ route('admin.reportes.insumos') }}" class="{{ request()->routeIs('admin.reportes.insumos*') ? 'active' : '' }}">
                                 <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="16" height="16">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M3 3v18h18M7 14l4-4 4 4 5-7"/>
                                 </svg>
-                                Insumos
+                                Consumos
                             </a>
                         @endif
                     </div>
