@@ -196,6 +196,19 @@ Route::middleware('auth')->group(function () {
     Route::get('/admin/reportes/insumos',          [\App\Http\Controllers\Admin\ReporteInsumosController::class, 'index'])->name('admin.reportes.insumos');
     Route::get('/admin/reportes/insumos/exportar', [\App\Http\Controllers\Admin\ReporteInsumosController::class, 'exportar'])->name('admin.reportes.insumos.exportar');
 
+    // Reportes - Trazabilidad 360°
+    Route::get('/admin/reportes/trazabilidad',                          [\App\Http\Controllers\Admin\TrazabilidadController::class, 'index'])->name('admin.reportes.trazabilidad');
+    Route::get('/admin/reportes/trazabilidad/buscar',                   [\App\Http\Controllers\Admin\TrazabilidadController::class, 'buscar'])->name('admin.reportes.trazabilidad.buscar');
+    Route::get('/admin/reportes/trazabilidad/autocomplete',             [\App\Http\Controllers\Admin\TrazabilidadController::class, 'autocomplete'])->name('admin.reportes.trazabilidad.autocomplete');
+    Route::get('/admin/reportes/trazabilidad/recall',                   [\App\Http\Controllers\Admin\TrazabilidadController::class, 'recall'])->name('admin.reportes.trazabilidad.recall');
+    Route::get('/admin/reportes/trazabilidad/lote/{id}',                [\App\Http\Controllers\Admin\TrazabilidadController::class, 'lote'])->name('admin.reportes.trazabilidad.lote');
+    Route::get('/admin/reportes/trazabilidad/paciente/{id}',            [\App\Http\Controllers\Admin\TrazabilidadController::class, 'paciente'])->name('admin.reportes.trazabilidad.paciente');
+    Route::get('/admin/reportes/trazabilidad/incidente/{id}',           [\App\Http\Controllers\Admin\TrazabilidadController::class, 'incidente'])->name('admin.reportes.trazabilidad.incidente');
+    Route::get('/admin/reportes/trazabilidad/equipo/{id}',              [\App\Http\Controllers\Admin\TrazabilidadController::class, 'equipo'])->name('admin.reportes.trazabilidad.equipo');
+    Route::get('/admin/reportes/trazabilidad/preparacion/{id}',         [\App\Http\Controllers\Admin\TrazabilidadController::class, 'preparacion'])->name('admin.reportes.trazabilidad.preparacion');
+    Route::get('/admin/reportes/trazabilidad/mezcla/{id}',              [\App\Http\Controllers\Admin\TrazabilidadController::class, 'mezcla'])->name('admin.reportes.trazabilidad.mezcla');
+    Route::get('/admin/reportes/trazabilidad/reempaque/{id}',           [\App\Http\Controllers\Admin\TrazabilidadController::class, 'reempaque'])->name('admin.reportes.trazabilidad.reempaque');
+
     // Dispensación - Entregas
     Route::get   ('/admin/dispensacion/entregas',                   [\App\Http\Controllers\Admin\DispensacionEntregaController::class, 'index'])->name('admin.dispensacion.entregas.index');
     Route::get   ('/admin/dispensacion/entregas/crear',             [\App\Http\Controllers\Admin\DispensacionEntregaController::class, 'create'])->name('admin.dispensacion.entregas.create');

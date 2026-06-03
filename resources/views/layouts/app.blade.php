@@ -200,12 +200,24 @@
                                 </svg>
                                 Consumos
                             </a>
+                            <a href="{{ route('admin.reportes.trazabilidad') }}" class="{{ request()->routeIs('admin.reportes.trazabilidad*') ? 'active' : '' }}">
+                                <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="16" height="16">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h7M15 15l3 3 5-5"/>
+                                </svg>
+                                Trazabilidad
+                            </a>
                         @else
                             <a href="{{ route('admin.reportes.insumos') }}" class="{{ request()->routeIs('admin.reportes.insumos*') ? 'active' : '' }}">
                                 <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="16" height="16">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M3 3v18h18M7 14l4-4 4 4 5-7"/>
                                 </svg>
                                 Consumos
+                            </a>
+                            <a href="{{ route('admin.reportes.trazabilidad') }}" class="{{ request()->routeIs('admin.reportes.trazabilidad*') ? 'active' : '' }}">
+                                <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="16" height="16">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h7M15 15l3 3 5-5"/>
+                                </svg>
+                                Trazabilidad
                             </a>
                         @endif
                     </div>
