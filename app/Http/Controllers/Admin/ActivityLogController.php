@@ -32,7 +32,12 @@ class ActivityLogController extends Controller
         if ($request->filled('desde'))     $query->whereDate('created_at', '>=', $request->desde);
         if ($request->filled('hasta'))     $query->whereDate('created_at', '<=', $request->hasta);
 
-        $logs = $query->latest('id')->paginate(25)->withQueryString();
+        $perPage = (int) $request->input('per_page', 15);
+        if (! in_array($perPage, [15, 30, 45], true)) {
+            $perPage = 15;
+        }
+
+        $logs = $query->latest('id')->paginate($perPage)->withQueryString();
 
         $stats = [
             'total'    => ActivityLog::count(),

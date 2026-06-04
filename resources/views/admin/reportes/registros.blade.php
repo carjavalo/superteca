@@ -77,6 +77,13 @@
 
     <form method="GET" class="toolbar">
         <input type="text" name="search" value="{{ request('search') }}" placeholder="Buscar acción, usuario, ruta..." style="flex:1; min-width:220px;">
+        <select name="per_page" onchange="this.form.submit()">
+            @php($pp = (int) request('per_page', 15))
+            @php($pp = in_array($pp, [15,30,45], true) ? $pp : 15)
+            <option value="15" {{ $pp===15?'selected':'' }}>15 por página</option>
+            <option value="30" {{ $pp===30?'selected':'' }}>30 por página</option>
+            <option value="45" {{ $pp===45?'selected':'' }}>45 por página</option>
+        </select>
         <select name="event">
             <option value="">Todos los eventos</option>
             @foreach(\App\Models\ActivityLog::EVENTOS as $k => $l)
@@ -98,6 +105,8 @@
     @if($logs->count() === 0)
         <div class="empty">No hay actividad registrada con esos filtros.</div>
     @else
+        <div style="margin:10px 0 14px;">{{ $logs->links() }}</div>
+
         <div class="timeline">
             @foreach($logs as $l)
                 <div class="ev {{ $l->event }}" onclick="abrirDetalle({{ $l->id }})">
