@@ -53,7 +53,7 @@
         <h1>Dispensación · Validación Farmacéutica</h1>
         <p>Centro de control farmacéutico — autorización clínica antes de afectar inventario</p>
     </div>
-    <a href="{{ route('admin.dispensacion.validaciones.create') }}" class="btn btn-primary">+ Nueva Validación</a>
+    @puede('Validación farmacéutica','Crear')<a href="{{ route('admin.dispensacion.validaciones.create') }}" class="btn btn-primary">+ Nueva Validación</a>@endpuede
 </div>
 
 @if(session('success'))<div style="background:#dcfce7;color:#166534;padding:.7rem 1rem;border-radius:8px;margin-bottom:1rem">&#10003; {{ session('success') }}</div>@endif

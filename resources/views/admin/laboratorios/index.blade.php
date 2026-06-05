@@ -148,10 +148,12 @@
                     <h2>Directorio de Fabricantes</h2>
                     <p>Catálogo centralizado de laboratorios y proveedores farmacéuticos.</p>
                 </div>
+                @puede('Laboratorios','Crear')
                 <button class="btn-primary" onclick="openModal('modal-crear')">
                     <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="20" height="20"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"></path></svg>
                     Añadir Laboratorio
                 </button>
+                @endpuede
             </div>
 
             <div class="card-grid">
@@ -218,9 +220,11 @@
                             <span style="font-size: 0.8rem; color: #9ca3af;">
                                 Vinculado el {{ $lab->created_at ? $lab->created_at->format('d/m/Y') : '' }}
                             </span>
+                            @puede('Laboratorios','Editar')
                             <button type="button" class="btn-icon btn-edit" title="Editar Ficha" onclick='editLaboratorio(@json($lab))'>
                                 <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="18" height="18"><path stroke-linecap="round" stroke-linejoin="round" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
                             </button>
+                            @endpuede
                         </div>
                     </div>
                 @empty

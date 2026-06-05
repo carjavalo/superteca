@@ -107,14 +107,18 @@
             </form>
         @endif
         @if($mezcla->estado === 'CONTROL_CALIDAD')
+            @puede('Mezclas IV','Aprobar')
             <form method="POST" action="{{ route('admin.mezclas.liberar', $mezcla) }}">@csrf @method('PATCH')
                 <button class="btn btn-success">&#10003; Liberar Mezcla (descuenta inventario)</button>
             </form>
+            @endpuede
         @endif
         @if(!in_array($mezcla->estado, ['LIBERADA','CANCELADA']))
+            @puede('Mezclas IV','Anular')
             <form method="POST" action="{{ route('admin.mezclas.cancelar', $mezcla) }}" onsubmit="return confirm('¿Cancelar esta mezcla?')">@csrf @method('PATCH')
                 <button class="btn btn-danger">&#10005; Cancelar</button>
             </form>
+            @endpuede
         @endif
     </div>
 </div>

@@ -93,7 +93,7 @@
             <p>Data Mart de consulta · Trazabilidad 360° del consumo · Inteligencia de negocio</p>
         </div>
         <div style="display:flex;gap:.5rem;">
-            <a href="{{ route('admin.reportes.insumos.exportar', request()->query()) }}" class="btn btn-export">⬇ Exportar CSV</a>
+            @puede('Consumos generales','Exportar')<a href="{{ route('admin.reportes.insumos.exportar', request()->query()) }}" class="btn btn-export">⬇ Exportar CSV</a>@endpuede
         </div>
     </div>
 

@@ -161,10 +161,12 @@
                         <h2 class="card-table-title">Directorio de Presentaciones</h2>
                         <p class="card-table-desc">Consulta visual interactiva de presentaciones registradas.</p>
                     </div>
+                    @puede('Presentaciones','Crear')
                     <button class="btn-primary" onclick="openModal('modal-crear')">
                         <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="20" height="20"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"></path></svg>
                         Nueva Presentación
                     </button>
+                    @endpuede
                 </div>
 
                 <div class="card-table">
@@ -210,9 +212,11 @@
                                 </td>
                                 <td>
                                     <div class="actions" style="justify-content: flex-end;">
+                                        @puede('Presentaciones','Editar')
                                         <button type="button" class="btn-icon btn-edit" title="Editar" onclick='editPresentacion(@json($pre))'>
                                             <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="16" height="16"><path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
                                         </button>
+                                        @endpuede
                                     </div>
                                 </td>
                             </tr>

@@ -176,10 +176,12 @@
                     <h2>Catálogo técnico de unidades clínicas</h2>
                     <p>Define las unidades de medida que controlan validaciones, conversiones automáticas y cálculos farmacéuticos.</p>
                 </div>
+                @puede('Unidades de medida','Crear')
                 <button class="btn-primary" onclick="openCreate()">
                     <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="18" height="18"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg>
                     Nueva Unidad
                 </button>
+                @endpuede
             </div>
 
             @if(! request()->hasAny(['search','tipo','calculos','estado']))

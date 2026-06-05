@@ -13,6 +13,11 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware): void {
         // Confiar en todos los proxies (Cloudflare, Nginx, Load Balancers, etc)
         $middleware->trustProxies(at: '*');
+
+        // Alias del middleware de control de acceso RBAC por ruta.
+        $middleware->alias([
+            'permiso' => \App\Http\Middleware\VerificarPermiso::class,
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //

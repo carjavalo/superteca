@@ -237,10 +237,12 @@
             <h3>&#9889; Acciones</h3>
 
             @if($traslado->estado === 'BORRADOR')
+            @puede('Traslados','Aprobar')
             <form method="POST" action="{{ route('admin.traslados.aprobar', $traslado) }}">
                 @csrf @method('PATCH')
                 <button type="submit" class="btn btn-green">&#9989; Aprobar Traslado</button>
             </form>
+            @endpuede
             @endif
 
             @if(in_array($traslado->estado, ['BORRADOR', 'PENDIENTE']))
@@ -257,17 +259,21 @@
             @endif
 
             @if(!in_array($traslado->estado, ['RECIBIDO', 'RECHAZADO', 'ANULADO']))
+            @puede('Traslados','Anular')
             <form method="POST" action="{{ route('admin.traslados.rechazar', $traslado) }}">
                 @csrf @method('PATCH')
                 <button type="submit" class="btn btn-amber" onclick="return confirm('¿Rechazar este traslado?')">&#10006; Rechazar</button>
             </form>
+            @endpuede
             @endif
 
             @if(!in_array($traslado->estado, ['RECIBIDO', 'ANULADO']))
+            @puede('Traslados','Anular')
             <form method="POST" action="{{ route('admin.traslados.anular', $traslado) }}">
                 @csrf @method('DELETE')
                 <button type="submit" class="btn btn-red" onclick="return confirm('¿Anular este traslado? Si estaba EN TRÁNSITO se revertirá el stock.')">&#9888; Anular</button>
             </form>
+            @endpuede
             @endif
 
             @if($traslado->estado === 'BORRADOR')

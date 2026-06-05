@@ -213,12 +213,14 @@
             @if($search)
                 <a href="{{ route('admin.users.index') }}" style="font-size:.85rem; color:#6b7280; text-decoration:none;">✕ Limpiar</a>
             @endif
+            @puede('Gestión de usuarios','Crear')
             <button class="btn-primary" onclick="openModal('createModal')">
                 <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
                     <path stroke-linecap="round" d="M12 5v14M5 12h14"/>
                 </svg>
                 Nuevo usuario
             </button>
+            @endpuede
         </div>
     </div>
 
@@ -284,6 +286,7 @@
                                     </svg>
                                 </button>
                                 {{-- Editar --}}
+                                @puede('Gestión de usuarios','Editar')
                                 <button class="btn-icon btn-edit" title="Editar"
                                     onclick="openEdit({{ json_encode($u) }})">
                                     <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
@@ -291,8 +294,10 @@
                                         <path stroke-linecap="round" d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/>
                                     </svg>
                                 </button>
+                                @endpuede
                                 {{-- Eliminar --}}
                                 @if($u->id !== auth()->id())
+                                @puede('Gestión de usuarios','Eliminar')
                                 <button class="btn-icon btn-delete" title="Eliminar"
                                     onclick="openConfirm({{ $u->id }}, '{{ addslashes($u->name.' '.($u->apellido1??'')) }}')">
                                     <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
@@ -301,6 +306,7 @@
                                         <path stroke-linecap="round" d="M10 11v6M14 11v6M9 6V4h6v2"/>
                                     </svg>
                                 </button>
+                                @endpuede
                                 @else
                                 <span style="width:32px; display:inline-block;"></span>
                                 @endif

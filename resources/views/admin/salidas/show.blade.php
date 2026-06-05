@@ -74,17 +74,21 @@
         <a href="{{ route('admin.salidas.index') }}" class="btn-outline">← Volver al listado</a>
         <div style="display:flex; gap:8px; flex-wrap:wrap;">
             @if($salida->estado === 'BORRADOR')
-                <a href="{{ route('admin.salidas.edit', $salida) }}" class="btn-primary">✏ Editar</a>
+                @puede('Salidas','Editar')<a href="{{ route('admin.salidas.edit', $salida) }}" class="btn-primary">✏ Editar</a>@endpuede
+                @puede('Salidas','Aprobar')
                 <form action="{{ route('admin.salidas.confirm', $salida) }}" method="POST" onsubmit="return confirm('¿Confirmar salida y descontar stock?')">
                     @csrf
                     <button type="submit" class="btn-success">✅ Confirmar salida</button>
                 </form>
+                @endpuede
             @endif
             @if(in_array($salida->estado, ['BORRADOR','CONFIRMADA']))
+                @puede('Salidas','Anular')
                 <form action="{{ route('admin.salidas.annul', $salida) }}" method="POST" onsubmit="return confirm('¿Anular salida? Se reintegrará el stock si estaba confirmada.')">
                     @csrf
                     <button type="submit" class="btn-danger">⛔ Anular</button>
                 </form>
+                @endpuede
             @endif
         </div>
     </div>

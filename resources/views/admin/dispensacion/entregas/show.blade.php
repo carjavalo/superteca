@@ -123,14 +123,18 @@
                 @csrf @method('PATCH')
                 <button class="btn btn-success">✓ Confirmar Entrega</button>
             </form>
+            @puede('Entregas','Anular')
             <form method="POST" action="{{ route('admin.dispensacion.entregas.anular', $entrega) }}" onsubmit="return confirm('¿Anular esta entrega?')">
                 @csrf @method('PATCH')
                 <button class="btn btn-warn">Anular</button>
             </form>
+            @endpuede
+            @puede('Entregas','Eliminar')
             <form method="POST" action="{{ route('admin.dispensacion.entregas.destroy', $entrega) }}" onsubmit="return confirm('¿Eliminar definitivamente?')">
                 @csrf @method('DELETE')
                 <button class="btn btn-danger">Eliminar</button>
             </form>
+            @endpuede
         </div>
     </div>
 @endif

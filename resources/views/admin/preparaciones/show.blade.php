@@ -255,10 +255,12 @@
 
             @php $ult = $preparacion->controles->sortByDesc('fecha_control')->first(); @endphp
             @if($ult && $ult->cumple)
+            @puede('Preparaciones','Aprobar')
             <form method="POST" action="{{ route('admin.preparaciones.liberar', $preparacion) }}">
                 @csrf @method('PATCH')
                 <button class="btn btn-green" style="width:100%">&#10003; Liberar (descuenta inventario)</button>
             </form>
+            @endpuede
             @endif
             @endif
 
@@ -275,10 +277,12 @@
             @endif
 
             @if(!in_array($preparacion->estado, ['ENTREGADA','ANULADA']))
+            @puede('Preparaciones','Anular')
             <form method="POST" action="{{ route('admin.preparaciones.anular', $preparacion) }}" onsubmit="return confirm('¿Anular esta preparación?')" style="margin-top:.7rem">
                 @csrf @method('PATCH')
                 <button class="btn btn-danger" style="width:100%">&#9888; Anular preparación</button>
             </form>
+            @endpuede
             @endif
 
             @if($preparacion->estado === 'PROGRAMADA')

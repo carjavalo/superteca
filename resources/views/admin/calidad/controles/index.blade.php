@@ -8,7 +8,7 @@
             <p>Control transversal: recepción · cadena de frío · producción · dispensación</p>
         </div>
         <div style="display:flex;gap:.5rem;">
-            <a href="{{ route('admin.calidad.controles.create') }}" class="btn" style="background:#fff;color:var(--calq);">+ Nuevo Control</a>
+            @puede('Controles de calidad','Crear')<a href="{{ route('admin.calidad.controles.create') }}" class="btn" style="background:#fff;color:var(--calq);">+ Nuevo Control</a>@endpuede
         </div>
     </div>
 

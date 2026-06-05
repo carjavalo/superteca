@@ -88,10 +88,12 @@
             <button type="submit" class="btn-outline">Filtrar</button>
             <a href="{{ route('admin.entradas.index') }}" class="btn-outline">Limpiar</a>
         </form>
+        @puede('Entradas','Crear')
         <a href="{{ route('admin.entradas.create') }}" class="btn-primary">
             <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="18" height="18"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg>
             Nueva Entrada
         </a>
+        @endpuede
     </div>
 
     <div class="table-wrap">
@@ -130,15 +132,19 @@
                                     <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="16" height="16"><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5s8.268 2.943 9.542 7c-1.274 4.057-5.065 7-9.542 7s-8.268-2.943-9.542-7z"/></svg>
                                 </a>
                                 @if($e->estado === 'BORRADOR')
+                                    @puede('Entradas','Editar')
                                     <a href="{{ route('admin.entradas.edit', $e) }}" class="btn-icon btn-edit" title="Editar">
                                         <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="16" height="16"><path stroke-linecap="round" stroke-linejoin="round" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/></svg>
                                     </a>
+                                    @endpuede
+                                    @puede('Entradas','Eliminar')
                                     <form action="{{ route('admin.entradas.destroy', $e) }}" method="POST" onsubmit="return confirm('¿Eliminar entrada en borrador?')" style="display:inline;">
                                         @csrf @method('DELETE')
                                         <button type="submit" class="btn-icon btn-del" title="Eliminar">
                                             <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="16" height="16"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6M1 7h22M9 7V4a1 1 0 011-1h4a1 1 0 011 1v3"/></svg>
                                         </button>
                                     </form>
+                                    @endpuede
                                 @endif
                             </div>
                         </td>

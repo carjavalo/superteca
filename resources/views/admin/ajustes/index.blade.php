@@ -94,10 +94,12 @@
             <button type="submit" class="btn-outline">Filtrar</button>
             <a href="{{ route('admin.ajustes.index') }}" class="btn-outline">Limpiar</a>
         </form>
+        @puede('Ajustes','Crear')
         <a href="{{ route('admin.ajustes.create') }}" class="btn-primary">
             <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="18" height="18"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg>
             Nuevo Ajuste
         </a>
+        @endpuede
     </div>
 
     <div class="table-wrap">

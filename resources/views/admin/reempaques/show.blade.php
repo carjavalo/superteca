@@ -137,14 +137,18 @@
             </form>
         @endif
         @if($reempaque->estado === 'CONTROL_CALIDAD')
+            @puede('Reempaques','Aprobar')
             <form method="POST" action="{{ route('admin.reempaques.liberar', $reempaque) }}" onsubmit="return confirm('¿Liberar reempaque? Se descontará inventario y se creará un nuevo lote.')">@csrf @method('PATCH')
                 <button class="btn btn-success">&#10003; Liberar (genera nuevo lote)</button>
             </form>
+            @endpuede
         @endif
         @if(!in_array($reempaque->estado, ['LIBERADO','ANULADO']))
+            @puede('Reempaques','Anular')
             <form method="POST" action="{{ route('admin.reempaques.anular', $reempaque) }}" onsubmit="return confirm('¿Anular este reempaque?')">@csrf @method('PATCH')
                 <button class="btn btn-danger">&#10005; Anular</button>
             </form>
+            @endpuede
         @endif
     </div>
 </div>

@@ -87,7 +87,7 @@
         <h1>&#128137; Producción · Preparaciones</h1>
         <p>Central de Mezclas Hospitalaria · Trazabilidad por lote, control de calidad y entrega</p>
     </div>
-    <a href="{{ route('admin.preparaciones.create') }}" class="btn-primary">&#43; Nueva Preparación</a>
+    @puede('Preparaciones','Crear')<a href="{{ route('admin.preparaciones.create') }}" class="btn-primary">&#43; Nueva Preparación</a>@endpuede
 </div>
 
 @if(session('success'))<div class="alert alert-success">&#10003; {{ session('success') }}</div>@endif

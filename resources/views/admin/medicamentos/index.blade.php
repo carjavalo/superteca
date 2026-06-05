@@ -83,9 +83,11 @@
     </div>
 
     <div style="margin-bottom: 20px; display:flex; justify-content: flex-end;">
+        @puede('Medicamentos','Crear')
         <button class="btn-primary" onclick="openModal('modalCreate')">
             + Nuevo Medicamento
         </button>
+        @endpuede
     </div>
 
     <div class="card-table">
@@ -135,8 +137,8 @@
                         </td>
                         <td>
                             <div class="actions">
-                                <button type="button" class="btn-icon btn-edit" onclick="openEditModal({{ $med->toJson() }})">✎</button>
-                                <button type="button" class="btn-icon btn-delete" onclick="openDeleteModal({{ $med->id }}, '{{ $med->nombre }}')">🗑</button>
+                                @puede('Medicamentos','Editar')<button type="button" class="btn-icon btn-edit" onclick="openEditModal({{ $med->toJson() }})">✎</button>@endpuede
+                                @puede('Medicamentos','Eliminar')<button type="button" class="btn-icon btn-delete" onclick="openDeleteModal({{ $med->id }}, '{{ $med->nombre }}')">🗑</button>@endpuede
                             </div>
                         </td>
                     </tr>

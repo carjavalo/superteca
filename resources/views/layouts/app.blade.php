@@ -174,7 +174,13 @@
                     <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 12l9-9 9 9M5 10v10h14V10"/></svg>
                     Inicio
                 </a>
-                @php $isSuperAdmin = optional(auth()->user()->role)->name === 'Super Admin'; @endphp
+                @php
+                    $isSuperAdmin = optional(auth()->user()->role)->name === 'Super Admin';
+                    // Helper de permisos: $P('Vista') => ¿el rol actual puede Ver esa vista?
+                    $P = fn ($vista, $accion = 'Ver') => \App\Support\Permisos::puede($vista, $accion);
+                @endphp
+                @php $gReportes = $isSuperAdmin || $P('Consumos generales') || $P('Trazabilidad de lotes'); @endphp
+                @if($gReportes)
                 <div class="nav-group">
                     <button class="nav-group-btn {{ request()->routeIs('admin.reportes.*') ? 'active' : '' }}"
                             onclick="toggleGroup('groupReportes')" id="btnGroupReportes">
@@ -194,25 +200,16 @@
                                 </svg>
                                 Registros
                             </a>
+                        @endif
+                        @if($P('Consumos generales'))
                             <a href="{{ route('admin.reportes.insumos') }}" class="{{ request()->routeIs('admin.reportes.insumos*') ? 'active' : '' }}">
                                 <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="16" height="16">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M3 3v18h18M7 14l4-4 4 4 5-7"/>
                                 </svg>
                                 Consumos
                             </a>
-                            <a href="{{ route('admin.reportes.trazabilidad') }}" class="{{ request()->routeIs('admin.reportes.trazabilidad*') ? 'active' : '' }}">
-                                <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="16" height="16">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h7M15 15l3 3 5-5"/>
-                                </svg>
-                                Trazabilidad
-                            </a>
-                        @else
-                            <a href="{{ route('admin.reportes.insumos') }}" class="{{ request()->routeIs('admin.reportes.insumos*') ? 'active' : '' }}">
-                                <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="16" height="16">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M3 3v18h18M7 14l4-4 4 4 5-7"/>
-                                </svg>
-                                Consumos
-                            </a>
+                        @endif
+                        @if($P('Trazabilidad de lotes'))
                             <a href="{{ route('admin.reportes.trazabilidad') }}" class="{{ request()->routeIs('admin.reportes.trazabilidad*') ? 'active' : '' }}">
                                 <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="16" height="16">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h7M15 15l3 3 5-5"/>
@@ -222,7 +219,10 @@
                         @endif
                     </div>
                 </div>
+                @endif
 
+                @php $gMaestros = $isSuperAdmin || $P('Medicamentos') || $P('Presentaciones') || $P('Laboratorios') || $P('Proveedores') || $P('Formas farmacéuticas') || $P('Vías de administración') || $P('Unidades de medida'); @endphp
+                @if($gMaestros)
                 <div class="nav-group">
                     <button class="nav-group-btn {{ request()->routeIs('admin.medicamentos.*') || request()->routeIs('admin.laboratorios.*') || request()->routeIs('admin.proveedores.*') || request()->routeIs('admin.formas_farmaceuticas.*') || request()->routeIs('admin.vias_administracion.*') || request()->routeIs('admin.unidades_medida.*') ? 'active' : '' }}"
                             onclick="toggleGroup('groupMaestros')" id="btnGroupMaestros">
@@ -237,6 +237,7 @@
                         </svg>
                     </button>
                     <div class="nav-sub" id="groupMaestros">
+                        @if($P('Medicamentos'))
                         <a href="{{ route('admin.medicamentos.index') }}" class="{{ request()->routeIs('admin.medicamentos.*') ? 'active' : '' }}">
                             <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="16" height="16">
                                 <path stroke-linecap="round" d="M9 3H5a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2V8l-5-5z"/>
@@ -245,45 +246,61 @@
                             </svg>
                             Gestión Medicamentos
                         </a>
+                        @endif
+                        @if($P('Presentaciones'))
                         <a href="{{ route('admin.presentaciones.index') }}" class="{{ request()->routeIs('admin.presentaciones.*') ? 'active' : '' }}">
                             <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="16" height="16">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
                             </svg>
                             Presentaciones
                         </a>
+                        @endif
+                        @if($P('Laboratorios'))
                         <a href="{{ route('admin.laboratorios.index') }}" class="{{ request()->routeIs('admin.laboratorios.*') ? 'active' : '' }}">
                             <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="16" height="16">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"/>
                             </svg>
                             Laboratorios
                         </a>
+                        @endif
+                        @if($P('Proveedores'))
                         <a href="{{ route('admin.proveedores.index') }}" class="{{ request()->routeIs('admin.proveedores.*') ? 'active' : '' }}">
                             <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="16" height="16">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M3 7h18M3 12h18M3 17h18M6 3v18M18 3v18"/>
                             </svg>
                             Proveedores
                         </a>
+                        @endif
+                        @if($P('Formas farmacéuticas'))
                         <a href="{{ route('admin.formas_farmaceuticas.index') }}" class="{{ request()->routeIs('admin.formas_farmaceuticas.*') ? 'active' : '' }}">
                             <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="16" height="16">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"/>
                             </svg>
                             Formas Farmacéuticas
                         </a>
+                        @endif
+                        @if($P('Vías de administración'))
                         <a href="{{ route('admin.vias_administracion.index') }}" class="{{ request()->routeIs('admin.vias_administracion.*') ? 'active' : '' }}">
                             <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="16" height="16">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/>
                             </svg>
                             Vías de Administración
                         </a>
+                        @endif
+                        @if($P('Unidades de medida'))
                         <a href="{{ route('admin.unidades_medida.index') }}" class="{{ request()->routeIs('admin.unidades_medida.*') ? 'active' : '' }}">
                             <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="16" height="16">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2v18H3V3zm4 6h2v12H7V9zm4-4h2v16h-2V5zm4 8h2v8h-2v-8zm4-6h2v14h-2V7z"/>
                             </svg>
                             Unidades de Medida
                         </a>
+                        @endif
                     </div>
                 </div>
+                @endif
 
+                @php $gInventario = $isSuperAdmin || $P('Entradas') || $P('Salidas') || $P('Inventario por lotes') || $P('Ajustes') || $P('Traslados') || $P('Kardex'); @endphp
+                @if($gInventario)
                 <div class="nav-group">
                     <button class="nav-group-btn {{ request()->routeIs('admin.inventarios.*') || request()->routeIs('admin.entradas.*') || request()->routeIs('admin.salidas.*') || request()->routeIs('admin.ajustes.*') ? 'active' : '' }}"
                             onclick="toggleGroup('groupInventario')" id="btnGroupInventario">
@@ -298,24 +315,31 @@
                         </svg>
                     </button>
                     <div class="nav-sub" id="groupInventario">
+                        @if($P('Entradas'))
                         <a href="{{ route('admin.entradas.index') }}" class="{{ request()->routeIs('admin.entradas.*') ? 'active' : '' }}">
                             <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="16" height="16">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M7 10l5 5 5-5M12 15V3"/>
                             </svg>
                             Entradas
                         </a>
+                        @endif
+                        @if($P('Salidas'))
                         <a href="{{ route('admin.salidas.index') }}" class="{{ request()->routeIs('admin.salidas.*') ? 'active' : '' }}">
                             <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="16" height="16">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M20 8v-2a2 2 0 00-2-2H6a2 2 0 00-2 2v2m16 0l-5 5m5-5h-5M4 8l5 5m-5-5h5m-5 8v2a2 2 0 002 2h12a2 2 0 002-2v-2"/>
                             </svg>
                             Salidas
                         </a>
+                        @endif
+                        @if($P('Inventario por lotes'))
                         <a href="{{ route('admin.inventarios.lotes') }}" class="{{ request()->routeIs('admin.inventarios.lotes') ? 'active' : '' }}">
                             <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="16" height="16">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
                             </svg>
                             Inventario por Lotes
                         </a>
+                        @endif
+                        @if($P('Ajustes'))
                         <a href="{{ route('admin.ajustes.index') }}" class="{{ request()->routeIs('admin.ajustes.*') ? 'active' : '' }}">
                             <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="16" height="16">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M10.325 4.317a1 1 0 011.35-.936l1.715.572a8 8 0 003.49.27l1.81-.226a1 1 0 011.084 1.345l-.69 1.69a8 8 0 000 3.876l.69 1.69a1 1 0 01-1.084 1.346l-1.81-.226a8 8 0 00-3.49.27l-1.715.572a1 1 0 01-1.35-.936V4.317z"/>
@@ -323,22 +347,30 @@
                             </svg>
                             Ajustes
                         </a>
+                        @endif
+                        @if($P('Traslados'))
                         <a href="{{ route('admin.traslados.index') }}" class="{{ request()->routeIs('admin.traslados.*') ? 'active' : '' }}">
                             <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="16" height="16">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M8 7h12m0 0l-4-4m4 4l-4 4m-4 6H4m0 0l4 4m-4-4l4-4"/>
                             </svg>
                             Traslados
                         </a>
+                        @endif
+                        @if($P('Kardex'))
                         <a href="{{ route('admin.kardex.index') }}" class="{{ request()->routeIs('admin.kardex.*') ? 'active' : '' }}">
                             <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="16" height="16">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M9 17v-2a4 4 0 014-4h6m-3-3l3 3-3 3M3 4h12a2 2 0 012 2v3M3 4v16h10"/>
                             </svg>
                             Kardex
                         </a>
+                        @endif
                     </div>
                 </div>
+                @endif
 
                 {{-- Producción --}}
+                @php $gProduccion = $isSuperAdmin || $P('Preparaciones') || $P('Fórmulas magistrales') || $P('Mezclas IV') || $P('Reempaques'); @endphp
+                @if($gProduccion)
                 <div class="nav-group">
                     <button class="nav-group-btn {{ request()->routeIs('admin.preparaciones.*') || request()->routeIs('admin.formulas.*') || request()->routeIs('admin.mezclas.*') || request()->routeIs('admin.reempaques.*') ? 'active' : '' }}"
                             onclick="toggleGroup('groupProduccion')" id="btnGroupProduccion">
@@ -353,34 +385,45 @@
                         </svg>
                     </button>
                     <div class="nav-sub" id="groupProduccion">
+                        @if($P('Preparaciones'))
                         <a href="{{ route('admin.preparaciones.index') }}" class="{{ request()->routeIs('admin.preparaciones.*') ? 'active' : '' }}">
                             <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="16" height="16">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"/>
                             </svg>
                             Preparaciones
                         </a>
+                        @endif
+                        @if($P('Fórmulas magistrales'))
                         <a href="{{ route('admin.formulas.index') }}" class="{{ request()->routeIs('admin.formulas.*') ? 'active' : '' }}">
                             <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="16" height="16">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2M12 11h4M12 15h4M8 11h.01M8 15h.01"/>
                             </svg>
                             Fórmulas
                         </a>
+                        @endif
+                        @if($P('Mezclas IV'))
                         <a href="{{ route('admin.mezclas.index') }}" class="{{ request()->routeIs('admin.mezclas.*') ? 'active' : '' }}">
                             <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="16" height="16">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M9 17H5a2 2 0 01-2-2V5a2 2 0 012-2h10a2 2 0 012 2v2M9 7h6m4 6h-6a2 2 0 00-2 2v4a2 2 0 002 2h6a2 2 0 002-2v-4a2 2 0 00-2-2zM12 17h.01"/>
                             </svg>
                             Mezclas
                         </a>
+                        @endif
+                        @if($P('Reempaques'))
                         <a href="{{ route('admin.reempaques.index') }}" class="{{ request()->routeIs('admin.reempaques.*') ? 'active' : '' }}">
                             <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="16" height="16">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/>
                             </svg>
                             Reempaque
                         </a>
+                        @endif
                     </div>
                 </div>
+                @endif
 
                 {{-- Dispensación --}}
+                @php $gDispensacion = $isSuperAdmin || $P('Entregas') || $P('Historial paciente') || $P('Validación farmacéutica'); @endphp
+                @if($gDispensacion)
                 <div class="nav-group">
                     <button class="nav-group-btn {{ request()->routeIs('admin.dispensacion.*') ? 'active' : '' }}"
                             onclick="toggleGroup('groupDispensacion')" id="btnGroupDispensacion">
@@ -395,28 +438,37 @@
                         </svg>
                     </button>
                     <div class="nav-sub" id="groupDispensacion">
+                        @if($P('Entregas'))
                         <a href="{{ route('admin.dispensacion.entregas.index') }}" class="{{ request()->routeIs('admin.dispensacion.entregas.*') ? 'active' : '' }}">
                             <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="16" height="16">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/>
                             </svg>
                             Entregas
                         </a>
+                        @endif
+                        @if($P('Historial paciente'))
                         <a href="{{ route('admin.dispensacion.pacientes.index') }}" class="{{ request()->routeIs('admin.dispensacion.pacientes.*') ? 'active' : '' }}">
                             <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="16" height="16">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M16 14a4 4 0 10-8 0m8 0a4 4 0 11-8 0m8 0v.5A4.5 4.5 0 0120 19v2H4v-2a4.5 4.5 0 014-4.5V14m4-6a3 3 0 100-6 3 3 0 000 6z"/>
                             </svg>
                             Pacientes
                         </a>
+                        @endif
+                        @if($P('Validación farmacéutica'))
                         <a href="{{ route('admin.dispensacion.validaciones.index') }}" class="{{ request()->routeIs('admin.dispensacion.validaciones.*') ? 'active' : '' }}">
                             <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="16" height="16">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
                             </svg>
                             Validación
                         </a>
+                        @endif
                     </div>
                 </div>
+                @endif
 
                 {{-- Calidad --}}
+                @php $gCalidad = $isSuperAdmin || $P('Cadena de frío') || $P('Controles de calidad') || $P('Incidentes'); @endphp
+                @if($gCalidad)
                 <div class="nav-group">
                     <button class="nav-group-btn {{ request()->routeIs('admin.calidad.*') ? 'active' : '' }}"
                             onclick="toggleGroup('groupCalidad')" id="btnGroupCalidad">
@@ -431,26 +483,33 @@
                         </svg>
                     </button>
                     <div class="nav-sub" id="groupCalidad">
+                        @if($P('Cadena de frío'))
                         <a href="{{ route('admin.calidad.cadena-frio.index') }}" class="{{ request()->routeIs('admin.calidad.cadena-frio.*') ? 'active' : '' }}">
                             <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="16" height="16">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v18m-9-9h18M5.6 5.6l12.8 12.8M18.4 5.6L5.6 18.4"/>
                             </svg>
                             Cadena de Frío
                         </a>
+                        @endif
+                        @if($P('Controles de calidad'))
                         <a href="{{ route('admin.calidad.controles.index') }}" class="{{ request()->routeIs('admin.calidad.controles.*') ? 'active' : '' }}">
                             <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="16" height="16">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4M21 12c0 4.97-4.03 9-9 9s-9-4.03-9-9 4.03-9 9-9 9 4.03 9 9z"/>
                             </svg>
                             Controles
                         </a>
+                        @endif
+                        @if($P('Incidentes'))
                         <a href="{{ route('admin.calidad.incidentes.index') }}" class="{{ request()->routeIs('admin.calidad.incidentes.*') ? 'active' : '' }}">
                             <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="16" height="16">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z"/>
                             </svg>
                             Incidentes
                         </a>
+                        @endif
                     </div>
                 </div>
+                @endif
 
                 {{-- Configuración con submenú --}}
                 @php

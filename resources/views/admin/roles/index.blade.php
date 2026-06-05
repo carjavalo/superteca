@@ -117,12 +117,14 @@
                 {{ $roles->total() }} rol{{ $roles->total() !== 1 ? 'es' : '' }}
             </span>
         </div>
+        @puede('Gestión de roles','Crear')
         <button class="btn-primary" onclick="openModal('createModal')">
             <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
                 <path stroke-linecap="round" d="M12 5v14M5 12h14"/>
             </svg>
             Nuevo rol
         </button>
+        @endpuede
     </div>
 
     {{-- ── Tabla ── --}}
@@ -167,6 +169,7 @@
                                     <circle cx="12" cy="12" r="3"/>
                                 </svg>
                             </button>
+                            @puede('Gestión de roles','Editar')
                             <button class="btn-icon btn-edit" title="Editar"
                                     onclick="openEdit({{ json_encode($role) }})">
                                 <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
@@ -174,6 +177,8 @@
                                     <path stroke-linecap="round" d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/>
                                 </svg>
                             </button>
+                            @endpuede
+                            @puede('Gestión de roles','Eliminar')
                             <button class="btn-icon btn-delete" title="Eliminar"
                                     onclick="openConfirm({{ $role->id }}, '{{ addslashes($role->name) }}')">
                                 <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
@@ -181,6 +186,7 @@
                                     <path stroke-linecap="round" d="M19 6l-1 14H6L5 6M10 11v6M14 11v6M9 6V4h6v2"/>
                                 </svg>
                             </button>
+                            @endpuede
                         </div>
                     </td>
                 </tr>

@@ -70,17 +70,21 @@
         <a href="{{ route('admin.entradas.index') }}" class="btn-outline">← Volver al listado</a>
         <div style="display:flex; gap:8px; flex-wrap:wrap;">
             @if($entrada->estado === 'BORRADOR')
-                <a href="{{ route('admin.entradas.edit', $entrada) }}" class="btn-primary">✏ Editar</a>
+                @puede('Entradas','Editar')<a href="{{ route('admin.entradas.edit', $entrada) }}" class="btn-primary">✏ Editar</a>@endpuede
+                @puede('Entradas','Aprobar')
                 <form action="{{ route('admin.entradas.confirm', $entrada) }}" method="POST" onsubmit="return confirm('Confirmar entrada y actualizar stock?')">
                     @csrf
                     <button type="submit" class="btn-success">✅ Confirmar entrada</button>
                 </form>
+                @endpuede
             @endif
             @if(in_array($entrada->estado, ['BORRADOR','CONFIRMADA']))
+                @puede('Entradas','Anular')
                 <form action="{{ route('admin.entradas.annul', $entrada) }}" method="POST" onsubmit="return confirm('Anular entrada? Se revertirá el stock si estaba confirmada.')">
                     @csrf
                     <button type="submit" class="btn-danger">⛔ Anular</button>
                 </form>
+                @endpuede
             @endif
         </div>
     </div>

@@ -190,6 +190,7 @@
         @if($val->resultado === 'PENDIENTE' || $val->resultado === 'OBSERVADA')
             <div class="card">
                 <h3>Decisión farmacéutica</h3>
+                @puede('Validación farmacéutica','Aprobar')
                 <form method="POST" action="{{ route('admin.dispensacion.validaciones.aprobar', $val) }}">
                     @csrf
                     <textarea name="observaciones" rows="2" placeholder="Observaciones de la decisión..." style="width:100%;padding:.55rem;border:1.5px solid #e2e8f0;border-radius:8px;margin-bottom:.7rem"></textarea>
@@ -200,6 +201,7 @@
                         <button name="accion" value="RECHAZADA" class="btn btn-danger" onclick="return confirm('¿Rechazar la validación?')">✗ Rechazar</button>
                     </div>
                 </form>
+                @endpuede
             </div>
         @endif
 

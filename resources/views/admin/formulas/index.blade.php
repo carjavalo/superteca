@@ -74,7 +74,7 @@
         <h1>&#9881; Catálogo de Fórmulas Magistrales</h1>
         <p>Recetas maestras reutilizables — base de las preparaciones clínicas</p>
     </div>
-    <a href="{{ route('admin.formulas.create') }}" class="btn-primary">&#43; Nueva Fórmula</a>
+    @puede('Fórmulas magistrales','Crear')<a href="{{ route('admin.formulas.create') }}" class="btn-primary">&#43; Nueva Fórmula</a>@endpuede
 </div>
 
 @if(session('success'))<div class="alert alert-success">&#10003; {{ session('success') }}</div>@endif

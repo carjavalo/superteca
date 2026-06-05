@@ -63,7 +63,7 @@
         <h1>&#9879; Mezclas — Línea de Producción</h1>
         <p>Proceso de elaboración con trazabilidad de lotes y control de calidad</p>
     </div>
-    <a href="{{ route('admin.mezclas.create') }}" class="btn-primary">&#43; Nueva Mezcla</a>
+    @puede('Mezclas IV','Crear')<a href="{{ route('admin.mezclas.create') }}" class="btn-primary">&#43; Nueva Mezcla</a>@endpuede
 </div>
 
 @if(session('success'))<div class="alert alert-success">&#10003; {{ session('success') }}</div>@endif

@@ -87,9 +87,11 @@
         <h1>&#8635; Traslados de Inventario</h1>
         <p>Flujo logístico entre bodegas y servicios hospitalarios</p>
     </div>
+    @puede('Traslados','Crear')
     <a href="{{ route('admin.traslados.create') }}" class="btn-primary">
         &#43; Nuevo Traslado
     </a>
+    @endpuede
 </div>
 
 @if(session('success'))

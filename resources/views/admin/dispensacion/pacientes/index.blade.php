@@ -35,7 +35,7 @@
         <h1>Dispensación · Pacientes</h1>
         <p>Censo hospitalario y trazabilidad clínico-farmacéutica</p>
     </div>
-    <a href="{{ route('admin.dispensacion.pacientes.create') }}" class="btn btn-primary">+ Registrar Paciente</a>
+    @puede('Historial paciente','Crear')<a href="{{ route('admin.dispensacion.pacientes.create') }}" class="btn btn-primary">+ Registrar Paciente</a>@endpuede
 </div>
 
 @if(session('success'))<div style="background:#dcfce7;color:#166534;padding:.7rem 1rem;border-radius:8px;margin-bottom:1rem">&#10003; {{ session('success') }}</div>@endif

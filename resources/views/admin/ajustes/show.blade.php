@@ -99,16 +99,20 @@
     <div class="actions">
         <a href="{{ route('admin.ajustes.index') }}" class="btn-outline">← Volver al listado</a>
         @if($ajuste->estado === 'BORRADOR')
+            @puede('Ajustes','Aprobar')
             <form action="{{ route('admin.ajustes.approve', $ajuste) }}" method="POST" onsubmit="return confirm('Confirmar aprobación. Esta acción modifica el inventario y crea movimientos en el kardex.');">
                 @csrf
                 <button type="submit" class="btn-primary">✅ Aprobar y aplicar</button>
             </form>
+            @endpuede
         @endif
         @if($ajuste->estado !== 'ANULADO')
+            @puede('Ajustes','Anular')
             <form action="{{ route('admin.ajustes.annul', $ajuste) }}" method="POST" onsubmit="return confirm('¿Anular este ajuste? Si ya estaba aprobado, se revertirá el inventario.');">
                 @csrf
                 <button type="submit" class="btn-danger">⛔ Anular</button>
             </form>
+            @endpuede
         @endif
     </div>
 </x-app-layout>

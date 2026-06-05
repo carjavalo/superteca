@@ -8,7 +8,7 @@
             <p>Sistema CAPA · Trazabilidad 360° · Bloqueo automático de inventario</p>
         </div>
         <div style="display:flex;gap:.5rem;">
-            <a href="{{ route('admin.calidad.incidentes.create') }}" class="btn" style="background:#fff;color:var(--inc);">+ Nuevo Incidente</a>
+            @puede('Incidentes','Crear')<a href="{{ route('admin.calidad.incidentes.create') }}" class="btn" style="background:#fff;color:var(--inc);">+ Nuevo Incidente</a>@endpuede
         </div>
     </div>
 

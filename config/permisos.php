@@ -29,11 +29,79 @@ return [
         'maestros'       => ['Ver', 'Crear', 'Editar', 'Eliminar', 'Imprimir', 'Exportar'],
         'inventario'     => ['Ver', 'Crear', 'Editar', 'Eliminar', 'Aprobar', 'Anular', 'Imprimir', 'Exportar'],
         'produccion'     => ['Ver', 'Crear', 'Editar', 'Eliminar', 'Aprobar', 'Anular', 'Cerrar', 'Imprimir'],
-        'dispensacion'   => ['Ver', 'Crear', 'Editar', 'Eliminar', 'Anular', 'Imprimir'],
+        'dispensacion'   => ['Ver', 'Crear', 'Editar', 'Eliminar', 'Aprobar', 'Anular', 'Imprimir'],
         'calidad'        => ['Ver', 'Crear', 'Editar', 'Eliminar', 'Aprobar', 'Cerrar', 'Investigar', 'Exportar'],
         'reportes'       => ['Ver', 'Imprimir', 'Exportar', 'Exportar PDF', 'Exportar Excel', 'Exportar CSV', 'Programar'],
         'configuracion'  => ['Ver', 'Crear', 'Editar', 'Eliminar'],
         'administracion' => ['Ver', 'Crear', 'Editar', 'Eliminar', 'Activar', 'Descargar'],
+    ],
+
+    /*
+    | Mapa de RUTAS → VISTA. El middleware `permiso` exige que el rol tenga la
+    | acción «Ver» sobre la vista indicada para poder acceder a cualquier ruta
+    | cuyo nombre empiece por el prefijo. Se aplica el prefijo más largo que
+    | coincida. Las rutas que no aparezcan aquí quedan permitidas (ej. perfil).
+    */
+    'rutas' => [
+        'admin.reportes.insumos'          => 'Consumos generales',
+        'admin.reportes.trazabilidad'     => 'Trazabilidad de lotes',
+        'admin.medicamentos'              => 'Medicamentos',
+        'admin.presentaciones'            => 'Presentaciones',
+        'admin.laboratorios'              => 'Laboratorios',
+        'admin.proveedores'               => 'Proveedores',
+        'admin.formas_farmaceuticas'      => 'Formas farmacéuticas',
+        'admin.vias_administracion'       => 'Vías de administración',
+        'admin.unidades_medida'           => 'Unidades de medida',
+        'admin.entradas'                  => 'Entradas',
+        'admin.salidas'                   => 'Salidas',
+        'admin.inventarios'               => 'Inventario por lotes',
+        'admin.ajustes'                   => 'Ajustes',
+        'admin.traslados'                 => 'Traslados',
+        'admin.kardex'                    => 'Kardex',
+        'admin.preparaciones'             => 'Preparaciones',
+        'admin.formulas'                  => 'Fórmulas magistrales',
+        'admin.mezclas'                   => 'Mezclas IV',
+        'admin.reempaques'                => 'Reempaques',
+        'admin.dispensacion.entregas'     => 'Entregas',
+        'admin.dispensacion.pacientes'    => 'Historial paciente',
+        'admin.dispensacion.validaciones' => 'Validación farmacéutica',
+        'admin.calidad.cadena-frio'       => 'Cadena de frío',
+        'admin.calidad.controles'         => 'Controles de calidad',
+        'admin.calidad.incidentes'        => 'Incidentes',
+        'admin.users'                     => 'Gestión de usuarios',
+        'admin.roles'                     => 'Gestión de roles',
+        'admin.permisos'                  => 'Gestión de permisos',
+    ],
+
+    /*
+    | Acción exigida según el ÚLTIMO segmento del nombre de la ruta. El middleware
+    | deriva la acción (Crear, Editar, Eliminar, Exportar, Aprobar, Anular…) y exige
+    | ese permiso específico sobre la vista. Cualquier sufijo no listado se trata
+    | como «Ver» (no bloquea de más). Si la acción no es configurable para el módulo
+    | de la vista, también se degrada a «Ver» (evita bloqueos imposibles de conceder).
+    */
+    'acciones_ruta' => [
+        // Ver (lectura / navegación)
+        'index' => 'Ver', 'show' => 'Ver', 'lotes' => 'Ver', 'lote' => 'Ver',
+        'analytics' => 'Ver', 'bandeja' => 'Ver', 'buscar' => 'Ver', 'autocomplete' => 'Ver',
+        'recall' => 'Ver', 'simulador' => 'Ver', 'trazabilidad' => 'Ver', 'paciente' => 'Ver',
+        'incidente' => 'Ver', 'equipo' => 'Ver', 'preparacion' => 'Ver', 'mezcla' => 'Ver',
+        'reempaque' => 'Ver',
+        // Crear (Nuevo)
+        'create' => 'Crear', 'store' => 'Crear',
+        // Editar
+        'edit' => 'Editar', 'update' => 'Editar', 'estado' => 'Editar', 'detalle' => 'Editar',
+        'resultado' => 'Editar', 'toggle' => 'Editar',
+        // Eliminar
+        'destroy' => 'Eliminar', 'eliminar' => 'Eliminar',
+        // Exportar
+        'exportar' => 'Exportar', 'export' => 'Exportar',
+        // Aprobar
+        'confirm' => 'Aprobar', 'aprobar' => 'Aprobar', 'approve' => 'Aprobar', 'liberar' => 'Aprobar',
+        // Anular
+        'annul' => 'Anular', 'anular' => 'Anular', 'rechazar' => 'Anular', 'cancelar' => 'Anular',
+        // Cerrar / Validar
+        'cerrar' => 'Cerrar', 'validar' => 'Validar',
     ],
 
     // Módulos y sus vistas (tabla `permisos`). El orden define la presentación.
@@ -45,6 +113,7 @@ return [
                 'Medicamentos', 'Principios activos', 'Presentaciones', 'Laboratorios',
                 'Proveedores', 'Pacientes', 'Servicios', 'Médicos', 'Fórmulas maestras',
                 'Equipos cadena frío', 'Ubicaciones', 'Parámetros',
+                'Formas farmacéuticas', 'Vías de administración', 'Unidades de medida',
             ],
         ],
         'inventario' => [
@@ -68,7 +137,7 @@ return [
             'icono' => '💊',
             'vistas' => [
                 'Órdenes médicas', 'Entregas', 'Devoluciones', 'Historial paciente',
-                'Carro de medicación',
+                'Carro de medicación', 'Validación farmacéutica',
             ],
         ],
         'calidad' => [
