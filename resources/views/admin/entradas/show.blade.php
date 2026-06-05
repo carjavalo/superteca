@@ -207,6 +207,10 @@
                     <div class="item"><div class="l">Proveedor</div><div class="v">{{ $entrada->proveedor->razon_social ?? '—' }}</div></div>
                     <div class="item"><div class="l">Factura</div><div class="v">{{ $entrada->numero_factura ?: '—' }}</div></div>
                     <div class="item"><div class="l">Remisión</div><div class="v">{{ $entrada->numero_remision ?: '—' }}</div></div>
+                    @if($entrada->paciente)
+                    <div class="item"><div class="l">Paciente asignado</div><div class="v">{{ $entrada->paciente->nombre_completo }} ({{ $entrada->paciente->documento }})</div></div>
+                    <div class="item"><div class="l">EPS</div><div class="v">{{ $entrada->paciente->eps ?: '—' }}</div></div>
+                    @endif
                     <div class="item"><div class="l">Registrado por</div><div class="v">{{ $entrada->usuario->name ?? '—' }}</div></div>
                 </div>
             </div>

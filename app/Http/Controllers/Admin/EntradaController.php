@@ -8,6 +8,7 @@ use App\Models\DetalleEntrada;
 use App\Models\InventarioLote;
 use App\Models\MovimientoInventario;
 use App\Models\Medicamento;
+use App\Models\Paciente;
 use App\Models\Presentacion;
 use App\Models\Proveedor;
 use App\Models\Laboratorio;
@@ -64,7 +65,7 @@ class EntradaController extends Controller
         $items = $this->validateItems($request);
 
         return DB::transaction(function () use ($data, $items, $request) {
-            $data['codigo']     = $data['codigo'] ?: $this->generarCodigo();
+            $data['codigo']     = ($data['codigo'] ?? null) ?: $this->generarCodigo();
             $data['usuario_id'] = auth()->id();
             $entrada = Entrada::create($data);
 
@@ -82,7 +83,7 @@ class EntradaController extends Controller
 
     public function show(Entrada $entrada)
     {
-        $entrada->load(['proveedor','usuario','detalles.medicamento','detalles.presentacion','detalles.laboratorio','detalles.unidadMedida']);
+        $entrada->load(['proveedor','paciente','usuario','detalles.medicamento','detalles.presentacion','detalles.laboratorio','detalles.unidadMedida']);
 
         $movimientos = MovimientoInventario::where('referencia_tipo', Entrada::class)
             ->where('referencia_id', $entrada->id)
@@ -197,10 +198,11 @@ class EntradaController extends Controller
 
     private function validateEntrada(Request $request, $id = null): array
     {
-        return $request->validate([
+        $data = $request->validate([
             'codigo'           => 'nullable|string|max:50|unique:entradas,codigo' . ($id ? ",{$id}" : ''),
             'tipo_entrada'     => 'required|in:' . implode(',', array_keys(Entrada::TIPOS)),
             'proveedor_id'     => 'nullable|exists:proveedores,id',
+            'paciente_id'      => 'nullable|required_if:tipo_entrada,ASIGNACION|exists:pacientes,id',
             'numero_factura'   => 'nullable|string|max:100',
             'numero_remision'  => 'nullable|string|max:100',
             'fecha_entrada'    => 'required|date',
@@ -208,6 +210,42 @@ class EntradaController extends Controller
             'observaciones'    => 'nullable|string',
             'impuestos'        => 'nullable|numeric|min:0',
             'bodega_destino_id'=> 'nullable|integer',
+        ], [
+            'paciente_id.required_if' => 'Debe seleccionar un paciente (busque por su número de identificación) cuando el tipo de entrada es Asignación.',
+        ]);
+
+        // El paciente solo aplica para entradas de tipo Asignación.
+        if (($data['tipo_entrada'] ?? null) !== 'ASIGNACION') {
+            $data['paciente_id'] = null;
+        }
+
+        return $data;
+    }
+
+    /**
+     * Busca un paciente por su número de identificación (documento).
+     * Usado por la vista de entrada cuando el tipo es "Asignación".
+     */
+    public function buscarPaciente(Request $request)
+    {
+        $documento = trim((string) $request->query('documento', ''));
+
+        if ($documento === '') {
+            return response()->json(['message' => 'Indique el número de identificación.'], 422);
+        }
+
+        $paciente = Paciente::where('documento', $documento)->first();
+
+        if (! $paciente) {
+            return response()->json(['message' => 'No existe un paciente con ese número de identificación.'], 404);
+        }
+
+        return response()->json([
+            'id'             => $paciente->id,
+            'documento'      => $paciente->documento,
+            'tipo_documento' => $paciente->tipo_documento,
+            'nombre'         => $paciente->nombre_completo,
+            'eps'            => $paciente->eps,
         ]);
     }
 
@@ -322,7 +360,10 @@ class EntradaController extends Controller
                 'stock_nuevo'        => $anterior + (float) $det->cantidad,
                 'fecha_movimiento'   => now(),
                 'usuario_id'         => auth()->id(),
-                'observacion'        => 'Entrada ' . $entrada->codigo . ' (' . $entrada->tipo_label . ')',
+                'observacion'        => 'Entrada ' . $entrada->codigo . ' (' . $entrada->tipo_label . ')'
+                    . (($entrada->tipo_entrada === 'ASIGNACION' && $entrada->paciente)
+                        ? ' · Asignada a paciente ' . $entrada->paciente->nombre_completo . ' (' . $entrada->paciente->documento . ')'
+                        : ''),
                 'created_at'         => now(),
             ]);
         }

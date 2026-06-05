@@ -90,6 +90,7 @@ Route::middleware(['auth', 'permiso'])->group(function () {
     // Entradas de Inventario
     Route::get('/admin/inventario/entradas', [\App\Http\Controllers\Admin\EntradaController::class, 'index'])->name('admin.entradas.index');
     Route::get('/admin/inventario/entradas/crear', [\App\Http\Controllers\Admin\EntradaController::class, 'create'])->name('admin.entradas.create');
+    Route::get('/admin/inventario/entradas/buscar-paciente', [\App\Http\Controllers\Admin\EntradaController::class, 'buscarPaciente'])->name('admin.entradas.buscar_paciente');
     Route::post('/admin/inventario/entradas', [\App\Http\Controllers\Admin\EntradaController::class, 'store'])->name('admin.entradas.store');
     Route::get('/admin/inventario/entradas/{entrada}', [\App\Http\Controllers\Admin\EntradaController::class, 'show'])->name('admin.entradas.show');
     Route::get('/admin/inventario/entradas/{entrada}/editar', [\App\Http\Controllers\Admin\EntradaController::class, 'edit'])->name('admin.entradas.edit');

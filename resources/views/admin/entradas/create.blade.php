@@ -107,6 +107,26 @@
                     <label>N° Remisión</label>
                     <input type="text" name="numero_remision" value="{{ old('numero_remision', $entrada->numero_remision) }}">
                 </div>
+                {{-- Asignación a paciente (inline): visibles solo si Tipo de entrada = Asignación --}}
+                <div class="form-group asig-field" style="display:none;">
+                    <label>N° Identificación *</label>
+                    <input type="text" id="asig_doc" name="_asig_doc" autocomplete="off" placeholder="Documento"
+                           value="{{ old('_asig_doc', optional($entrada->paciente)->documento) }}">
+                    <small id="asig_msg" style="font-size:.74rem; display:block; margin-top:3px;"></small>
+                    <a href="{{ route('admin.dispensacion.pacientes.create') }}" target="_blank"
+                       style="font-size:.74rem; color:var(--inst); text-decoration:none; font-weight:600;">➕ Crear paciente</a>
+                </div>
+                <div class="form-group asig-field" style="display:none;">
+                    <label>Paciente</label>
+                    <input type="text" id="asig_nombre" readonly placeholder="—" style="background:#f9fafb;"
+                           value="{{ optional($entrada->paciente)->nombre_completo }}">
+                    <input type="hidden" name="paciente_id" id="asig_paciente_id" value="{{ old('paciente_id', $entrada->paciente_id) }}">
+                </div>
+                <div class="form-group asig-field" style="display:none;">
+                    <label>EPS</label>
+                    <input type="text" id="asig_eps" readonly placeholder="—" style="background:#f9fafb;"
+                           value="{{ optional($entrada->paciente)->eps }}">
+                </div>
             </div>
             <div class="form-group">
                 <label>Observaciones</label>
@@ -268,6 +288,54 @@
             EXISTING.forEach(d => addRow(d));
         } else {
             addRow();
+        }
+
+        // ---- Asignación a paciente (Tipo de entrada = ASIGNACION) ----
+        const tipoEntradaSel = document.querySelector('select[name="tipo_entrada"]');
+        const asigFields     = document.querySelectorAll('.asig-field');
+        const asigDoc        = document.getElementById('asig_doc');
+        const asigNombre     = document.getElementById('asig_nombre');
+        const asigEps        = document.getElementById('asig_eps');
+        const asigPacienteId = document.getElementById('asig_paciente_id');
+        const asigMsg        = document.getElementById('asig_msg');
+        let   asigTimer;
+
+        function toggleAsignacion() {
+            const esAsig = tipoEntradaSel.value === 'ASIGNACION';
+            asigFields.forEach(el => el.style.display = esAsig ? '' : 'none');
+            if (!esAsig) {           // si no aplica, no se envía paciente
+                asigDoc.value = ''; asigNombre.value = ''; asigEps.value = '';
+                asigPacienteId.value = ''; asigMsg.textContent = '';
+            }
+        }
+
+        function buscarPaciente() {
+            const doc = asigDoc.value.trim();
+            asigPacienteId.value = ''; asigNombre.value = ''; asigEps.value = '';
+            if (!doc) { asigMsg.textContent = ''; return; }
+            asigMsg.style.color = '#6b7280'; asigMsg.textContent = 'Buscando…';
+            fetch("{{ route('admin.entradas.buscar_paciente') }}?documento=" + encodeURIComponent(doc),
+                  { headers: { 'Accept': 'application/json' } })
+                .then(r => r.ok ? r.json() : Promise.reject(r))
+                .then(p => {
+                    asigNombre.value     = p.nombre || '';
+                    asigEps.value        = p.eps || '';
+                    asigPacienteId.value = p.id;
+                    asigMsg.style.color  = '#059669';
+                    asigMsg.textContent  = '✓ Paciente encontrado';
+                })
+                .catch(() => {
+                    asigMsg.style.color = '#dc2626';
+                    asigMsg.innerHTML   = '✗ No existe un paciente con ese documento. Usa «Crear paciente».';
+                });
+        }
+
+        tipoEntradaSel.addEventListener('change', toggleAsignacion);
+        asigDoc.addEventListener('input', () => { clearTimeout(asigTimer); asigTimer = setTimeout(buscarPaciente, 500); });
+
+        toggleAsignacion();  // estado inicial
+        if (tipoEntradaSel.value === 'ASIGNACION' && asigDoc.value.trim()) {
+            buscarPaciente(); // re-cargar datos del paciente (edición o tras error de validación)
         }
     </script>
 </x-app-layout>

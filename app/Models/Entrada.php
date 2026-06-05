@@ -18,6 +18,7 @@ class Entrada extends Model
         'TRASLADO'    => 'Traslado',
         'AJUSTE'      => 'Ajuste',
         'PRODUCCION'  => 'Producción',
+        'ASIGNACION'  => 'Asignación',
     ];
 
     public const ESTADOS = [
@@ -27,7 +28,7 @@ class Entrada extends Model
     ];
 
     protected $fillable = [
-        'codigo','tipo_entrada','proveedor_id','numero_factura','numero_remision',
+        'codigo','tipo_entrada','proveedor_id','paciente_id','numero_factura','numero_remision',
         'fecha_entrada','fecha_documento','observaciones','subtotal','impuestos','total',
         'estado','usuario_id','bodega_destino_id',
     ];
@@ -41,8 +42,11 @@ class Entrada extends Model
     ];
 
     public function proveedor() { return $this->belongsTo(Proveedor::class); }
+    public function paciente()  { return $this->belongsTo(Paciente::class, 'paciente_id'); }
     public function usuario()   { return $this->belongsTo(User::class, 'usuario_id'); }
     public function detalles()  { return $this->hasMany(DetalleEntrada::class); }
+
+    public function getEsAsignacionAttribute(): bool { return $this->tipo_entrada === 'ASIGNACION'; }
 
     public function getTipoLabelAttribute(): string   { return self::TIPOS[$this->tipo_entrada] ?? '—'; }
     public function getEstadoLabelAttribute(): string { return self::ESTADOS[$this->estado] ?? $this->estado; }
