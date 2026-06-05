@@ -14,7 +14,9 @@
         .cols-2 { grid-template-columns:1fr 1fr; }
         .cols-3 { grid-template-columns:1fr 1fr 1fr; }
         .cols-4 { grid-template-columns:repeat(4,1fr); }
-        @media (max-width:800px){ .cols-2,.cols-3,.cols-4 { grid-template-columns:1fr; } }
+        .cols-6 { grid-template-columns:repeat(6,1fr); }
+        @media (max-width:1100px){ .cols-6 { grid-template-columns:repeat(3,1fr); } }
+        @media (max-width:800px){ .cols-2,.cols-3,.cols-4,.cols-6 { grid-template-columns:1fr; } }
 
         .form-group label { display:block; font-size:.82rem; font-weight:600; color:#374151; margin-bottom:5px; }
         .form-group input, .form-group select, .form-group textarea { width:100%; padding:9px 11px; border:1.5px solid #d1d5db; border-radius:8px; font-size:.88rem; outline:none; font-family:inherit; }
@@ -87,7 +89,7 @@
                     <input type="date" name="fecha_documento" value="{{ old('fecha_documento', optional($entrada->fecha_documento)->format('Y-m-d')) }}">
                 </div>
             </div>
-            <div class="form-row cols-3">
+            <div class="form-row cols-6">
                 <div class="form-group">
                     <label>Proveedor</label>
                     <select name="proveedor_id">
