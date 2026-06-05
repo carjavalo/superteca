@@ -21,5 +21,8 @@ class DatabaseSeeder extends Seeder
             'name' => 'Test User',
             'email' => 'test@example.com',
         ]);
+
+        // Catálogo RBAC (acciones + permisos) — Centro de Gestión de Permisos.
+        $this->call(PermisosCatalogoSeeder::class);
     }
 }

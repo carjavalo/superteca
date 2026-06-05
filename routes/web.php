@@ -340,6 +340,12 @@ Route::middleware('auth')->group(function () {
     Route::post('/admin/roles', [RoleController::class, 'store'])->name('admin.roles.store');
     Route::put('/admin/roles/{role}', [RoleController::class, 'update'])->name('admin.roles.update');
     Route::delete('/admin/roles/{role}', [RoleController::class, 'destroy'])->name('admin.roles.destroy');
+
+    // Gestión de Permisos (Centro de Control de Acceso RBAC) — solo Super Admin
+    Route::get('/admin/permisos',           [\App\Http\Controllers\Admin\PermisoController::class, 'index'])->name('admin.permisos.index');
+    Route::put('/admin/permisos',           [\App\Http\Controllers\Admin\PermisoController::class, 'update'])->name('admin.permisos.update');
+    Route::post('/admin/permisos/duplicar', [\App\Http\Controllers\Admin\PermisoController::class, 'duplicar'])->name('admin.permisos.duplicar');
+    Route::get('/admin/permisos/exportar',  [\App\Http\Controllers\Admin\PermisoController::class, 'exportar'])->name('admin.permisos.exportar');
 });
 
 require __DIR__.'/auth.php';

@@ -10,10 +10,14 @@ class RoleController extends Controller
 {
     public function index(Request $request)
     {
+        $isSuperAdmin = optional(auth()->user()->role)->name === 'Super Admin';
+
         $search = $request->get('search', '');
         $roles = Role::when($search, function ($q) use ($search) {
             $q->where('name', 'like', "%$search%")
               ->orWhere('descripcion', 'like', "%$search%");
+        })->when(! $isSuperAdmin, function ($q) {
+            $q->where('name', '!=', 'Super Admin');
         })->latest()->paginate(10)->withQueryString();
 
         return view('admin.roles.index', compact('roles', 'search'));
@@ -36,6 +40,8 @@ class RoleController extends Controller
 
     public function update(Request $request, Role $role)
     {
+        $this->bloquearSuperAdmin($role);
+
         $request->validate([
             'name'        => ['required', 'string', 'max:60', Rule::unique('roles', 'name')->ignore($role->id)],
             'descripcion' => ['nullable', 'string', 'max:100'],
@@ -51,7 +57,21 @@ class RoleController extends Controller
 
     public function destroy(Role $role)
     {
+        $this->bloquearSuperAdmin($role);
+
         $role->delete();
         return redirect()->route('admin.roles.index')->with('success', 'Rol eliminado.');
+    }
+
+    /**
+     * Impide que un usuario que no sea Super Admin acceda/manipule el rol Super Admin.
+     */
+    private function bloquearSuperAdmin(Role $role): void
+    {
+        $isSuperAdmin = optional(auth()->user()->role)->name === 'Super Admin';
+
+        if (! $isSuperAdmin && $role->name === 'Super Admin') {
+            abort(403, 'No tiene permisos para gestionar el rol Super Admin.');
+        }
     }
 }

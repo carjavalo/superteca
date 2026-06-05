@@ -453,6 +453,12 @@
                 </div>
 
                 {{-- Configuración con submenú --}}
+                @php
+                    $verUsuarios = \App\Support\Permisos::puede('Gestión de usuarios');
+                    $verRoles    = \App\Support\Permisos::puede('Gestión de roles');
+                    $verConfig   = $isSuperAdmin || $verUsuarios || $verRoles;
+                @endphp
+                @if($verConfig)
                 <div class="nav-group">
                     <button class="nav-group-btn {{ request()->routeIs('admin.*') ? 'active' : '' }}"
                             onclick="toggleGroup('groupConfig')" id="btnGroupConfig">
@@ -468,6 +474,7 @@
                         </svg>
                     </button>
                     <div class="nav-sub" id="groupConfig">
+                        @if($verUsuarios)
                         <a href="{{ route('admin.users.index') }}" class="{{ request()->routeIs('admin.users.*') ? 'active' : '' }}">
                             <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="16" height="16">
                                 <path stroke-linecap="round" d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/>
@@ -476,14 +483,17 @@
                             </svg>
                             Gestión usuarios
                         </a>
+                        @endif
+                        @if($verRoles)
                         <a href="{{ route('admin.roles.index') }}" class="{{ request()->routeIs('admin.roles.*') ? 'active' : '' }}">
                             <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="16" height="16">
                                 <path stroke-linecap="round" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"/>
                             </svg>
                             Gestión de Roles
                         </a>
+                        @endif
                         @if($isSuperAdmin)
-                        <a href="#" class="">
+                        <a href="{{ route('admin.permisos.index') }}" class="{{ request()->routeIs('admin.permisos.*') ? 'active' : '' }}">
                             <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="16" height="16">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
                             </svg>
@@ -492,6 +502,7 @@
                         @endif
                     </div>
                 </div>
+                @endif
             </nav>
             <div class="footer-side">© {{ date('Y') }} Superteca</div>
         </aside>

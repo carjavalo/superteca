@@ -6,6 +6,7 @@ use App\Support\ActivityLogger;
 use Illuminate\Auth\Events\Login;
 use Illuminate\Auth\Events\Logout;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
@@ -22,6 +23,14 @@ class AppServiceProvider extends ServiceProvider
         if (config('app.env') === 'production') {
             URL::forceScheme('https');
         }
+
+        // Directiva Blade para verificar permisos RBAC: @puede('Vista','Accion') ... @endpuede
+        Blade::directive('puede', function ($expression) {
+            return "<?php if (\\App\\Support\\Permisos::puede($expression)): ?>";
+        });
+        Blade::directive('endpuede', function () {
+            return "<?php endif; ?>";
+        });
 
         // Auditoría: eventos de autenticación
         Event::listen(Login::class, function (Login $event) {
