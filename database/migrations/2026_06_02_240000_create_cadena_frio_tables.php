@@ -8,85 +8,97 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create('equipos_cadena_frio', function (Blueprint $t) {
-            $t->id();
-            $t->string('codigo', 50)->unique();
-            $t->string('nombre', 150);
-            $t->enum('tipo', ['NEVERA','CONGELADOR','CUARTO_FRIO','TRANSPORTE'])->default('NEVERA');
-            $t->string('ubicacion', 255)->nullable();
-            $t->decimal('temperatura_min', 5, 2);
-            $t->decimal('temperatura_max', 5, 2);
-            $t->decimal('humedad_min', 5, 2)->nullable();
-            $t->decimal('humedad_max', 5, 2)->nullable();
-            $t->string('fabricante', 150)->nullable();
-            $t->string('modelo', 150)->nullable();
-            $t->string('serial', 150)->nullable();
-            $t->date('fecha_calibracion')->nullable();
-            $t->date('proxima_calibracion')->nullable();
-            $t->boolean('estado')->default(true);
-            $t->timestamps();
-        });
+        if (! Schema::hasTable('equipos_cadena_frio')) {
+            Schema::create('equipos_cadena_frio', function (Blueprint $t) {
+                $t->id();
+                $t->string('codigo', 50)->unique();
+                $t->string('nombre', 150);
+                $t->enum('tipo', ['NEVERA','CONGELADOR','CUARTO_FRIO','TRANSPORTE'])->default('NEVERA');
+                $t->string('ubicacion', 255)->nullable();
+                $t->decimal('temperatura_min', 5, 2);
+                $t->decimal('temperatura_max', 5, 2);
+                $t->decimal('humedad_min', 5, 2)->nullable();
+                $t->decimal('humedad_max', 5, 2)->nullable();
+                $t->string('fabricante', 150)->nullable();
+                $t->string('modelo', 150)->nullable();
+                $t->string('serial', 150)->nullable();
+                $t->date('fecha_calibracion')->nullable();
+                $t->date('proxima_calibracion')->nullable();
+                $t->boolean('estado')->default(true);
+                $t->timestamps();
+            });
+        }
 
-        Schema::create('sensores_temperatura', function (Blueprint $t) {
-            $t->id();
-            $t->foreignId('equipo_id')->constrained('equipos_cadena_frio')->cascadeOnDelete();
-            $t->string('codigo_sensor', 100);
-            $t->string('marca', 100)->nullable();
-            $t->string('modelo', 100)->nullable();
-            $t->boolean('estado')->default(true);
-            $t->timestamps();
-        });
+        if (! Schema::hasTable('sensores_temperatura')) {
+            Schema::create('sensores_temperatura', function (Blueprint $t) {
+                $t->id();
+                $t->foreignId('equipo_id')->constrained('equipos_cadena_frio')->cascadeOnDelete();
+                $t->string('codigo_sensor', 100);
+                $t->string('marca', 100)->nullable();
+                $t->string('modelo', 100)->nullable();
+                $t->boolean('estado')->default(true);
+                $t->timestamps();
+            });
+        }
 
-        Schema::create('monitoreo_temperatura', function (Blueprint $t) {
-            $t->id();
-            $t->foreignId('equipo_id')->constrained('equipos_cadena_frio')->cascadeOnDelete();
-            $t->foreignId('sensor_id')->nullable()->constrained('sensores_temperatura')->nullOnDelete();
-            $t->dateTime('fecha_hora');
-            $t->decimal('temperatura', 5, 2);
-            $t->decimal('humedad', 5, 2)->nullable();
-            $t->foreignId('usuario_id')->nullable()->constrained('users')->nullOnDelete();
-            $t->enum('origen', ['MANUAL','AUTOMATICO'])->default('MANUAL');
-            $t->boolean('fuera_rango')->default(false);
-            $t->text('observaciones')->nullable();
-            $t->timestamps();
-            $t->index(['equipo_id', 'fecha_hora']);
-        });
+        if (! Schema::hasTable('monitoreo_temperatura')) {
+            Schema::create('monitoreo_temperatura', function (Blueprint $t) {
+                $t->id();
+                $t->foreignId('equipo_id')->constrained('equipos_cadena_frio')->cascadeOnDelete();
+                $t->foreignId('sensor_id')->nullable()->constrained('sensores_temperatura')->nullOnDelete();
+                $t->dateTime('fecha_hora');
+                $t->decimal('temperatura', 5, 2);
+                $t->decimal('humedad', 5, 2)->nullable();
+                $t->foreignId('usuario_id')->nullable()->constrained('users')->nullOnDelete();
+                $t->enum('origen', ['MANUAL','AUTOMATICO'])->default('MANUAL');
+                $t->boolean('fuera_rango')->default(false);
+                $t->text('observaciones')->nullable();
+                $t->timestamps();
+                $t->index(['equipo_id', 'fecha_hora']);
+            });
+        }
 
-        Schema::create('alertas_cadena_frio', function (Blueprint $t) {
-            $t->id();
-            $t->foreignId('equipo_id')->constrained('equipos_cadena_frio')->cascadeOnDelete();
-            $t->dateTime('fecha_inicio');
-            $t->dateTime('fecha_fin')->nullable();
-            $t->decimal('temperatura_registrada', 5, 2);
-            $t->decimal('temperatura_permitida_min', 5, 2);
-            $t->decimal('temperatura_permitida_max', 5, 2);
-            $t->enum('severidad', ['BAJA','MEDIA','ALTA','CRITICA'])->default('MEDIA');
-            $t->enum('estado', ['ABIERTA','INVESTIGACION','CERRADA'])->default('ABIERTA');
-            $t->text('observaciones')->nullable();
-            $t->foreignId('usuario_id')->nullable()->constrained('users')->nullOnDelete();
-            $t->timestamps();
-        });
+        if (! Schema::hasTable('alertas_cadena_frio')) {
+            Schema::create('alertas_cadena_frio', function (Blueprint $t) {
+                $t->id();
+                $t->foreignId('equipo_id')->constrained('equipos_cadena_frio')->cascadeOnDelete();
+                $t->dateTime('fecha_inicio');
+                $t->dateTime('fecha_fin')->nullable();
+                $t->decimal('temperatura_registrada', 5, 2);
+                $t->decimal('temperatura_permitida_min', 5, 2);
+                $t->decimal('temperatura_permitida_max', 5, 2);
+                $t->enum('severidad', ['BAJA','MEDIA','ALTA','CRITICA'])->default('MEDIA');
+                $t->enum('estado', ['ABIERTA','INVESTIGACION','CERRADA'])->default('ABIERTA');
+                $t->text('observaciones')->nullable();
+                $t->foreignId('usuario_id')->nullable()->constrained('users')->nullOnDelete();
+                $t->timestamps();
+            });
+        }
 
-        Schema::create('lotes_cadena_frio', function (Blueprint $t) {
-            $t->id();
-            $t->foreignId('inventario_lote_id')->constrained('inventario_lotes')->cascadeOnDelete();
-            $t->foreignId('equipo_id')->constrained('equipos_cadena_frio')->cascadeOnDelete();
-            $t->dateTime('fecha_ingreso');
-            $t->dateTime('fecha_salida')->nullable();
-            $t->text('observaciones')->nullable();
-            $t->timestamps();
-            $t->index(['inventario_lote_id','equipo_id']);
-        });
+        if (! Schema::hasTable('lotes_cadena_frio')) {
+            Schema::create('lotes_cadena_frio', function (Blueprint $t) {
+                $t->id();
+                $t->foreignId('inventario_lote_id')->constrained('inventario_lotes')->cascadeOnDelete();
+                $t->foreignId('equipo_id')->constrained('equipos_cadena_frio')->cascadeOnDelete();
+                $t->dateTime('fecha_ingreso');
+                $t->dateTime('fecha_salida')->nullable();
+                $t->text('observaciones')->nullable();
+                $t->timestamps();
+                $t->index(['inventario_lote_id','equipo_id']);
+            });
+        }
 
-        Schema::create('afectacion_lotes', function (Blueprint $t) {
-            $t->id();
-            $t->foreignId('alerta_id')->constrained('alertas_cadena_frio')->cascadeOnDelete();
-            $t->foreignId('inventario_lote_id')->constrained('inventario_lotes')->cascadeOnDelete();
-            $t->enum('estado', ['PENDIENTE_EVALUACION','LIBERADO','BLOQUEADO','DESECHADO'])->default('PENDIENTE_EVALUACION');
-            $t->text('observaciones')->nullable();
-            $t->foreignId('usuario_id')->nullable()->constrained('users')->nullOnDelete();
-            $t->timestamps();
-        });
+        if (! Schema::hasTable('afectacion_lotes')) {
+            Schema::create('afectacion_lotes', function (Blueprint $t) {
+                $t->id();
+                $t->foreignId('alerta_id')->constrained('alertas_cadena_frio')->cascadeOnDelete();
+                $t->foreignId('inventario_lote_id')->constrained('inventario_lotes')->cascadeOnDelete();
+                $t->enum('estado', ['PENDIENTE_EVALUACION','LIBERADO','BLOQUEADO','DESECHADO'])->default('PENDIENTE_EVALUACION');
+                $t->text('observaciones')->nullable();
+                $t->foreignId('usuario_id')->nullable()->constrained('users')->nullOnDelete();
+                $t->timestamps();
+            });
+        }
 
         Schema::table('inventario_lotes', function (Blueprint $t) {
             if (!Schema::hasColumn('inventario_lotes', 'estado_calidad')) {
