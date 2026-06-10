@@ -92,6 +92,10 @@
         .form-group input, .form-group select, .form-group textarea { width:100%; padding:9px 11px; border:1.5px solid #d1d5db; border-radius:8px; font-size:.88rem; outline:none; font-family:inherit; }
         .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color:var(--inst); box-shadow:0 0 0 3px rgba(46,58,117,.1); }
         .form-check { display:flex; align-items:center; gap:8px; margin-top:24px; }
+        /* El checkbox no debe heredar el width:100% de .form-group input: se deja angosto
+           para que la etiqueta tenga espacio y no se solape con el campo de al lado. */
+        .form-check input[type="checkbox"] { width:16px; height:16px; flex:0 0 16px; padding:0; margin:0; }
+        .form-check label { flex:1 1 auto; min-width:0; }
         @media (max-width:700px) { .form-row, .form-row.cols-3 { grid-template-columns:1fr; } }
     </style>
 
