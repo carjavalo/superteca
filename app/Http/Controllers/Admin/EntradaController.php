@@ -13,9 +13,11 @@ use App\Models\Presentacion;
 use App\Models\Proveedor;
 use App\Models\Laboratorio;
 use App\Models\UnidadMedida;
+use App\Models\TipoEntrada;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\Rule;
 
 class EntradaController extends Controller
 {
@@ -200,7 +202,7 @@ class EntradaController extends Controller
     {
         $data = $request->validate([
             'codigo'           => 'nullable|string|max:50|unique:entradas,codigo' . ($id ? ",{$id}" : ''),
-            'tipo_entrada'     => 'required|in:' . implode(',', array_keys(Entrada::TIPOS)),
+            'tipo_entrada'     => ['required', Rule::in(TipoEntrada::codigosDisponibles())],
             'proveedor_id'     => 'nullable|exists:proveedores,id',
             'paciente_id'      => 'nullable|required_if:tipo_entrada,ASIGNACION|exists:pacientes,id',
             'numero_factura'   => 'nullable|string|max:100',
@@ -386,6 +388,7 @@ class EntradaController extends Controller
         $presentaciones = Presentacion::orderBy('nombre')->get(['id','nombre','medicamento_id','unidad_medida_id']);
         $laboratorios   = Laboratorio::orderBy('nombre')->get();
         $unidades       = UnidadMedida::where('estado',1)->orderBy('tipo')->orderBy('nombre')->get();
+        $tiposEntrada   = TipoEntrada::orderBy('Detalle')->get();
 
         $medicamentosJson = $medicamentos->map(fn($m) => [
             'id' => $m->id, 'nombre' => $m->nombre,
@@ -422,7 +425,7 @@ class EntradaController extends Controller
 
         return compact(
             'entrada','detalles',
-            'proveedores','medicamentos','presentaciones','laboratorios','unidades',
+            'proveedores','medicamentos','presentaciones','laboratorios','unidades','tiposEntrada',
             'medicamentosJson','presentacionesJson','laboratoriosJson','unidadesJson','existingJson'
         );
     }

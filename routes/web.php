@@ -347,6 +347,12 @@ Route::middleware(['auth', 'permiso'])->group(function () {
     Route::put('/admin/permisos',           [\App\Http\Controllers\Admin\PermisoController::class, 'update'])->name('admin.permisos.update');
     Route::post('/admin/permisos/duplicar', [\App\Http\Controllers\Admin\PermisoController::class, 'duplicar'])->name('admin.permisos.duplicar');
     Route::get('/admin/permisos/exportar',  [\App\Http\Controllers\Admin\PermisoController::class, 'exportar'])->name('admin.permisos.exportar');
+
+    // Gestor de Tipos de Entrada (catálogo dinámico que alimenta el select de Entradas)
+    Route::get('/admin/tipos-entrada',                  [\App\Http\Controllers\Admin\TipoEntradaController::class, 'index'])->name('admin.tipos_entrada.index');
+    Route::post('/admin/tipos-entrada',                 [\App\Http\Controllers\Admin\TipoEntradaController::class, 'store'])->name('admin.tipos_entrada.store');
+    Route::put('/admin/tipos-entrada/{tipos_entrada}',  [\App\Http\Controllers\Admin\TipoEntradaController::class, 'update'])->name('admin.tipos_entrada.update');
+    Route::delete('/admin/tipos-entrada/{tipos_entrada}',[\App\Http\Controllers\Admin\TipoEntradaController::class, 'destroy'])->name('admin.tipos_entrada.destroy');
 });
 
 require __DIR__.'/auth.php';

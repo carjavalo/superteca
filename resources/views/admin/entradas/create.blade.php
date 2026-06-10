@@ -74,8 +74,8 @@
                 <div class="form-group">
                     <label>Tipo de entrada *</label>
                     <select name="tipo_entrada" required>
-                        @foreach(\App\Models\Entrada::TIPOS as $k => $l)
-                            <option value="{{ $k }}" {{ old('tipo_entrada', $entrada->tipo_entrada) == $k ? 'selected' : '' }}>{{ $l }}</option>
+                        @foreach($tiposEntrada as $t)
+                            <option value="{{ $t->codigo }}" {{ old('tipo_entrada', $entrada->tipo_entrada) == $t->codigo ? 'selected' : '' }}>{{ $t->Detalle }}</option>
                         @endforeach
                     </select>
                 </div>

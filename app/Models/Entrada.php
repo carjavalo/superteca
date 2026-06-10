@@ -48,6 +48,12 @@ class Entrada extends Model
 
     public function getEsAsignacionAttribute(): bool { return $this->tipo_entrada === 'ASIGNACION'; }
 
-    public function getTipoLabelAttribute(): string   { return self::TIPOS[$this->tipo_entrada] ?? '—'; }
+    public function getTipoLabelAttribute(): string
+    {
+        // Prioriza el catálogo dinámico (tabla tipoEntrada); si no, la constante
+        // legada; y como último recurso, el propio código almacenado.
+        return TipoEntrada::mapaCodigoDetalle()[$this->tipo_entrada]
+            ?? (self::TIPOS[$this->tipo_entrada] ?? $this->tipo_entrada);
+    }
     public function getEstadoLabelAttribute(): string { return self::ESTADOS[$this->estado] ?? $this->estado; }
 }

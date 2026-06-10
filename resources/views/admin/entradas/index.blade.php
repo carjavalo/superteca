@@ -67,8 +67,8 @@
             <input type="text" name="search" value="{{ request('search') }}" placeholder="Buscar código, factura, remisión...">
             <select name="tipo">
                 <option value="">Todos los tipos</option>
-                @foreach(\App\Models\Entrada::TIPOS as $k => $l)
-                    <option value="{{ $k }}" {{ request('tipo')==$k?'selected':'' }}>{{ $l }}</option>
+                @foreach(\App\Models\TipoEntrada::orderBy('Detalle')->get() as $t)
+                    <option value="{{ $t->codigo }}" {{ request('tipo')==$t->codigo?'selected':'' }}>{{ $t->Detalle }}</option>
                 @endforeach
             </select>
             <select name="estado">
