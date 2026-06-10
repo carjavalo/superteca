@@ -72,6 +72,7 @@ return [
         'admin.roles'                     => 'Gestión de roles',
         'admin.permisos'                  => 'Gestión de permisos',
         'admin.tipos_entrada'             => 'Gestor Tipos de Entrada',
+        'admin.tipos_administracion'      => 'Gestor Tipos de Administración',
     ],
 
     /*
@@ -167,7 +168,7 @@ return [
             'icono' => '⚙️',
             'vistas' => [
                 'Gestión de usuarios', 'Gestión de roles', 'Gestión de permisos',
-                'Gestor Tipos de Entrada',
+                'Gestor Tipos de Entrada', 'Gestor Tipos de Administración',
                 'Configuración general', 'Parámetros generales', 'Integraciones',
                 'Copias de seguridad', 'Auditoría sistema',
             ],

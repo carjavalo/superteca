@@ -353,6 +353,12 @@ Route::middleware(['auth', 'permiso'])->group(function () {
     Route::post('/admin/tipos-entrada',                 [\App\Http\Controllers\Admin\TipoEntradaController::class, 'store'])->name('admin.tipos_entrada.store');
     Route::put('/admin/tipos-entrada/{tipos_entrada}',  [\App\Http\Controllers\Admin\TipoEntradaController::class, 'update'])->name('admin.tipos_entrada.update');
     Route::delete('/admin/tipos-entrada/{tipos_entrada}',[\App\Http\Controllers\Admin\TipoEntradaController::class, 'destroy'])->name('admin.tipos_entrada.destroy');
+
+    // Gestor de Tipos de Administración (catálogo dinámico que alimenta el select «Tipo» de Vías de Administración)
+    Route::get('/admin/tipos-administracion',                         [\App\Http\Controllers\Admin\TipoAdministracionController::class, 'index'])->name('admin.tipos_administracion.index');
+    Route::post('/admin/tipos-administracion',                        [\App\Http\Controllers\Admin\TipoAdministracionController::class, 'store'])->name('admin.tipos_administracion.store');
+    Route::put('/admin/tipos-administracion/{tipos_administracion}',  [\App\Http\Controllers\Admin\TipoAdministracionController::class, 'update'])->name('admin.tipos_administracion.update');
+    Route::delete('/admin/tipos-administracion/{tipos_administracion}',[\App\Http\Controllers\Admin\TipoAdministracionController::class, 'destroy'])->name('admin.tipos_administracion.destroy');
 });
 
 require __DIR__.'/auth.php';

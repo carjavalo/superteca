@@ -513,10 +513,11 @@
 
                 {{-- Configuración con submenú --}}
                 @php
-                    $verUsuarios     = \App\Support\Permisos::puede('Gestión de usuarios');
-                    $verRoles        = \App\Support\Permisos::puede('Gestión de roles');
-                    $verTiposEntrada = \App\Support\Permisos::puede('Gestor Tipos de Entrada');
-                    $verConfig       = $isSuperAdmin || $verUsuarios || $verRoles || $verTiposEntrada;
+                    $verUsuarios          = \App\Support\Permisos::puede('Gestión de usuarios');
+                    $verRoles             = \App\Support\Permisos::puede('Gestión de roles');
+                    $verTiposEntrada      = \App\Support\Permisos::puede('Gestor Tipos de Entrada');
+                    $verTiposAdmin        = \App\Support\Permisos::puede('Gestor Tipos de Administración');
+                    $verConfig            = $isSuperAdmin || $verUsuarios || $verRoles || $verTiposEntrada || $verTiposAdmin;
                 @endphp
                 @if($verConfig)
                 <div class="nav-group">
@@ -558,6 +559,14 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M11 4a2 2 0 114 0v1a1 1 0 001 1h3a1 1 0 011 1v3a1 1 0 01-1 1h-1a2 2 0 100 4h1a1 1 0 011 1v3a1 1 0 01-1 1h-3a1 1 0 01-1-1v-1a2 2 0 10-4 0v1a1 1 0 01-1 1H7a1 1 0 01-1-1v-3a1 1 0 00-1-1H4a2 2 0 110-4h1a1 1 0 001-1V7a1 1 0 011-1h3a1 1 0 001-1V4z" />
                             </svg>
                             Gestor Tipos de Entrada
+                        </a>
+                        @endif
+                        @if($verTiposAdmin)
+                        <a href="{{ route('admin.tipos_administracion.index') }}" class="{{ request()->routeIs('admin.tipos_administracion.*') ? 'active' : '' }}">
+                            <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="16" height="16">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                            </svg>
+                            Gestor Tipos de Administración
                         </a>
                         @endif
                         @if($isSuperAdmin)

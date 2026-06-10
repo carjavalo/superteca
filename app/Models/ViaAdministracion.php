@@ -74,7 +74,10 @@ class ViaAdministracion extends Model
 
     public function getTipoLabelAttribute(): string
     {
-        return self::TIPOS[$this->tipo] ?? '—';
+        // Prioriza el catálogo dinámico (tabla TipoAdministracion); si no, la
+        // constante legada; y como último recurso, un guion.
+        return TipoAdministracion::mapaCodigoDetalle()[$this->tipo]
+            ?? (self::TIPOS[$this->tipo] ?? '—');
     }
 
     public function getRiesgoLabelAttribute(): string

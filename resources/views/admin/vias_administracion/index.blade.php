@@ -137,8 +137,8 @@
                         <label>Tipo</label>
                         <select name="tipo">
                             <option value="">Todos</option>
-                            @foreach(\App\Models\ViaAdministracion::TIPOS as $k => $l)
-                                <option value="{{ $k }}" {{ request('tipo') == $k ? 'selected' : '' }}>{{ $l }}</option>
+                            @foreach(\App\Models\TipoAdministracion::orderBy('Detalle')->get() as $t)
+                                <option value="{{ $t->codigo }}" {{ request('tipo') == $t->codigo ? 'selected' : '' }}>{{ $t->Detalle }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -321,8 +321,8 @@
                                 <label>Tipo</label>
                                 <select name="tipo" id="f_tipo">
                                     <option value="">— Seleccione —</option>
-                                    @foreach(\App\Models\ViaAdministracion::TIPOS as $k => $l)
-                                        <option value="{{ $k }}">{{ $l }}</option>
+                                    @foreach(\App\Models\TipoAdministracion::orderBy('Detalle')->get() as $t)
+                                        <option value="{{ $t->codigo }}">{{ $t->Detalle }}</option>
                                     @endforeach
                                 </select>
                             </div>

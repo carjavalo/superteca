@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\ViaAdministracion;
+use App\Models\TipoAdministracion;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class ViaAdministracionController extends Controller
 {
@@ -99,7 +101,7 @@ class ViaAdministracionController extends Controller
             'nombre'                    => 'required|string|max:100',
             'nombre_corto'              => 'nullable|string|max:50',
             'descripcion'               => 'nullable|string',
-            'tipo'                      => 'nullable|in:' . implode(',', array_keys(ViaAdministracion::TIPOS)),
+            'tipo'                      => ['nullable', Rule::in(TipoAdministracion::codigosDisponibles())],
             'esteril_requerido'         => 'nullable|boolean',
             'requiere_bomba_infusion'   => 'nullable|boolean',
             'requiere_filtro'           => 'nullable|boolean',
