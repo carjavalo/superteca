@@ -10,7 +10,7 @@
     .col-header .sub { font-size:.78rem; opacity:.9; }
     .col-header.form { background:linear-gradient(135deg, var(--teal) 0%, var(--inst) 100%); }
     .col-header.list { background:linear-gradient(135deg, var(--inst) 0%, #3b4a96 100%); }
-    .col-header .count { background:rgba(255,255,255,.2); padding:.25rem .7rem; border-radius:20px; font-size:.8rem; font-weight:700; }
+    .col-header .count { background:rgba(255,255,255,.2); padding:.25rem .7rem; border-radius:20px; font-size:.8rem; font-weight:700; white-space:nowrap; }
 
     .card-box { background:#fff; padding:1.1rem 1.2rem; border-radius:12px; box-shadow:0 2px 8px rgba(0,0,0,.07); margin-bottom:1rem; }
     .card-box h2 { margin:0 0 .9rem 0; font-size:.92rem; color:var(--inst); border-bottom:2px solid #f1f5f9; padding-bottom:.5rem; }
@@ -26,10 +26,19 @@
     .btn-secondary { background:#e2e8f0; color:#1e293b; }
 
     /* ---- Datatable lateral ---- */
-    .list-tools { display:flex; gap:.5rem; margin-bottom:.8rem; flex-wrap:wrap; }
-    .list-tools input, .list-tools select { padding:.5rem .7rem; border:1.5px solid #e2e8f0; border-radius:8px; font-size:.82rem; }
-    .list-tools .search { flex:1 1 180px; }
-    .tabla-wrap { max-height:68vh; overflow-y:auto; border:1px solid #f1f5f9; border-radius:10px; }
+    .list-tools { display:flex; gap:.5rem; flex-wrap:wrap; margin-bottom:.6rem; }
+    .list-tools .search { flex:1 1 140px; min-width:110px; padding:.5rem .6rem; border:1.5px solid #e2e8f0; border-radius:8px; font-size:.82rem; box-sizing:border-box; }
+    .list-tools select { flex:0 1 145px; max-width:155px; padding:.5rem .45rem; border:1.5px solid #e2e8f0; border-radius:8px; font-size:.8rem; box-sizing:border-box; }
+    .list-tools .search:focus, .list-tools select:focus { border-color:var(--teal); box-shadow:0 0 0 3px rgba(20,184,166,.12); outline:none; }
+
+    .list-actions { display:flex; gap:.5rem; justify-content:flex-end; align-items:center; margin-bottom:.8rem; flex-wrap:wrap; }
+    .btn-sm { padding:.45rem .85rem; border-radius:8px; border:none; cursor:pointer; font-size:.78rem; font-weight:600; display:inline-flex; align-items:center; gap:.35rem; }
+    .btn-print { background:#e2e8f0; color:#1e293b; }
+    .btn-print:hover { background:#cbd5e1; }
+    .btn-excel { background:#16a34a; color:#fff; }
+    .btn-excel:hover { background:#15803d; }
+
+    .tabla-wrap { max-height:64vh; overflow-y:auto; border:1px solid #f1f5f9; border-radius:10px; }
     table.dt { width:100%; border-collapse:collapse; }
     table.dt th { position:sticky; top:0; background:#f1f5f9; padding:.6rem .7rem; text-align:left; font-size:.68rem; color:#475569; text-transform:uppercase; z-index:1; }
     table.dt td { padding:.55rem .7rem; font-size:.82rem; border-top:1px solid #f1f5f9; vertical-align:middle; }
@@ -147,7 +156,8 @@
 
         <div class="card-box">
             <div class="list-tools">
-                <input type="text" id="dt-search" class="search" placeholder="🔍 Buscar documento, nombre o cama...">
+                <input type="text" id="dt-doc" class="search" placeholder="🔍 Identificación...">
+                <input type="text" id="dt-nombre" class="search" placeholder="🔍 Nombre...">
                 <select id="dt-estado">
                     <option value="">Todos los estados</option>
                     @foreach(\App\Models\Paciente::ESTADOS_CLINICOS as $k=>$v)
@@ -162,11 +172,16 @@
                 </select>
             </div>
 
+            <div class="list-actions">
+                <button type="button" class="btn-sm btn-print" id="btn-print">🖨 Imprimir</button>
+                <button type="button" class="btn-sm btn-excel" id="btn-excel">📊 Exportar Excel</button>
+            </div>
+
             <div class="tabla-wrap">
                 <table class="dt">
                     <thead>
                         <tr>
-                            <th>Documento</th>
+                            <th>Identificación</th>
                             <th>Paciente</th>
                             <th>Servicio</th>
                             <th>Estado</th>
@@ -177,15 +192,22 @@
                             @php
                                 $bclass = ['ACTIVO'=>'b-act','EGRESADO'=>'b-egr','FALLECIDO'=>'b-fal'][$p->estado_clinico ?? 'ACTIVO'] ?? 'b-act';
                                 $estLabel = \App\Models\Paciente::ESTADOS_CLINICOS[$p->estado_clinico ?? 'ACTIVO'] ?? 'Activo';
+                                $nombreFull = trim($p->apellidos.' '.$p->nombres);
                             @endphp
                             <tr class="dt-row"
-                                data-search="{{ \Illuminate\Support\Str::lower($p->documento.' '.$p->apellidos.' '.$p->nombres.' '.$p->cama) }}"
+                                data-doc="{{ $p->documento }}"
+                                data-nombre="{{ $nombreFull }}"
                                 data-estado="{{ $p->estado_clinico ?? 'ACTIVO' }}"
                                 data-servicio="{{ $p->servicio_id ?? '' }}"
+                                data-eps="{{ $p->eps }}"
+                                data-servnom="{{ $p->servicio->nombre ?? '' }}"
+                                data-cama="{{ $p->cama }}"
+                                data-estlabel="{{ $estLabel }}"
+                                data-tipodoc="{{ $p->tipo_documento }}"
                                 onclick="window.location='{{ route('admin.dispensacion.pacientes.show', $p) }}'">
                                 <td style="font-family:monospace">{{ $p->documento }}</td>
                                 <td>
-                                    <strong>{{ trim($p->apellidos.' '.$p->nombres) }}</strong>
+                                    <strong>{{ $nombreFull }}</strong>
                                     @if($p->cama)<br><small>Cama <span class="cama-tag">{{ $p->cama }}</span></small>@endif
                                 </td>
                                 <td>{{ $p->servicio->nombre ?? '—' }}</td>
@@ -204,24 +226,32 @@
 
 <script>
     (function () {
-        const search   = document.getElementById('dt-search');
-        const fEstado  = document.getElementById('dt-estado');
-        const fServ    = document.getElementById('dt-servicio');
-        const rows     = Array.from(document.querySelectorAll('.dt-row'));
-        const noRes    = document.getElementById('dt-noresults');
-        const countEl  = document.getElementById('dt-count');
+        const fDoc    = document.getElementById('dt-doc');
+        const fNom    = document.getElementById('dt-nombre');
+        const fEstado = document.getElementById('dt-estado');
+        const fServ   = document.getElementById('dt-servicio');
+        const rows    = Array.from(document.querySelectorAll('.dt-row'));
+        const noRes   = document.getElementById('dt-noresults');
+        const countEl = document.getElementById('dt-count');
+
+        // Normaliza: minúsculas y sin acentos (búsqueda flexible).
+        const norm = s => (s || '').toString().toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
+
+        function visibles() { return rows.filter(r => r.style.display !== 'none'); }
 
         function applyFilters() {
-            const q   = search.value.trim().toLowerCase();
+            const qd  = norm(fDoc.value.trim());
+            const qn  = norm(fNom.value.trim());
             const est = fEstado.value;
             const srv = fServ.value;
             let visible = 0;
 
             rows.forEach(tr => {
-                const okQ   = !q   || (tr.dataset.search || '').includes(q);
-                const okEst = !est || tr.dataset.estado === est;
-                const okSrv = !srv || tr.dataset.servicio === srv;
-                const show  = okQ && okEst && okSrv;
+                const okD = !qd  || norm(tr.dataset.doc).includes(qd);
+                const okN = !qn  || norm(tr.dataset.nombre).includes(qn);
+                const okE = !est || tr.dataset.estado === est;
+                const okS = !srv || tr.dataset.servicio === srv;
+                const show = okD && okN && okE && okS;
                 tr.style.display = show ? '' : 'none';
                 if (show) visible++;
             });
@@ -230,10 +260,85 @@
             if (noRes) noRes.style.display = (visible === 0 && rows.length > 0) ? '' : 'none';
         }
 
-        [search, fEstado, fServ].forEach(el => {
+        [fDoc, fNom, fEstado, fServ].forEach(el => {
             if (!el) return;
             el.addEventListener('input', applyFilters);
             el.addEventListener('change', applyFilters);
+        });
+
+        // ---- Datos para imprimir / exportar (sólo filas visibles) ----
+        const COLS = ['Identificación', 'Tipo doc.', 'Apellidos y Nombres', 'EPS', 'Servicio', 'Cama', 'Estado'];
+        function rowData(tr) {
+            return [
+                tr.dataset.doc || '',
+                tr.dataset.tipodoc || '',
+                tr.dataset.nombre || '',
+                tr.dataset.eps || '',
+                tr.dataset.servnom || '',
+                tr.dataset.cama || '',
+                tr.dataset.estlabel || ''
+            ];
+        }
+        function esc(s) { return (s || '').toString().replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+        function stamp() {
+            const d = new Date();
+            const p = n => String(n).padStart(2, '0');
+            return p(d.getDate())+'/'+p(d.getMonth()+1)+'/'+d.getFullYear()+' '+p(d.getHours())+':'+p(d.getMinutes());
+        }
+
+        function buildTable(forExcel) {
+            let h = '<table border="1" cellspacing="0" cellpadding="4"><thead><tr>';
+            COLS.forEach(c => h += '<th>' + esc(c) + '</th>');
+            h += '</tr></thead><tbody>';
+            visibles().forEach(tr => {
+                const d = rowData(tr);
+                h += '<tr>';
+                d.forEach((v, i) => {
+                    // Forzar la identificación como texto en Excel (evita notación científica).
+                    const style = (forExcel && i === 0) ? ' style="mso-number-format:\'\\@\'"' : '';
+                    h += '<td' + style + '>' + esc(v) + '</td>';
+                });
+                h += '</tr>';
+            });
+            h += '</tbody></table>';
+            return h;
+        }
+
+        // ---- Imprimir ----
+        document.getElementById('btn-print').addEventListener('click', function () {
+            const n = visibles().length;
+            if (n === 0) { alert('No hay resultados para imprimir.'); return; }
+            const w = window.open('', '_blank');
+            w.document.write(
+                '<html><head><title>Pacientes</title><meta charset="UTF-8"><style>' +
+                'body{font-family:Arial,Helvetica,sans-serif;color:#1e293b;padding:22px}' +
+                'h2{color:#2e3a75;margin:0 0 2px}.meta{color:#64748b;font-size:12px;margin-bottom:14px}' +
+                'table{width:100%;border-collapse:collapse}th{background:#2e3a75;color:#fff;text-align:left;padding:6px 8px;font-size:11px;border:1px solid #2e3a75}' +
+                'td{padding:5px 8px;border:1px solid #e2e8f0;font-size:11px}tr:nth-child(even) td{background:#f8fafc}' +
+                '</style></head><body>' +
+                '<h2>Listado de Pacientes</h2><div class="meta">Resultados: ' + n + ' &middot; Generado: ' + stamp() + '</div>' +
+                buildTable(false) +
+                '</body></html>'
+            );
+            w.document.close(); w.focus();
+            setTimeout(() => { w.print(); }, 250);
+        });
+
+        // ---- Exportar a Excel ----
+        document.getElementById('btn-excel').addEventListener('click', function () {
+            const n = visibles().length;
+            if (n === 0) { alert('No hay resultados para exportar.'); return; }
+            const html =
+                '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40">' +
+                '<head><meta charset="UTF-8"></head><body>' + buildTable(true) + '</body></html>';
+            const blob = new Blob(['﻿', html], { type: 'application/vnd.ms-excel;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            const d = new Date(), p = x => String(x).padStart(2, '0');
+            a.href = url;
+            a.download = 'pacientes_' + d.getFullYear() + p(d.getMonth()+1) + p(d.getDate()) + '_' + p(d.getHours()) + p(d.getMinutes()) + '.xls';
+            document.body.appendChild(a); a.click(); document.body.removeChild(a);
+            URL.revokeObjectURL(url);
         });
     })();
 </script>
