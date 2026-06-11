@@ -160,8 +160,8 @@
                         <label>Tipo de proveedor</label>
                         <select name="tipo_proveedor">
                             <option value="">Todos</option>
-                            @foreach(\App\Models\Proveedor::TIPOS as $key => $label)
-                                <option value="{{ $key }}" {{ request('tipo_proveedor') == $key ? 'selected' : '' }}>{{ $label }}</option>
+                            @foreach(\App\Models\TProveedor::orderBy('Detalle')->get() as $t)
+                                <option value="{{ $t->codigo }}" {{ request('tipo_proveedor') == $t->codigo ? 'selected' : '' }}>{{ $t->Detalle }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -334,8 +334,8 @@
                                 <label>Tipo de proveedor</label>
                                 <select name="tipo_proveedor" id="f_tipo_proveedor">
                                     <option value="">— Seleccione —</option>
-                                    @foreach(\App\Models\Proveedor::TIPOS as $k => $l)
-                                        <option value="{{ $k }}">{{ $l }}</option>
+                                    @foreach(\App\Models\TProveedor::orderBy('Detalle')->get() as $t)
+                                        <option value="{{ $t->codigo }}">{{ $t->Detalle }}</option>
                                     @endforeach
                                 </select>
                             </div>

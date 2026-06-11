@@ -519,7 +519,8 @@
                     $verTiposAdmin        = \App\Support\Permisos::puede('Gestor Tipos de Administración');
                     $verServicios         = \App\Support\Permisos::puede('Gestor de Servicios');
                     $verEps               = \App\Support\Permisos::puede('Gestor de EPS');
-                    $verConfig            = $isSuperAdmin || $verUsuarios || $verRoles || $verTiposEntrada || $verTiposAdmin || $verServicios || $verEps;
+                    $verTProveedor        = \App\Support\Permisos::puede('Gestor Tipo de Proveedores');
+                    $verConfig            = $isSuperAdmin || $verUsuarios || $verRoles || $verTiposEntrada || $verTiposAdmin || $verServicios || $verEps || $verTProveedor;
                 @endphp
                 @if($verConfig)
                 <div class="nav-group">
@@ -585,6 +586,14 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                             </svg>
                             Gestor de EPS
+                        </a>
+                        @endif
+                        @if($verTProveedor)
+                        <a href="{{ route('admin.tproveedor.index') }}" class="{{ request()->routeIs('admin.tproveedor.*') ? 'active' : '' }}">
+                            <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="16" height="16">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M19 21V7a2 2 0 00-2-2h-3V3H10v2H7a2 2 0 00-2 2v14m14 0H5m14 0h2M5 21H3m6-4h.01M9 13h.01M9 9h.01M15 17h.01M15 13h.01M15 9h.01" />
+                            </svg>
+                            Gestor Tipo de Proveedores
                         </a>
                         @endif
                         @if($isSuperAdmin)

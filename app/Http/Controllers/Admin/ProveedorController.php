@@ -4,8 +4,10 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Proveedor;
+use App\Models\TProveedor;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\Rule;
 
 class ProveedorController extends Controller
 {
@@ -111,7 +113,7 @@ class ProveedorController extends Controller
     {
         return $request->validate([
             'codigo'                     => 'nullable|string|max:50',
-            'tipo_proveedor'             => 'nullable|in:' . implode(',', array_keys(Proveedor::TIPOS)),
+            'tipo_proveedor'             => ['nullable', Rule::in(TProveedor::codigosDisponibles())],
             'razon_social'               => 'required|string|max:255',
             'nombre_comercial'           => 'nullable|string|max:255',
             'nit'                        => 'required|string|max:50',

@@ -71,7 +71,10 @@ class Proveedor extends Model
 
     public function getTipoLabelAttribute(): string
     {
-        return self::TIPOS[$this->tipo_proveedor] ?? '—';
+        // Prioriza el catálogo dinámico (tabla TProveedor); si no, la constante
+        // legada; y como último recurso, un guion.
+        return TProveedor::mapaCodigoDetalle()[$this->tipo_proveedor]
+            ?? (self::TIPOS[$this->tipo_proveedor] ?? '—');
     }
 
     public function getNitCompletoAttribute(): string

@@ -371,6 +371,12 @@ Route::middleware(['auth', 'permiso'])->group(function () {
     Route::post('/admin/eps',         [\App\Http\Controllers\Admin\EpsController::class, 'store'])->name('admin.eps.store');
     Route::put('/admin/eps/{eps}',    [\App\Http\Controllers\Admin\EpsController::class, 'update'])->name('admin.eps.update');
     Route::delete('/admin/eps/{eps}', [\App\Http\Controllers\Admin\EpsController::class, 'destroy'])->name('admin.eps.destroy');
+
+    // Gestor Tipo de Proveedores (catálogo que alimenta el select «Tipo de proveedor» de Proveedores)
+    Route::get('/admin/tproveedor',                [\App\Http\Controllers\Admin\TProveedorController::class, 'index'])->name('admin.tproveedor.index');
+    Route::post('/admin/tproveedor',               [\App\Http\Controllers\Admin\TProveedorController::class, 'store'])->name('admin.tproveedor.store');
+    Route::put('/admin/tproveedor/{tproveedor}',   [\App\Http\Controllers\Admin\TProveedorController::class, 'update'])->name('admin.tproveedor.update');
+    Route::delete('/admin/tproveedor/{tproveedor}',[\App\Http\Controllers\Admin\TProveedorController::class, 'destroy'])->name('admin.tproveedor.destroy');
 });
 
 require __DIR__.'/auth.php';
