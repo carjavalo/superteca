@@ -86,7 +86,7 @@
                 transition: max-height .3s ease;
                 background: rgba(0,0,0,0.15);
             }
-            .nav-sub.open { max-height: 300px; }
+            .nav-sub.open { max-height: 600px; }
             .nav-sub a {
                 display: flex; align-items: center; gap: 10px;
                 padding: 10px 22px 10px 40px;
