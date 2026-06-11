@@ -88,7 +88,8 @@ class PacienteClinicoController extends Controller
     {
         $servicios = TipoServicios::orderBy('Detalle')->get();
         $eps       = Eps::activas()->orderBy('Detalle')->get();
-        return view('admin.dispensacion.pacientes.create', compact('servicios', 'eps'));
+        $pacientes = Paciente::with('servicio')->orderByDesc('id')->get();
+        return view('admin.dispensacion.pacientes.create', compact('servicios', 'eps', 'pacientes'));
     }
 
     public function store(Request $request)
