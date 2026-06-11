@@ -21,5 +21,5 @@ class PreparacionEntrega extends Model
     public function preparacion(): BelongsTo { return $this->belongsTo(Preparacion::class, 'preparacion_id'); }
     public function paciente(): BelongsTo { return $this->belongsTo(Paciente::class); }
     public function usuario(): BelongsTo { return $this->belongsTo(User::class, 'usuario_entrega_id'); }
-    public function servicio(): BelongsTo { return $this->belongsTo(ServicioHospitalario::class, 'servicio_destino_id'); }
+    public function servicio(): BelongsTo { return $this->belongsTo(TipoServicios::class, 'servicio_destino_id'); }
 }

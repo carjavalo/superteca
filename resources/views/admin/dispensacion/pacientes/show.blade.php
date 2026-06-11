@@ -103,10 +103,21 @@
                 <div><label>Sexo</label><select name="sexo"><option value="">—</option>@foreach(['M','F','O'] as $s)<option value="{{ $s }}" {{ $paciente->sexo==$s?'selected':'' }}>{{ $s }}</option>@endforeach</select></div>
                 <div><label>Peso</label><input type="number" step="0.01" name="peso" value="{{ $paciente->peso }}"></div>
                 <div><label>Talla</label><input type="number" step="0.01" name="talla" value="{{ $paciente->talla }}"></div>
-                <div><label>EPS</label><input type="text" name="eps" value="{{ $paciente->eps }}"></div>
+                <div><label>EPS</label>
+                    @php $epsActivas = \App\Models\Eps::activas()->orderBy('Detalle')->get(); @endphp
+                    <select name="eps">
+                        <option value="">—</option>
+                        @if($paciente->eps && ! $epsActivas->contains('Detalle', $paciente->eps))
+                            <option value="{{ $paciente->eps }}" selected>{{ $paciente->eps }} (inactiva)</option>
+                        @endif
+                        @foreach($epsActivas as $e)
+                            <option value="{{ $e->Detalle }}" {{ $paciente->eps==$e->Detalle?'selected':'' }}>{{ $e->Detalle }}</option>
+                        @endforeach
+                    </select>
+                </div>
                 <div><label>Servicio</label>
                     <select name="servicio_id"><option value="">—</option>
-                    @foreach(\App\Models\ServicioHospitalario::where('estado',1)->orderBy('nombre')->get() as $s)
+                    @foreach(\App\Models\TipoServicios::orderBy('Detalle')->get() as $s)
                         <option value="{{ $s->id }}" {{ $paciente->servicio_id==$s->id?'selected':'' }}>{{ $s->nombre }}</option>
                     @endforeach
                     </select>

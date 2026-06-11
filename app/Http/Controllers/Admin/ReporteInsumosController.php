@@ -8,7 +8,7 @@ use App\Models\Laboratorio;
 use App\Models\Medicamento;
 use App\Models\Paciente;
 use App\Models\Proveedor;
-use App\Models\ServicioHospitalario;
+use App\Models\TipoServicios;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
@@ -103,15 +103,15 @@ class ReporteInsumosController extends Controller
 
         // ===== Consumo por servicio (vía dispensaciones) =====
         $porServicio = DB::table('dispensacion_entregas as de')
-            ->leftJoin('servicios_hospitalarios as s', 's.id', '=', 'de.servicio_id')
+            ->leftJoin('TipoServicios as s', 's.id', '=', 'de.servicio_id')
             ->leftJoin('dispensacion_entregas_detalle as ded', 'ded.entrega_id', '=', 'de.id')
             ->leftJoin('dispensacion_entregas_lotes as del', 'del.entrega_detalle_id', '=', 'ded.id')
             ->whereBetween('de.fecha_entrega', [$desde, $hasta])
             ->when($servicioId, fn($q) => $q->where('de.servicio_id', $servicioId))
-            ->selectRaw("COALESCE(s.nombre, de.tipo_entrega, 'Sin servicio') as servicio,
+            ->selectRaw("COALESCE(s.Detalle, de.tipo_entrega, 'Sin servicio') as servicio,
                          SUM(COALESCE(del.cantidad_entregada, 0)) as cantidad,
                          SUM(COALESCE(del.cantidad_entregada,0) * COALESCE(del.costo_unitario,0)) as costo")
-            ->groupByRaw("COALESCE(s.nombre, de.tipo_entrega, 'Sin servicio')")
+            ->groupByRaw("COALESCE(s.Detalle, de.tipo_entrega, 'Sin servicio')")
             ->orderByDesc('cantidad')
             ->limit(15)->get();
 
@@ -160,15 +160,15 @@ class ReporteInsumosController extends Controller
 
         // ===== Mapa de calor: medicamento × servicio =====
         $heatRaw = DB::table('dispensacion_entregas as de')
-            ->leftJoin('servicios_hospitalarios as s', 's.id', '=', 'de.servicio_id')
+            ->leftJoin('TipoServicios as s', 's.id', '=', 'de.servicio_id')
             ->join('dispensacion_entregas_detalle as ded', 'ded.entrega_id', '=', 'de.id')
             ->join('dispensacion_entregas_lotes as del', 'del.entrega_detalle_id', '=', 'ded.id')
             ->join('medicamentos as m', 'm.id', '=', 'ded.medicamento_id')
             ->whereBetween('de.fecha_entrega', [$desde, $hasta])
             ->selectRaw("m.nombre as medicamento,
-                         COALESCE(s.nombre, de.tipo_entrega, 'Sin servicio') as servicio,
+                         COALESCE(s.Detalle, de.tipo_entrega, 'Sin servicio') as servicio,
                          SUM(del.cantidad_entregada) as cantidad")
-            ->groupByRaw("m.nombre, COALESCE(s.nombre, de.tipo_entrega, 'Sin servicio')")
+            ->groupByRaw("m.nombre, COALESCE(s.Detalle, de.tipo_entrega, 'Sin servicio')")
             ->orderByDesc('cantidad')
             ->limit(60)->get();
 
@@ -242,7 +242,7 @@ class ReporteInsumosController extends Controller
         $medicamentos = Medicamento::orderBy('nombre')->limit(500)->get(['id','nombre']);
         $laboratorios = Laboratorio::orderBy('nombre')->get(['id','nombre']);
         $proveedores  = Proveedor::orderBy('razon_social')->get(['id','razon_social','nombre_comercial']);
-        $servicios    = ServicioHospitalario::orderBy('nombre')->get(['id','nombre']);
+        $servicios    = TipoServicios::orderBy('Detalle')->get(['id','Detalle']);
         $lotes        = InventarioLote::with('medicamento')->orderByDesc('id')->limit(300)->get();
 
         return view('admin.reportes.insumos', compact(

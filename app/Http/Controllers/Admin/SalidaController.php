@@ -10,6 +10,7 @@ use App\Models\MovimientoInventario;
 use App\Models\Medicamento;
 use App\Models\Presentacion;
 use App\Models\UnidadMedida;
+use App\Models\TipoServicios;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -372,10 +373,11 @@ class SalidaController extends Controller
             'numero_preparacion'  => $d->numero_preparacion,
         ])->values()->all();
 
-        $usuarios = \App\Models\User::orderBy('name')->get(['id','name']);
+        $usuarios  = \App\Models\User::orderBy('name')->get(['id','name']);
+        $servicios = TipoServicios::orderBy('Detalle')->get();
 
         return compact(
-            'salida','detalles','usuarios',
+            'salida','detalles','usuarios','servicios',
             'medicamentosJson','presentacionesJson','lotesJson','unidadesJson','existingJson'
         );
     }

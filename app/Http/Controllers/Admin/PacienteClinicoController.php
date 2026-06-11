@@ -10,7 +10,8 @@ use App\Models\PacienteDiagnostico;
 use App\Models\PacientePrescripcion;
 use App\Models\PacientePrescripcionDetalle;
 use App\Models\PacienteTratamiento;
-use App\Models\ServicioHospitalario;
+use App\Models\TipoServicios;
+use App\Models\Eps;
 use App\Models\UnidadMedida;
 use App\Models\User;
 use App\Models\ViaAdministracion;
@@ -37,7 +38,7 @@ class PacienteClinicoController extends Controller
         if ($request->filled('servicio_id'))    $q->where('servicio_id', $request->servicio_id);
 
         $pacientes = $q->orderBy('apellidos')->orderBy('nombres')->paginate(30)->withQueryString();
-        $servicios = ServicioHospitalario::where('estado', 1)->orderBy('nombre')->get();
+        $servicios = TipoServicios::orderBy('Detalle')->get();
 
         $stats = [
             'activos'         => Paciente::where('estado_clinico','ACTIVO')->count(),
@@ -85,8 +86,9 @@ class PacienteClinicoController extends Controller
 
     public function create()
     {
-        $servicios = ServicioHospitalario::where('estado', 1)->orderBy('nombre')->get();
-        return view('admin.dispensacion.pacientes.create', compact('servicios'));
+        $servicios = TipoServicios::orderBy('Detalle')->get();
+        $eps       = Eps::activas()->orderBy('Detalle')->get();
+        return view('admin.dispensacion.pacientes.create', compact('servicios', 'eps'));
     }
 
     public function store(Request $request)
@@ -105,7 +107,7 @@ class PacienteClinicoController extends Controller
             'direccion'       => 'nullable|string|max:255',
             'eps'             => 'nullable|string|max:120',
             'cama'            => 'nullable|string|max:30',
-            'servicio_id'     => 'nullable|exists:servicios_hospitalarios,id',
+            'servicio_id'     => 'nullable|exists:TipoServicios,id',
             'fecha_ingreso'   => 'nullable|date',
             'estado_clinico'  => 'required|in:ACTIVO,EGRESADO,FALLECIDO',
             'observaciones'   => 'nullable|string',
@@ -131,7 +133,7 @@ class PacienteClinicoController extends Controller
             'direccion'       => 'nullable|string|max:255',
             'eps'             => 'nullable|string|max:120',
             'cama'            => 'nullable|string|max:30',
-            'servicio_id'     => 'nullable|exists:servicios_hospitalarios,id',
+            'servicio_id'     => 'nullable|exists:TipoServicios,id',
             'fecha_ingreso'   => 'nullable|date',
             'fecha_egreso'    => 'nullable|date',
             'estado_clinico'  => 'required|in:ACTIVO,EGRESADO,FALLECIDO',

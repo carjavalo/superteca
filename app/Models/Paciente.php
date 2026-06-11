@@ -31,7 +31,7 @@ class Paciente extends Model
         'estado'           => 'boolean',
     ];
 
-    public function servicio(): BelongsTo { return $this->belongsTo(ServicioHospitalario::class, 'servicio_id'); }
+    public function servicio(): BelongsTo { return $this->belongsTo(TipoServicios::class, 'servicio_id'); }
     public function alergias()       { return $this->hasMany(PacienteAlergia::class); }
     public function diagnosticos()   { return $this->hasMany(PacienteDiagnostico::class); }
     public function prescripciones() { return $this->hasMany(PacientePrescripcion::class); }

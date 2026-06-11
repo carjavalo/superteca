@@ -46,7 +46,7 @@ class Preparacion extends Model
 
     public function paciente(): BelongsTo { return $this->belongsTo(Paciente::class); }
     public function tipo(): BelongsTo { return $this->belongsTo(TipoPreparacion::class, 'tipo_preparacion_id'); }
-    public function servicio(): BelongsTo { return $this->belongsTo(ServicioHospitalario::class, 'servicio_id'); }
+    public function servicio(): BelongsTo { return $this->belongsTo(TipoServicios::class, 'servicio_id'); }
     public function unidadVolumen(): BelongsTo { return $this->belongsTo(UnidadMedida::class, 'unidad_volumen_id'); }
     public function preparador(): BelongsTo { return $this->belongsTo(User::class, 'usuario_preparador_id'); }
     public function validador(): BelongsTo { return $this->belongsTo(User::class, 'usuario_validador_id'); }

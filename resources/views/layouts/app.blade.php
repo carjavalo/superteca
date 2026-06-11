@@ -517,7 +517,9 @@
                     $verRoles             = \App\Support\Permisos::puede('Gestión de roles');
                     $verTiposEntrada      = \App\Support\Permisos::puede('Gestor Tipos de Entrada');
                     $verTiposAdmin        = \App\Support\Permisos::puede('Gestor Tipos de Administración');
-                    $verConfig            = $isSuperAdmin || $verUsuarios || $verRoles || $verTiposEntrada || $verTiposAdmin;
+                    $verServicios         = \App\Support\Permisos::puede('Gestor de Servicios');
+                    $verEps               = \App\Support\Permisos::puede('Gestor de EPS');
+                    $verConfig            = $isSuperAdmin || $verUsuarios || $verRoles || $verTiposEntrada || $verTiposAdmin || $verServicios || $verEps;
                 @endphp
                 @if($verConfig)
                 <div class="nav-group">
@@ -567,6 +569,22 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
                             </svg>
                             Gestor Tipos de Administración
+                        </a>
+                        @endif
+                        @if($verServicios)
+                        <a href="{{ route('admin.tipos_servicios.index') }}" class="{{ request()->routeIs('admin.tipos_servicios.*') ? 'active' : '' }}">
+                            <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="16" height="16">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0H5m14 0h2M5 21H3m9-14h.01M12 11h.01M12 15h.01" />
+                            </svg>
+                            Gestor de Servicios
+                        </a>
+                        @endif
+                        @if($verEps)
+                        <a href="{{ route('admin.eps.index') }}" class="{{ request()->routeIs('admin.eps.*') ? 'active' : '' }}">
+                            <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="16" height="16">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                            </svg>
+                            Gestor de EPS
                         </a>
                         @endif
                         @if($isSuperAdmin)

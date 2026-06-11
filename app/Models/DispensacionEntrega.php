@@ -58,7 +58,7 @@ class DispensacionEntrega extends Model
     }
 
     public function paciente()    { return $this->belongsTo(Paciente::class); }
-    public function servicio()    { return $this->belongsTo(ServicioHospitalario::class, 'servicio_id'); }
+    public function servicio()    { return $this->belongsTo(TipoServicios::class, 'servicio_id'); }
     public function dispensador() { return $this->belongsTo(User::class, 'usuario_dispensador_id'); }
     public function recibe()      { return $this->belongsTo(User::class, 'usuario_recibe_id'); }
     public function detalles()    { return $this->hasMany(DispensacionEntregaDetalle::class, 'entrega_id'); }

@@ -73,6 +73,8 @@ return [
         'admin.permisos'                  => 'Gestión de permisos',
         'admin.tipos_entrada'             => 'Gestor Tipos de Entrada',
         'admin.tipos_administracion'      => 'Gestor Tipos de Administración',
+        'admin.tipos_servicios'           => 'Gestor de Servicios',
+        'admin.eps'                       => 'Gestor de EPS',
     ],
 
     /*
@@ -168,7 +170,7 @@ return [
             'icono' => '⚙️',
             'vistas' => [
                 'Gestión de usuarios', 'Gestión de roles', 'Gestión de permisos',
-                'Gestor Tipos de Entrada', 'Gestor Tipos de Administración',
+                'Gestor Tipos de Entrada', 'Gestor Tipos de Administración', 'Gestor de Servicios', 'Gestor de EPS',
                 'Configuración general', 'Parámetros generales', 'Integraciones',
                 'Copias de seguridad', 'Auditoría sistema',
             ],

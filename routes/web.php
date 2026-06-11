@@ -359,6 +359,18 @@ Route::middleware(['auth', 'permiso'])->group(function () {
     Route::post('/admin/tipos-administracion',                        [\App\Http\Controllers\Admin\TipoAdministracionController::class, 'store'])->name('admin.tipos_administracion.store');
     Route::put('/admin/tipos-administracion/{tipos_administracion}',  [\App\Http\Controllers\Admin\TipoAdministracionController::class, 'update'])->name('admin.tipos_administracion.update');
     Route::delete('/admin/tipos-administracion/{tipos_administracion}',[\App\Http\Controllers\Admin\TipoAdministracionController::class, 'destroy'])->name('admin.tipos_administracion.destroy');
+
+    // Gestor de Servicios (catálogo dinámico que alimenta el select «Servicio» de Pacientes)
+    Route::get('/admin/tipos-servicios',                  [\App\Http\Controllers\Admin\TipoServiciosController::class, 'index'])->name('admin.tipos_servicios.index');
+    Route::post('/admin/tipos-servicios',                 [\App\Http\Controllers\Admin\TipoServiciosController::class, 'store'])->name('admin.tipos_servicios.store');
+    Route::put('/admin/tipos-servicios/{tipo_servicio}',  [\App\Http\Controllers\Admin\TipoServiciosController::class, 'update'])->name('admin.tipos_servicios.update');
+    Route::delete('/admin/tipos-servicios/{tipo_servicio}',[\App\Http\Controllers\Admin\TipoServiciosController::class, 'destroy'])->name('admin.tipos_servicios.destroy');
+
+    // Gestor de EPS (catálogo que alimenta el campo «EPS» de Pacientes y demás vistas)
+    Route::get('/admin/eps',          [\App\Http\Controllers\Admin\EpsController::class, 'index'])->name('admin.eps.index');
+    Route::post('/admin/eps',         [\App\Http\Controllers\Admin\EpsController::class, 'store'])->name('admin.eps.store');
+    Route::put('/admin/eps/{eps}',    [\App\Http\Controllers\Admin\EpsController::class, 'update'])->name('admin.eps.update');
+    Route::delete('/admin/eps/{eps}', [\App\Http\Controllers\Admin\EpsController::class, 'destroy'])->name('admin.eps.destroy');
 });
 
 require __DIR__.'/auth.php';

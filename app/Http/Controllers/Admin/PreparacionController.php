@@ -12,7 +12,7 @@ use App\Models\PreparacionConsumo;
 use App\Models\PreparacionControlCalidad;
 use App\Models\PreparacionDetalle;
 use App\Models\PreparacionEntrega;
-use App\Models\ServicioHospitalario;
+use App\Models\TipoServicios;
 use App\Models\TipoPreparacion;
 use App\Models\UnidadMedida;
 use Illuminate\Http\Request;
@@ -62,7 +62,7 @@ class PreparacionController extends Controller
     public function create()
     {
         $tipos       = TipoPreparacion::where('estado', true)->orderBy('nombre')->get();
-        $servicios   = ServicioHospitalario::where('estado', true)->orderBy('nombre')->get();
+        $servicios   = TipoServicios::orderBy('Detalle')->get();
         $pacientes   = Paciente::where('estado', true)->orderBy('nombres')->get();
         $unidades    = UnidadMedida::orderBy('nombre')->get();
         $medicamentos = Medicamento::orderBy('nombre')->get();
@@ -80,7 +80,7 @@ class PreparacionController extends Controller
         $data = $request->validate([
             'tipo_preparacion_id' => 'required|exists:tipo_preparaciones,id',
             'paciente_id'         => 'nullable|exists:pacientes,id',
-            'servicio_id'         => 'nullable|exists:servicios_hospitalarios,id',
+            'servicio_id'         => 'nullable|exists:TipoServicios,id',
             'fecha_programada'    => 'required|date',
             'volumen_final'       => 'nullable|numeric|min:0',
             'unidad_volumen_id'   => 'nullable|exists:unidades_medida,id',
@@ -294,7 +294,7 @@ class PreparacionController extends Controller
 
         $data = $request->validate([
             'recibido_por'        => 'nullable|string|max:150',
-            'servicio_destino_id' => 'nullable|exists:servicios_hospitalarios,id',
+            'servicio_destino_id' => 'nullable|exists:TipoServicios,id',
             'observaciones'       => 'nullable|string',
         ]);
 

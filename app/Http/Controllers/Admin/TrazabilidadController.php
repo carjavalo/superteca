@@ -172,12 +172,12 @@ class TrazabilidadController extends Controller
             ->join('dispensacion_entregas_detalle as ded', 'ded.id', '=', 'del.entrega_detalle_id')
             ->join('dispensacion_entregas as de', 'de.id', '=', 'ded.entrega_id')
             ->leftJoin('pacientes as p', 'p.id', '=', 'de.paciente_id')
-            ->leftJoin('servicios_hospitalarios as s', 's.id', '=', 'de.servicio_id')
+            ->leftJoin('TipoServicios as s', 's.id', '=', 'de.servicio_id')
             ->where('del.inventario_lote_id', $id)
             ->select('de.id as entrega_id', 'de.codigo as entrega_codigo', 'de.fecha_entrega',
                      'de.tipo_entrega', 'p.id as paciente_id', 'p.documento',
                      DB::raw("CONCAT(COALESCE(p.nombres,''),' ',COALESCE(p.apellidos,'')) as paciente"),
-                     's.nombre as servicio',
+                     's.Detalle as servicio',
                      'del.cantidad_entregada', 'del.costo_unitario')
             ->orderByDesc('de.fecha_entrega')
             ->get();
@@ -223,9 +223,9 @@ class TrazabilidadController extends Controller
     public function paciente($id)
     {
         $paciente = DB::table('pacientes as p')
-            ->leftJoin('servicios_hospitalarios as s', 's.id', '=', 'p.servicio_id')
+            ->leftJoin('TipoServicios as s', 's.id', '=', 'p.servicio_id')
             ->where('p.id', $id)
-            ->select('p.*', 's.nombre as servicio')
+            ->select('p.*', 's.Detalle as servicio')
             ->firstOrFail();
 
         // Lotes recibidos
@@ -242,9 +242,9 @@ class TrazabilidadController extends Controller
 
         // Entregas
         $entregas = DB::table('dispensacion_entregas as de')
-            ->leftJoin('servicios_hospitalarios as s', 's.id', '=', 'de.servicio_id')
+            ->leftJoin('TipoServicios as s', 's.id', '=', 'de.servicio_id')
             ->where('de.paciente_id', $id)
-            ->select('de.*', 's.nombre as servicio')
+            ->select('de.*', 's.Detalle as servicio')
             ->orderByDesc('de.fecha_entrega')
             ->get();
 
@@ -439,11 +439,11 @@ class TrazabilidadController extends Controller
     {
         $preparacion = DB::table('preparaciones as pr')
             ->leftJoin('pacientes as p', 'p.id', '=', 'pr.paciente_id')
-            ->leftJoin('servicios_hospitalarios as s', 's.id', '=', 'pr.servicio_id')
+            ->leftJoin('TipoServicios as s', 's.id', '=', 'pr.servicio_id')
             ->where('pr.id', $id)
             ->select('pr.*',
                 DB::raw("CONCAT(COALESCE(p.nombres,''),' ',COALESCE(p.apellidos,'')) as paciente"),
-                'p.documento', 'p.id as paciente_id', 's.nombre as servicio')
+                'p.documento', 'p.id as paciente_id', 's.Detalle as servicio')
             ->firstOrFail();
 
         $consumos = DB::table('preparaciones_consumo as pc')

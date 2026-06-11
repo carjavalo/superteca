@@ -14,7 +14,7 @@ use App\Models\Medicamento;
 use App\Models\MovimientoInventario;
 use App\Models\Paciente;
 use App\Models\PacienteDispensacion;
-use App\Models\ServicioHospitalario;
+use App\Models\TipoServicios;
 use App\Models\UnidadMedida;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -33,7 +33,7 @@ class DispensacionEntregaController extends Controller
             $q->where(function ($w) use ($s) {
                 $w->where('codigo', 'like', "%$s%")
                   ->orWhereHas('paciente', fn($p)=>$p->where('nombres','like',"%$s%")->orWhere('apellidos','like',"%$s%")->orWhere('documento','like',"%$s%"))
-                  ->orWhereHas('servicio', fn($p)=>$p->where('nombre','like',"%$s%"));
+                  ->orWhereHas('servicio', fn($p)=>$p->where('Detalle','like',"%$s%"));
             });
         }
         if ($request->filled('estado')) $q->where('estado', $request->estado);
@@ -62,7 +62,7 @@ class DispensacionEntregaController extends Controller
     public function create()
     {
         $pacientes  = Paciente::orderBy('apellidos')->orderBy('nombres')->get();
-        $servicios  = ServicioHospitalario::where('estado', 1)->orderBy('nombre')->get();
+        $servicios  = TipoServicios::orderBy('Detalle')->get();
         $medicamentos = Medicamento::orderBy('nombre')->get();
         $unidades   = UnidadMedida::orderBy('nombre')->get();
         $lotes      = InventarioLote::with('medicamento','presentacion')
@@ -77,7 +77,7 @@ class DispensacionEntregaController extends Controller
         $data = $request->validate([
             'tipo_entrega'     => 'required|in:'.implode(',', array_keys(DispensacionEntrega::TIPOS)),
             'paciente_id'      => 'nullable|exists:pacientes,id',
-            'servicio_id'      => 'nullable|exists:servicios_hospitalarios,id',
+            'servicio_id'      => 'nullable|exists:TipoServicios,id',
             'fecha_entrega'    => 'required|date',
             'recibe_nombre'    => 'nullable|string|max:255',
             'recibe_documento' => 'nullable|string|max:50',

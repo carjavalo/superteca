@@ -60,7 +60,14 @@
             <div><label>Talla (cm)</label><input type="number" step="0.01" name="talla" value="{{ old('talla') }}"></div>
         </div>
         <div class="grid grid-3" style="margin-top:.7rem">
-            <div><label>EPS</label><input type="text" name="eps" value="{{ old('eps') }}"></div>
+            <div><label>EPS</label>
+                <select name="eps">
+                    <option value="">—</option>
+                    @foreach($eps as $e)
+                        <option value="{{ $e->Detalle }}" {{ old('eps')==$e->Detalle?'selected':'' }}>{{ $e->Detalle }}</option>
+                    @endforeach
+                </select>
+            </div>
             <div><label>Servicio</label>
                 <select name="servicio_id">
                     <option value="">—</option>

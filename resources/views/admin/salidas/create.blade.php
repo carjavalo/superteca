@@ -105,8 +105,13 @@
                     <input type="number" name="paciente_id" value="{{ old('paciente_id', $salida->paciente_id) }}" placeholder="Opcional">
                 </div>
                 <div class="form-group">
-                    <label>Servicio (ID)</label>
-                    <input type="number" name="servicio_id" value="{{ old('servicio_id', $salida->servicio_id) }}" placeholder="Opcional">
+                    <label>Servicio</label>
+                    <select name="servicio_id">
+                        <option value="">— Sin servicio —</option>
+                        @foreach($servicios as $s)
+                            <option value="{{ $s->id }}" {{ old('servicio_id', $salida->servicio_id) == $s->id ? 'selected' : '' }}>{{ $s->nombre }}</option>
+                        @endforeach
+                    </select>
                 </div>
                 <div class="form-group">
                     <label>Bodega origen (ID)</label>
