@@ -41,7 +41,7 @@
                 <select name="formula_id" id="formula_id" onchange="cargarFormula()">
                     <option value="">— Mezcla manual —</option>
                     @foreach($formulas as $f)
-                        <option value="{{ $f->id }}" data-tipo="{{ $f->tipo_formula }}" data-volumen="{{ $f->volumen_final }}" data-detalles='@json($f->detalles->map(fn($d) => ["medicamento_id" => $d->medicamento_id, "dosis" => $d->dosis, "unidad" => $d->unidad_medida_id, "nombre" => $d->medicamento->nombre ?? ""]))'>{{ $f->codigo }} — {{ $f->nombre }}</option>
+                        <option value="{{ $f->id }}" data-tipo="{{ $f->tipo_formula }}" data-volumen="{{ $f->volumen_final }}" data-detalles="{{ json_encode($f->detalles->map(fn($d) => ['medicamento_id' => $d->medicamento_id, 'dosis' => $d->dosis, 'unidad' => $d->unidad_medida_id, 'nombre' => $d->medicamento->nombre ?? ''])) }}">{{ $f->codigo }} — {{ $f->nombre }}</option>
                     @endforeach
                 </select>
             </div>
